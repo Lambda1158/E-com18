@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
-    colors: {
+    color:{
       dark: "#2F5D62",
       semidark: "#5E8B7E",
       semilight: "#A7C4BC",
@@ -14,7 +15,8 @@ module.exports = {
       gray: "#e5e7eb",
       grey: "#B2B1B9",
       red: "#FB0B0B",
-    },
+    }
+    ,
     extend: {
       backgroundImage: {
         landingImg: "url('assets/image-landing.jpg')",
@@ -23,8 +25,5 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {},
-  },
   plugins: [],
-};
+}
