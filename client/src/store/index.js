@@ -1,16 +1,18 @@
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import { rootReducers } from '../reducer/combineReducers';
+import { configureStore } from '@reduxjs/toolkit'
+import redux1 from '../reducer';
+import shoppingReducer from '../reducer/shoppingReducer'
 
-import { persistStore } from 'redux-persist';
-import persistReducer from '../reducer/combineReducers'
+
 // const composeEnhancers =
 //     ( typeof window !== 'undefined' && window.__REDUX_DEVTOOL_EXTENSION_COMPOSE__ ) || compose;
 
 
 
-export const store = createStore(persistReducer, composeWithDevTools(applyMiddleware(thunk)));
-export const persistor = persistStore(store)
 
-export default {store, persistor}
+export const store = configureStore({
+    // Automatically calls `combineReducers`
+    reducer: {
+      posts: redux1,
+      users: shoppingReducer
+    }
+  })

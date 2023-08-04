@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import ReactModal from 'react-modal';
+
 import axios from 'axios';
 
 export default function Register({ onModaleClick, onModalChange }) {

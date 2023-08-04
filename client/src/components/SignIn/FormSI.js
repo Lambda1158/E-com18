@@ -105,7 +105,7 @@ function Form({ onModalClick, onModalChange }) {
                 className="border-b-2 border-white"
                 onClick={(e) => handleChange(e)}
               >
-                pendiente revisar
+                pendiente ver
               </button>
               <br />
             </div>
