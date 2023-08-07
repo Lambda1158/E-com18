@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getT,getTbyId} from "../actions/logicredux"
+import {getT,getTbyId,searchT} from "../actions/logicredux"
 export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
@@ -47,41 +47,33 @@ export const getTalentById=(id)=> async (dispatch)=> {
     console.log(error)
   }
 
-
-
-
-
-
-
-
-  // return async function (dispatch) {
-  //   try {
-  //     let json = await axios.get(`${PROXY}/post/` + id);
-  //     return dispatch({
-  //       type: GET_TALENT_BY_ID,
-  //       payload: json.data,
-  //     });
-  //   } catch (error) {
-  //     console.log("error getTalentById");
-  //   }
-  // };
 }
-
-export function searchTalent(search) {
-  return function (dispatch) {
-    axios
+export const searchTalent=(search)=> async(dispatch)=>{
+  axios
       .get(`${PROXY}/post/title/` + search)
       .then((talents) => {
-        dispatch({
-          type: SEARCH_TALENT,
-          payload: talents.data,
-        });
+        dispatch(searchT(talents.data));
       })
       .catch((error) => {
         console.log("no se encontró el curso");
       });
-  };
-}
+
+  }
+// export function searchTalent(search) {
+//   return function (dispatch) {
+//     axios
+//       .get(`${PROXY}/post/title/` + search)
+//       .then((talents) => {
+//         dispatch({
+//           type: SEARCH_TALENT,
+//           payload: talents.data,
+//         });
+//       })
+//       .catch((error) => {
+//         console.log("no se encontró el curso");
+//       });
+//   };
+// }
 
 export function cargarUsuario(payload) {
   return {

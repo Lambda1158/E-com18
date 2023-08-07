@@ -1,24 +1,12 @@
 // reducers/miSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import  axios  from 'axios';
-export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
+
 const initialState = {
-  user: [],
   talents: [],
   filteredTalents: [],
-  token: "",
-  profile: [],
-  order: [],
-  review: [],
-  movement: [],
   qa: [],
   moreTalent: [],
   categories: [],
-  questionsPost: [],
-  ownerQuestion: "",
-  cargando: false,
-  public_profile: [],
-  sales: []
 };
 
 const miSlice = createSlice({
@@ -33,9 +21,13 @@ const miSlice = createSlice({
       state.moreTalent=action.payload
       state.qa=action.payload
     },
+    searchT:(state,action)=>{
+      state.filteredTalents=action.payload
+    }
 
   },
 });
 
-export const { getTbyId,getT } = miSlice.actions;
+
+export const { getTbyId,getT,searchT } = miSlice.actions;
 export default miSlice.reducer;

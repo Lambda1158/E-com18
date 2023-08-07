@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import misliceReducer from "../actions/logicredux"
+import userSliceReducer from "../actions/userredux"
 
 // const composeEnhancers =
 //     ( typeof window !== 'undefined' && window.__REDUX_DEVTOOL_EXTENSION_COMPOSE__ ) || compose;
@@ -9,5 +10,8 @@ import misliceReducer from "../actions/logicredux"
 
 export const store = configureStore({
     // Automatically calls `combineReducers`
-    reducer: misliceReducer
+    reducer: {
+      misliceReducer,
+      userSliceReducer
+    }
   })
