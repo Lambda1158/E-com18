@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getT,getTbyId} from "../actions/logicredux"
 export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
@@ -27,29 +28,43 @@ export const REFRESH = "REFRESH";
 export const GET_SALES = "GET_SALES"
 export const DESLOGUEAR = "DESLOGUEAR"
 
-export function getTalents() {
-  return async function (dispatch) {
-    dispatch({ type: CARGANDO });
-    var talents = await axios.get(`${PROXY}/post`);
-    return dispatch({
-      type: GET_TALENT,
-      payload: talents.data,
-    });
-  };
-}
 
-export function getTalentById(id) {
-  return async function (dispatch) {
-    try {
-      let json = await axios.get(`${PROXY}/post/` + id);
-      return dispatch({
-        type: GET_TALENT_BY_ID,
-        payload: json.data,
-      });
-    } catch (error) {
-      console.log("error getTalentById");
-    }
-  };
+
+export const getTalents = () => async (dispatch) => {
+  try {
+    const talents = await axios.get(`${PROXY}/post`);
+    dispatch(getT(talents.data)); // Dispatch the action with the talents array
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+export const getTalentById=(id)=> async (dispatch)=> {
+  try{
+    let respuesta= await axios.get(`${PROXY}/post/` + id);
+    dispatch(getTbyId(respuesta.data))
+  }catch(error){
+    console.log(error)
+  }
+
+
+
+
+
+
+
+
+  // return async function (dispatch) {
+  //   try {
+  //     let json = await axios.get(`${PROXY}/post/` + id);
+  //     return dispatch({
+  //       type: GET_TALENT_BY_ID,
+  //       payload: json.data,
+  //     });
+  //   } catch (error) {
+  //     console.log("error getTalentById");
+  //   }
+  // };
 }
 
 export function searchTalent(search) {

@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {Route, Routes } from "react-router-dom";
 // import { Private } from './Private';
 import Home from "../components/Home/Home";
 import Landing from "../components/Landing/Landing";

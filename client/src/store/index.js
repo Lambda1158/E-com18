@@ -1,7 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import redux1 from '../reducer';
-import shoppingReducer from '../reducer/shoppingReducer'
-
+import misliceReducer from "../actions/logicredux"
 
 // const composeEnhancers =
 //     ( typeof window !== 'undefined' && window.__REDUX_DEVTOOL_EXTENSION_COMPOSE__ ) || compose;
@@ -11,8 +9,5 @@ import shoppingReducer from '../reducer/shoppingReducer'
 
 export const store = configureStore({
     // Automatically calls `combineReducers`
-    reducer: {
-      posts: redux1,
-      users: shoppingReducer
-    }
+    reducer: misliceReducer
   })

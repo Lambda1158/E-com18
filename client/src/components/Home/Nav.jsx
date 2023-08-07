@@ -29,7 +29,6 @@ export default function Nav({ onModalClick, onModaleClick, onModalChange }) {
             src="http://codes.unidepix.com/img/hi.png"
             alt="logo hitalent"
             width="140px"
-            alt="hitalent logo"
           />
         </Link>
         {/* <div class="flex">
