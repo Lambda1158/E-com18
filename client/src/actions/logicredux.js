@@ -23,11 +23,14 @@ const miSlice = createSlice({
     },
     searchT:(state,action)=>{
       state.filteredTalents=action.payload
+    },
+    getC:(state,action)=>{
+      state.categories=action.payload
     }
 
   },
 });
 
 
-export const { getTbyId,getT,searchT } = miSlice.actions;
+export const { getTbyId,getT,searchT,getC } = miSlice.actions;
 export default miSlice.reducer;

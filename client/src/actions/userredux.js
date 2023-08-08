@@ -18,10 +18,19 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     // Define las acciones y cómo se actualizará el estado
+    cargarUser:(state,action)=>{
+      state.user=action.payload
+    },
+    getUserT:(state,action)=>{
+      state.token=action.payload
+    },
+    getUserI:(state,action)=>{
+      state.profile=action.payload
+    }
 
   },
 });
 
 
-export const {  } = userSlice.actions;
+export const { cargarUser,getUserT } = userSlice.actions;
 export default userSlice.reducer;

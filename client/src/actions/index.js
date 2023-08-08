@@ -1,5 +1,6 @@
 import axios from "axios";
 import {getT,getTbyId,searchT} from "../actions/logicredux"
+import { cargarUser,getUserT,getUserI } from "./userredux";
 export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
@@ -59,66 +60,66 @@ export const searchTalent=(search)=> async(dispatch)=>{
       });
 
   }
-// export function searchTalent(search) {
-//   return function (dispatch) {
-//     axios
-//       .get(`${PROXY}/post/title/` + search)
-//       .then((talents) => {
-//         dispatch({
-//           type: SEARCH_TALENT,
-//           payload: talents.data,
-//         });
-//       })
-//       .catch((error) => {
-//         console.log("no se encontró el curso");
-//       });
+
+
+export const cargarUsuario=(payload)=>  (dispatch)=>{
+  dispatch(cargarUser(payload))
+}
+// export function cargarUsuario(payload) {
+//   return {
+//     type: CARGAR_USUARIO,
+//     payload: payload,
 //   };
 // }
 
-export function cargarUsuario(payload) {
-  return {
-    type: CARGAR_USUARIO,
-    payload: payload,
-  };
-}
 
 export function createUser(payload) {
   return async function (dispatch) {
     const newUser = await axios.post(`${PROXY}/user`, payload);
-    return dispatch({
-      type: POST_USER,
-      payload: newUser,
-    });
+    dispatch(cargarUser(newUser.data))
   };
 }
 
-export function getUserbyToken(token) {
-  return async function (dispatch) {
-    try {
-      var json = await axios.post(`${PROXY}/user/confirm/` + token);
-      return dispatch({
-        type: GET_USER_TOKEN,
-        payload: json.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+export const getUserbyToken=(token)=> async(dispatch)=>{
+  axios
+  .post(`${PROXY}/user/confirm/` + token)
+  .then((response)=>{dispatch(getUserT(response.data))})
+  .catch((error)=>{console.log(error+"fallo get token by id")})
+}
+// export function getUserbyToken(token) {
+//   return async function (dispatch) {
+//     try {
+//       var json = await axios.post(`${PROXY}/user/confirm/` + token);
+//       return dispatch({
+//         type: GET_USER_TOKEN,
+//         payload: json.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+export const getUserbyId=(id)=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/user/` + id)
+  .then((response)=>{dispatch(getUserI(response.data))})
+  .catch((error)=>{console.log(error)})
 }
 
-export function getUserbyId(id) {
-  return async function (dispatch) {
-    try {
-      var user = await axios.get(`${PROXY}/user/` + id);
-      return dispatch({
-        type: GET_USER_ID,
-        payload: user.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
+// export function getUserbyId(id) {
+//   return async function (dispatch) {
+//     try {
+//       var user = await axios.get(`${PROXY}/user/` + id);
+//       return dispatch({
+//         type: GET_USER_ID,
+//         payload: user.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
 
 export function getOrderbyId(id) {
   return async function (dispatch) {
