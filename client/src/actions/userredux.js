@@ -6,11 +6,9 @@ const initialState = {
   token: "",
   profile: [],
   order: [],
-  review: [],
-  questionsPost: [],
-  ownerQuestion: "",
   cargando: false,
   public_profile: [],
+  movement:[]
 };
 
 const userSlice = createSlice({
@@ -26,11 +24,17 @@ const userSlice = createSlice({
     },
     getUserI:(state,action)=>{
       state.profile=action.payload
+    },
+    getUserO:(state,action)=>{
+      state.order=action.payload
+    },
+    getM:(state,action)=>{
+      state.movement=action.payload
     }
 
   },
 });
 
 
-export const { cargarUser,getUserT } = userSlice.actions;
+export const { cargarUser,getUserT,getUserI,getUserO } = userSlice.actions;
 export default userSlice.reducer;

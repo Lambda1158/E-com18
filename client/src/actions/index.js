@@ -1,6 +1,7 @@
 import axios from "axios";
 import {getT,getTbyId,searchT} from "../actions/logicredux"
-import { cargarUser,getUserT,getUserI } from "./userredux";
+import { cargarUser,getUserT,getUserI,getUserO,getM } from "./userredux";
+import { getR,getQ,getQa,getQp } from "./revqueredux"
 export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
@@ -121,104 +122,155 @@ export const getUserbyId=(id)=>async(dispatch)=>{
 //   };
 // }
 
-export function getOrderbyId(id) {
-  return async function (dispatch) {
-    try {
-      var order = await axios.get(`${PROXY}/user/` + id); //Aquí hay que cambiarle
-      // console.log(order)
-      return dispatch({
-        type: GET_ORDER_ID,
-        payload: order.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const getOrderbyId=(id)=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/user/` + id)
+  .then(response=>dispatch(getUserO(response.data)))
+  .catch((error)=>console.log(error))
 }
 
-export function getReviewbyId(id) {
-  return async function (dispatch) {
-    try {
-      var review = await axios.get(`${PROXY}/review/all/` + id); //el id es el del usuario(perfil)
-      return dispatch({
-        type: GET_REVIEW_ID,
-        payload: review.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+// export function getOrderbyId(id) {
+//   return async function (dispatch) {
+//     try {
+//       var order = await axios.get(`${PROXY}/user/` + id); //Aquí hay que cambiarle
+//       // console.log(order)
+//       return dispatch({
+//         type: GET_ORDER_ID,
+//         payload: order.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+export const getReviewbyId=(id)=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/review/all/` + id)
+  .then(response=>dispatch(getR(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function getUserofReviewbyId(id) {
-  return async function (dispatch) {
-    try {
-      var review = await axios.get(`${PROXY}/review/` + id);
-      return dispatch({
-        type: GET_REVIEW_ID,
-        payload: review.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+// export function getReviewbyId(id) {
+//   return async function (dispatch) {
+//     try {
+//       var review = await axios.get(`${PROXY}/review/all/` + id); //el id es el del usuario(perfil)
+//       return dispatch({
+//         type: GET_REVIEW_ID,
+//         payload: review.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+export const getUserofReviewbyId=(id)=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/review/` + id)
+  .then(response=>dispatch(getR(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function getMovebyId(id) {
-  return async function (dispatch) {
-    try {
-      var movement = await axios.get(`${PROXY}/user/` + id);
-      // console.log(movement)
-      return dispatch({
-        type: GET_MOVE_ID,
-        payload: movement.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+// export function getUserofReviewbyId(id) {
+//   return async function (dispatch) {
+//     try {
+//       var review = await axios.get(`${PROXY}/review/` + id);
+//       return dispatch({
+//         type: GET_REVIEW_ID,
+//         payload: review.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+export const getMovebyId=(id)=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/user/` + id)
+  .then(response=>dispatch(getM(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function getQAbyId(idUser) {
-  return async function (dispatch) {
-    try {
-      var qa = await axios.get(`${PROXY}/question/all/` + idUser);
-      return dispatch({
-        type: GET_QA_ID,
-        payload: qa.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+// export function getMovebyId(id) {
+//   return async function (dispatch) {
+//     try {
+//       var movement = await axios.get(`${PROXY}/user/` + id);
+//       // console.log(movement)
+//       return dispatch({
+//         type: GET_MOVE_ID,
+//         payload: movement.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+export const getQAbyId=(idUser)=> async(dispatch)=>{
+  axios
+  .get(`${PROXY}/question/all/` + idUser)
+  .then(response=>dispatch(getQa(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function createAnswer(answer) {
-  return async function (dispatch) {
-    try {
-      var info = await axios.put(`${PROXY}/question/answer`, answer);
-      console.log(info.data);
-      return dispatch({
-        type: PUT_ANSWER,
-        payload: info.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+// export function getQAbyId(idUser) {
+//   return async function (dispatch) {
+//     try {
+//       var qa = await axios.get(`${PROXY}/question/all/` + idUser);
+//       return dispatch({
+//         type: GET_QA_ID,
+//         payload: qa.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+export const createAnswer=(answer)=>async(dispatch)=>{
+  axios
+  .put(`${PROXY}/question/answer`, answer)
+  .then(response=>dispatch(getQa(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function postQuestion(body) {
-  console.log("body de la action", body);
-  return async function (dispatch) {
-    const question = await axios.post(`${PROXY}/question`, body);
-    console.log("data", question.data);
-    return dispatch({
-      type: POST_QUESTION,
-      payload: question.data,
-    });
-  };
+// export function createAnswer(answer) {
+//   return async function (dispatch) {
+//     try {
+//       var info = await axios.put(`${PROXY}/question/answer`, answer);
+//       console.log(info.data);
+//       return dispatch({
+//         type: PUT_ANSWER,
+//         payload: info.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+export const postQuestion=(body)=>async(dispatch)=>{
+  axios
+  .post(`${PROXY}/question`, body)
+  .then(response=>dispatch(getQp(response.data)))
+  .catch(error=>console.log(error))
 }
+
+// export function postQuestion(body) {
+//   console.log("body de la action", body);
+//   return async function (dispatch) {
+//     const question = await axios.post(`${PROXY}/question`, body);
+//     console.log("data", question.data);
+//     return dispatch({
+//       type: POST_QUESTION,
+//       payload: question.data,
+//     });
+//   };
+// }
+
+
 
 export function getPostQuestion(idPost) {
   return async function (dispatch) {
