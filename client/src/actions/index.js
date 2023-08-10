@@ -1,7 +1,7 @@
 import axios from "axios";
-import {getT,getTbyId,searchT} from "../actions/logicredux"
+import {getT,getTbyId,searchT,cargar} from "../actions/logicredux"
 import { cargarUser,getUserT,getUserI,getUserO,getM } from "./userredux";
-import { getR,getQ,getQa,getQp } from "./revqueredux"
+import { getR,getQa,getQp } from "./revqueredux"
 export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
@@ -272,15 +272,15 @@ export const postQuestion=(body)=>async(dispatch)=>{
 
 
 
-export function getPostQuestion(idPost) {
-  return async function (dispatch) {
-    const questions = await axios.get(`${PROXY}/question/` + idPost);
-    return dispatch({
-      type: GET_POST_QUESTION,
-      payload: questions.data,
-    });
-  };
-}
+// export function getPostQuestion(idPost) {
+//   return async function (dispatch) {
+//     const questions = await axios.get(`${PROXY}/question/` + idPost);
+//     return dispatch({
+//       type: GET_POST_QUESTION,
+//       payload: questions.data,
+//     });
+//   };
+// }
 
 export function getCategories() {
   return async function (dispatch) {

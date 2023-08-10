@@ -4,9 +4,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   talents: [],
   filteredTalents: [],
-  qa: [],
   moreTalent: [],
   categories: [],
+  cargar:false
 };
 
 const miSlice = createSlice({
@@ -26,11 +26,14 @@ const miSlice = createSlice({
     },
     getC:(state,action)=>{
       state.categories=action.payload
+    },
+    cargar:(state,action)=>{
+      state.cargar=action.payload
     }
 
   },
 });
 
 
-export const { getTbyId,getT,searchT,getC } = miSlice.actions;
+export const { getTbyId,getT,searchT,getC,cargar } = miSlice.actions;
 export default miSlice.reducer;
