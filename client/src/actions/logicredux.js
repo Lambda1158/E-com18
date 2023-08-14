@@ -29,6 +29,19 @@ const miSlice = createSlice({
     },
     cargar:(state,action)=>{
       state.cargar=action.payload
+    },
+    sortPrice:(state,action)=>{
+      let talentPrice = state.filteredTalents
+      talentPrice = talentPrice.sort((a, b) => {
+        if (a.cost < b.cost) {
+          return action.payload === "ASCENDENTE" ? -1 : 1;
+        }
+        if (a.cost > b.cost) {
+          return action.payload === "ASCENDENTE" ? 1 : -1;
+        }
+        return 0;
+      })
+      state.filteredTalents=talentPrice
     }
 
   },

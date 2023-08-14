@@ -1,7 +1,8 @@
 import axios from "axios";
-import {getT,getTbyId,searchT,cargar} from "../actions/logicredux"
+import {getT,getTbyId,searchT,getC,sortPrice} from "../actions/logicredux"
 import { cargarUser,getUserT,getUserI,getUserO,getM } from "./userredux";
 import { getR,getQa,getQp } from "./revqueredux"
+import { cargando } from "./statereducer";
 export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
@@ -270,7 +271,14 @@ export const postQuestion=(body)=>async(dispatch)=>{
 //   };
 // }
 
-
+export const getPostQuestion=(idPost)=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/question/` + idPost)
+  .then(response=>{
+    dispatch(cargando(false))
+    dispatch(getQp(response.data))})
+  .catch(error=>console.log(error))
+}
 
 // export function getPostQuestion(idPost) {
 //   return async function (dispatch) {
@@ -282,22 +290,33 @@ export const postQuestion=(body)=>async(dispatch)=>{
 //   };
 // }
 
-export function getCategories() {
-  return async function (dispatch) {
-    const allCategories = await axios.get(`${PROXY}/categories`);
-    return dispatch({
-      type: GET_CATEGORIES,
-      payload: allCategories.data,
-    });
-  };
+export const getCategories=()=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/categories`)
+  .then(response=>dispatch(getC(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function sortByPrice(order) {
-  return {
-    type: SORT_BY_PRICE,
-    payload: order,
-  };
-}
+// export function getCategories() {
+//   return async function (dispatch) {
+//     const allCategories = await axios.get(`${PROXY}/categories`);
+//     return dispatch({
+//       type: GET_CATEGORIES,
+//       payload: allCategories.data,
+//     });
+//   };
+// }
+
+
+export const sortByPrice=(order)=>async(dispatch)=>dispatch(sortPrice(order))
+
+
+// export function sortByPrice(order) {
+//   return {
+//     type: SORT_BY_PRICE,
+//     payload: order,
+//   };
+// }
 
 export function getPostReview(idPost) {
   return async function (dispatch) {
