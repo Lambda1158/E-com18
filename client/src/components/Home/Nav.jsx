@@ -8,7 +8,7 @@ import Searchbar from "../Searchbar/Searchbar";
 export default function Nav({ onModalClick, onModaleClick, onModalChange }) {
   const [state, setState] = useState("");
   const dispatch = useDispatch();
-  let usuario = useSelector((state) => state.index.user);
+  let usuario = useSelector((state) => state.userSliceReducer.user);
 
   function onSubmit(e) {
     e.preventDefault();

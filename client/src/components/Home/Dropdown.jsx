@@ -16,10 +16,10 @@ import { clearItemsCart } from '../../actions/shoppingActions'
 
 export default function Dropdown() {
 
-  let emailVerificado = useSelector(state => state.index.user.email_verified)
-  let usuarioAprobado = useSelector(state => state.index.user.aprobado)
+  let emailVerificado = useSelector(state => state.userSliceReducer.user.email_verified)
+  let usuarioAprobado = useSelector(state => state.userSliceReducer.user.aprobado)
 
-  const userState = useSelector((state) => state.index.user);
+  const userState = useSelector((state) => state.userSliceReducer.user);
   const navigate = useNavigate()
 
   let dispatch = useDispatch();

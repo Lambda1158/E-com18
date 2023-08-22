@@ -11,7 +11,7 @@ function App() {
     dispatch(searchTalent("Desarrollo web"))
   },[dispatch])
   return (
-    <div>{ver1[0].description}</div>
+    <div>{ver1[0]?.title}</div>
   );
 }
 

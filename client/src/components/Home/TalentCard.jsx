@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 export default function TalentCard({ title, username, description, image, cost, id, category, rating }) {
     
-  const property = useSelector(state => state.index.filteredTalents)
+  const property = useSelector(state => state.misliceReducer.filteredTalents)
   
     return (
       <div class='user-select-none'>

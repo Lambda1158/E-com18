@@ -30,11 +30,17 @@ const userSlice = createSlice({
     },
     getM:(state,action)=>{
       state.movement=action.payload
+    },
+    getSeller:(state,action)=>{
+      state.public_profile=action.payload
+    },
+    dislog:(state)=>{
+      state.user=[]
+      state.profile=[]
     }
-
   },
 });
 
 
-export const { cargarUser,getUserT,getUserI,getUserO } = userSlice.actions;
+export const { cargarUser,getUserT,getUserI,getUserO,getM,getSeller,dislog} = userSlice.actions;
 export default userSlice.reducer;

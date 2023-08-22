@@ -21,7 +21,6 @@ export default function Nav() {
           src="http://codes.unidepix.com/img/hi.png"
           alt="logo hitalent"
           width="140px"
-          alt="hitalent logo"
         />
         <Link to="/home">
           <button class="m-4 font-semibold">Home</button>

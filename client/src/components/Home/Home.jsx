@@ -16,8 +16,8 @@ import Spinner from "../Spinner/Spinner";
 export default function Home() {
   let skill = useSelector((state) => state.index.filteredTalents);
   //let skillAprobados = skill.filter(el => el.aprobado === true);
-  const cargando = useSelector((state) => state.index.cargando);
-  const categories=useSelector((state)=>state.index.categories)
+  const cargando = useSelector((state) => state.stateSliceReducer.cargando);
+  const categories=useSelector((state)=>state.misliceReducer.categories)
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTalents());

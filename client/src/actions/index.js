@@ -1,8 +1,8 @@
 import axios from "axios";
-import {getT,getTbyId,searchT,getC,sortPrice} from "../actions/logicredux"
-import { cargarUser,getUserT,getUserI,getUserO,getM } from "./userredux";
+import {getT,getTbyId,searchT,getC,sortPrice,filterCategory,filterRating,getS} from "../actions/logicredux"
+import { cargarUser,getUserT,getUserI,getUserO,getM,getSeller,dislog} from "./userredux";
 import { getR,getQa,getQp } from "./revqueredux"
-import { cargando } from "./statereducer";
+import { cargando,refreshT} from "./statereducer";
 export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
@@ -36,6 +36,7 @@ export const DESLOGUEAR = "DESLOGUEAR"
 export const getTalents = () => async (dispatch) => {
   try {
     const talents = await axios.get(`${PROXY}/post`);
+
     dispatch(getT(talents.data)); // Dispatch the action with the talents array
   } catch (error) {
     console.log(error)
@@ -52,6 +53,7 @@ export const getTalentById=(id)=> async (dispatch)=> {
 
 }
 export const searchTalent=(search)=> async(dispatch)=>{
+  console.log("entre")
   axios
       .get(`${PROXY}/post/title/` + search)
       .then((talents) => {
@@ -318,37 +320,49 @@ export const sortByPrice=(order)=>async(dispatch)=>dispatch(sortPrice(order))
 //   };
 // }
 
-export function getPostReview(idPost) {
-  return async function (dispatch) {
-    try {
-      var review = await axios.get(`${PROXY}/review/` + idPost); //el id es el del usuario(perfil)
-      return dispatch({
-        type: GET_POST_REVIEW,
-        payload: review.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const getPostReview=(idPost)=>async(dispatch)=>{
+  axios
+    .get(`${PROXY}/review/` + idPost)
+    .then(response=>dispatch(getR(response.data)))
+    .catch(error=>console.log(error))
 }
 
-export function filteredCat(payload) {
-  return {
-    type: FILTRO_CAT,
-    payload,
-  };
-}
+// export function getPostReview(idPost) {
+//   return async function (dispatch) {
+//     try {
+//       var review = await axios.get(`${PROXY}/review/` + idPost); //el id es el del usuario(perfil)
+//       return dispatch({
+//         type: GET_POST_REVIEW,
+//         payload: review.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
 
-export function getTalentByRating(rating) {
-  return async function (dispatch) {
+export const filteredCat=(payload)=>async(dispatch)=>dispatch(filterCategory(payload))
 
-      return dispatch({
-        type: TALENT_BY_RATING,
-        payload: rating,
-      });
+// export function filteredCat(payload) {
+//   return {
+//     type: FILTRO_CAT,
+//     payload,
+//   };
+// }
 
-  };
-}
+export const getTalentByRating=(rating)=>async(dispatch)=>dispatch(filterRating(rating))
+
+// export function getTalentByRating(rating) {
+//   return async function (dispatch) {
+
+//       return dispatch({
+//         type: TALENT_BY_RATING,
+//         payload: rating,
+//       });
+
+//   };
+// }
+
 
 // export function postOrder(payload) {
 //   console.log('action', payload)
@@ -366,44 +380,63 @@ export function getTalentByRating(rating) {
 //   }
 // }
 
-export function publicProfile(id) {
-  return async function (dispatch) {
-    try {
-      let publicProf = await axios.get(`${PROXY}/user/` + id);
-      return dispatch({
-        type: SELLER_PROFILE,
-        payload: publicProf.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export const publicProfile=(id)=>async dispatch=>{
+  axios
+  .get(`${PROXY}/user/` + id)
+  .then(response=>dispatch(getSeller(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function refresh() {
-  return {
-    type: REFRESH,
-  };
+
+// export function publicProfile(id) {
+//   return async function (dispatch) {
+//     try {
+//       let publicProf = await axios.get(`${PROXY}/user/` + id);
+//       return dispatch({
+//         type: SELLER_PROFILE,
+//         payload: publicProf.data,
+//       });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
+
+export const refresh=(dispatch)=>dispatch(refreshT())
+
+// export function refresh() {
+//   return {
+//     type: REFRESH,
+//   };
+// }
+
+export const getSales=(id)=>async(dispatch)=>{
+  axios
+  .get(`${PROXY}/orden/ventas/` + id)
+  .then(response=>dispatch(getS(response.data)))
+  .catch(error=>console.log(error))
 }
 
-export function getSales(id) {
-  return async function(dispatch) {
-    try {
-      console.log("ID GET SALES", id)
-      let sales = await axios.get(`${PROXY}/orden/ventas/` + id)
-      return dispatch ({
-        type: GET_SALES,
-        payload: sales.data
-      })
-    }
-    catch(err) {
-      console.log(err)
-    }
-  }
-}
+// export function getSales(id) {
+//   return async function(dispatch) {
+//     try {
+//       console.log("ID GET SALES", id)
+//       let sales = await axios.get(`${PROXY}/orden/ventas/` + id)
+//       return dispatch ({
+//         type: GET_SALES,
+//         payload: sales.data
+//       })
+//     }
+//     catch(err) {
+//       console.log(err)
+//     }
+//   }
+// }
 
-export function desloguear(){
-  return{
-    type: DESLOGUEAR,
-  }
-}
+export const desloguear=(dispatch)=>dispatch(dislog())
+
+// export function desloguear(){
+//   return{
+//     type: DESLOGUEAR,
+//   }
+// }

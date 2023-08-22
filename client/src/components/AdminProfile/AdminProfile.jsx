@@ -15,7 +15,7 @@ function AdminProfile() {
     review: [],
   });
 
-  let usuarioLogueado = useSelector((state) => state.index.user);
+  let usuarioLogueado = useSelector((state) => state.induserSliceReducerex.user);
   let [pestaña, setPestaña] = useState("user");
 
   useEffect(() => {

@@ -12,10 +12,13 @@ const stateSlice = createSlice({
     // Define las acciones y cómo se actualizará el estado
     cargando:(state,actions)=>{
         state.cargando=actions.payload
+    },
+    refreshT:(state)=>{
+      state.cargando=true
     }
   },
 });
 
 
-export const {cargando} = stateSlice.actions;
+export const {cargando,refreshT} = stateSlice.actions;
 export default stateSlice.reducer;
