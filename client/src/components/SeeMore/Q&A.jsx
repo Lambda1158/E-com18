@@ -13,8 +13,8 @@ import QyAanswer from "./Q&Aanswer";
 import { useToast } from "@chakra-ui/react";
 
 export default function QyA() {
-  const questionsPost = useSelector((state) => state.index.questionsPost);
-  const user = useSelector((state) => state.index.user);
+  const questionsPost = useSelector((state) => state.reviewSliceReducer.questionsPost);
+  const user = useSelector((state) => state.userSliceReducer.user);
   const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();

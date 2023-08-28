@@ -10,7 +10,7 @@ export default function Orders(){
 
     const { id } = useParams();
     const dispatch = useDispatch();
-    const order = useSelector((state) => state.index.order)
+    const order = useSelector((state) => state.userSliceReducer.order)
     console.log(order.orders, 'order')
     
     useEffect(() => {

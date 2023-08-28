@@ -11,7 +11,7 @@ import { PROXY } from "../../actions";
 
 export default function ShoppingCart() {
 const cart = useSelector(state => state.cart)
-const user = useSelector(state => state.index.user)
+const user = useSelector(state => state.userSliceReducer.user)
 const dispatch = useDispatch()
 const toast = useToast()
 let total = 0 // Voy a ir sumando los totales para mostrar en el carrito

@@ -6,7 +6,7 @@ export default function Searchbar() {
     
     const [state, setState] = useState("");
     const dispatch = useDispatch();
-    let usuario = useSelector((state) => state.index.user);
+    let usuario = useSelector((state) => state.userSliceReducer.user);
   
     function onSubmit(e) {
       e.preventDefault();

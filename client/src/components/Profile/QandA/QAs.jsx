@@ -8,7 +8,7 @@ import { getQAbyId, createAnswer } from "../../../actions/index";
 export default function Qas() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const qa = useSelector((state) => state.index.qa);
+  const qa = useSelector((state) => state.reviewSliceReducer.qa);
   const [answer, setAnswer] = useState({});
   const [refresh, setRefresh] = useState(false);
 

@@ -16,6 +16,7 @@ const miSlice = createSlice({
     // Define las acciones y cómo se actualizará el estado
     getT:  (state,action) => {
       state.talents=action.payload
+      state.filteredTalents=action.payload
     },
     getTbyId: (state,action)=>{
       state.moreTalent=action.payload
@@ -31,20 +32,19 @@ const miSlice = createSlice({
       state.cargar=action.payload
     },
     sortPrice:(state,action)=>{
-      let talentPrice = state.filteredTalents
-      talentPrice = talentPrice.sort((a, b) => {
-        if (a.cost < b.cost) {
-          return action.payload === "ASCENDENTE" ? -1 : 1;
+      let talentPrice = [...state.filteredTalents]
+      talentPrice.sort((a, b) => {
+        if(action.payload=="ascendente"){
+            return a.cost - b.cost
+        }else if(action.payload=="descendente"){
+            return b.cost - a.cost
         }
-        if (a.cost > b.cost) {
-          return action.payload === "ASCENDENTE" ? 1 : -1;
-        }
-        return 0;
+        return 0
       })
       state.filteredTalents=talentPrice
     },
     filterCategory:(state,action)=>{
-      let allCat = state.talents;
+      let allCat = [...state.talents]
       let fil =
         action.payload === "All"
           ? allCat
@@ -52,20 +52,16 @@ const miSlice = createSlice({
       state.filteredTalents=fil
     },
     filterRating:(state,action)=>{
-      let aux=state.filteredTalents
-      if(action.payload==="asc"){
-        aux.sort(function (a, b) {
-          if (a.rating > b.rating) return 1;
-          if (b.rating > a.rating) return -1;
-          return 0;
-        })
-      }else if(action.payload==="desc"){
-        aux.sort(function (a, b) {
-          if (a.rating > b.rating) return -1;
-          if (b.rating > a.rating) return 1;
-          return 0;
-        })}
-        state.filteredTalents=aux
+      let aux= [...state.filteredTalents]
+      aux.sort((a,b)=>{
+        if(action.payload=="asc"){
+          return a.rating - b.rating
+        }else if(action.payload=="desc"){
+          return b.rating - a.rating
+        }
+        return 0
+      })
+      state.filteredTalents=aux
       },
     getS:(state,action)=>{
 

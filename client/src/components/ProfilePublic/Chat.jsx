@@ -12,8 +12,8 @@ export default function Chat() {
   const id  = useParams()
   console.log('id params', id)
   let navigate = useNavigate();
-  const user = useSelector((state) => state.index.user);
-  const orders = useSelector((state) => state.index.profile);
+  const user = useSelector((state) => state.userSliceReducer.user);
+  const orders = useSelector((state) => state.userSliceReducer.profile);
   const [order, setOrder] = useState([]);
 
     let body = {

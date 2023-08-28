@@ -18,7 +18,7 @@ export default function Profile(){
     const dispatch = useDispatch();
 
     const [modal, setModal] = useState(false);
-    const user = useSelector((state) => state.index.user)
+    const user = useSelector((state) => state.userSliceReducer.user)
     console.log("user: ", user)
 
     useEffect(() => {

@@ -10,7 +10,7 @@ export default function Profile({modal}){
 
     const { id } = useParams();
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.index.profile)
+    const user = useSelector((state) => state.userSliceReducer.profile)
     
     useEffect(() => {
         dispatch(getUserbyId(id));

@@ -5,9 +5,9 @@ import { getPostQuestion } from "../../actions/index";
 
 export default function QyAanswer() {
   const dispatch = useDispatch();
-  const qya = useSelector((state) => state.index.moreTalent);
-  const questionsPost = useSelector((state) => state.index.questionsPost);
-  const cargando = useSelector((state) => state.index.cargando);
+  const qya = useSelector((state) => state.misliceReducer.moreTalent);
+  const questionsPost = useSelector((state) => state.reviewSliceReducer.questionsPost);
+  const cargando = useSelector((state) => state.stateSliceReducer.cargando);
 
   useEffect(() => {
     dispatch(getPostQuestion(qya.id));

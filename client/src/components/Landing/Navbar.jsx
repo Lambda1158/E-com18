@@ -6,7 +6,7 @@ import pfImage from '../../assets/logo8-removebg-preview.png'
 import Dropdown from "../Home/Dropdown";
 export default function Navbar({ onModalClick, onModaleClick }) {
 
-    let usuario = useSelector(state => state.index.user);
+    let usuario = useSelector(state => state.userSliceReducer.user);
     
     useEffect(()=> {
     },[usuario])

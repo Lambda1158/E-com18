@@ -12,7 +12,7 @@ export default function Image({modal, isModal}){
     const[file,setFile]=useState(null)
     const [previewSource,setPreviewSource]=useState()
 
-    const user = useSelector((state) => state.index.profile)
+    const user = useSelector((state) => state.userSliceReducer.profile)
 
     function  handleSubmit(e) {
         let fb=new FormData()

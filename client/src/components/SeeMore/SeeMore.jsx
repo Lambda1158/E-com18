@@ -24,8 +24,8 @@ export default function SeeMore() {
   const toast = useToast();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const seemore = useSelector((state) => state.index.moreTalent);
-  const user = useSelector((state) => state.index.user);
+  const seemore = useSelector((state) => state.misliceReducer.moreTalent);
+  const user = useSelector((state) => state.userSliceReducer.user);
   let payloadMp =  { items: [
     {   title: seemore.title, 
        unit_price: seemore.cost, 

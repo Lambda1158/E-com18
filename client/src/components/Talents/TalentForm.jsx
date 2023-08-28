@@ -13,8 +13,8 @@ function TalentForm() {
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
-  let usuario = useSelector((state) => state.index.user.username);
-  let categories = useSelector((state) => state.index.categories);
+  let usuario = useSelector((state) => state.userSliceReducer.user.username);
+  let categories = useSelector((state) => state.misliceReducer.categories);
 
   useEffect(() => {
     dispatch(getCategories());

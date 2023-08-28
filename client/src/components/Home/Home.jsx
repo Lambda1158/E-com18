@@ -10,11 +10,10 @@ import Register from "../Register/Register";
 import { SortByPrice } from "../Sort/SortByPrice";
 import { Link } from "react-router-dom";
 import { filteredCat } from "../../actions";
-import { SortByQuali } from "../Sort/SortByQuali";
 import Spinner from "../Spinner/Spinner";
 
 export default function Home() {
-  let skill = useSelector((state) => state.index.filteredTalents);
+  let skill = useSelector((state) => state.misliceReducer.filteredTalents);
   //let skillAprobados = skill.filter(el => el.aprobado === true);
   const cargando = useSelector((state) => state.stateSliceReducer.cargando);
   const categories=useSelector((state)=>state.misliceReducer.categories)
@@ -90,14 +89,11 @@ export default function Home() {
         <div>
           <SortByPrice />
         </div>
-        <div>
-          <SortByQuali />
-        </div>
       </div>
       {cargando ? (
         <Spinner />
       ) : (
-        <div class="flex flex-row flex-wrap items-center content-around justify-around">
+        <div class="grid grid-cols-3 gap-4">
           {skill?.length === 0 ? (
             <div class="text-4xl min-h-screen font-bold m-4">
               {" "}

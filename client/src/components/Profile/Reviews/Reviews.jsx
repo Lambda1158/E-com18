@@ -8,7 +8,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 export default function Reviews() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const review = useSelector((state) => state.index.review);
+  const review = useSelector((state) => state.reviewSliceReducer.review);
 
   useEffect(() => {
     dispatch(getReviewbyId(id));

@@ -10,9 +10,9 @@ import axios from "axios";
 export default function Reviews() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const review = useSelector((state) => state.index.review);
-  const orders = useSelector((state) => state.index.profile);
-  const user = useSelector((state) => state.index.user);
+  const review = useSelector((state) => state.reviewSliceReducer.review);
+  const orders = useSelector((state) => state.userSliceReducer.profile);
+  const user = useSelector((state) => state.userSliceReducer.user);
   const [refresh, setRefresh] = useState(false);
   const [buyPost, setBuyPost] = useState();
   const [newReview, setNewReview] = useState({

@@ -9,8 +9,8 @@ export default function Movements(){
 
     const { id } = useParams();
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.index.profile)
-    const sales = useSelector((state) => state.index.sales)
+    const user = useSelector((state) => state.userSliceReducer.profile)
+    const sales = useSelector((state) => state.misliceReducer.sales)
     console.log("VENTAS", sales)
     console.log("USUARIO", user)
     

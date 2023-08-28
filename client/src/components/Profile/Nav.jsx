@@ -7,7 +7,7 @@ import { searchTalent } from "../../actions";
 export default function Nav({onModalClick, onModaleClick, onModalChange}) {
   const [state, setState] = useState("");
   const dispatch = useDispatch();
-  let usuario = useSelector(state => state.index.user)
+  let usuario = useSelector(state => state.userSliceReducer.user)
 
   function onSubmit(e) {
     e.preventDefault();
@@ -26,7 +26,6 @@ export default function Nav({onModalClick, onModaleClick, onModalChange}) {
         src='http://codes.unidepix.com/img/hi.png'
         alt="logo hitalent"
         width='140px'
-        alt='hitalent logo'
         />
         </Link>
         {/* <div class="flex">
