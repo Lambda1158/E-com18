@@ -1,7 +1,6 @@
 import React from "react";
 import { sortByPrice,getTalentByRating} from "../../actions";
 import { useDispatch } from 'react-redux'
-import { ASCENDENTE, DESCENDENTE } from "../../const";
 
 export const SortByPrice = () => {
     const dispatch = useDispatch()
