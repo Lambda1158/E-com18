@@ -16,11 +16,11 @@ export default function Home() {
   let skill = useSelector((state) => state.misliceReducer.filteredTalents);
   //let skillAprobados = skill.filter(el => el.aprobado === true);
   const cargando = useSelector((state) => state.stateSliceReducer.cargando);
-  const categories=useSelector((state)=>state.misliceReducer.categories)
+  const categories = useSelector((state) => state.misliceReducer.categories);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTalents());
-    dispatch(getCategories())
+    dispatch(getCategories());
   }, [dispatch]);
   const [ventanaLogIn, setVentanaLogIn] = useState(false);
   const [ventanaRegister, setVentanaRegister] = useState(false);
@@ -41,12 +41,12 @@ export default function Home() {
 
   function handleCatFilter(e) {
     e.preventDefault();
-    console.log(e.target.value)
+    console.log(e.target.value);
     dispatch(filteredCat(e.target.value));
   }
 
   return (
-    <div class="user-select-none">
+    <div className="user-select-none">
       <Nav
         onModalChange={onModalChange}
         onModaleClick={onModaleClick}
@@ -57,7 +57,7 @@ export default function Home() {
         {ventanaLogIn ? (
           <Form onModalClick={onModalClick} onModalChange={onModalChange} />
         ) : (
-          console.log("ingreso")
+          <></>
         )}
         {ventanaRegister ? (
           <Register
@@ -65,7 +65,7 @@ export default function Home() {
             onModalChange={onModalChange}
           />
         ) : (
-          console.log("registro")
+          <></>
         )}
         {/* <h1 class="text-4xl font-bold m-4">CATEGORIAS</h1>
         <Categories /> <hr /> */}
@@ -76,14 +76,18 @@ export default function Home() {
           </button>
         </Link> */}
       </div>
-      <div className='flex flex-col items-center justify-center w-full space-y-4 mb-6 mt-6'>
-            <h2 className='text-3xl font-bold underline underline-offset-4 '>¡Aventurate al desafio de enseñar y aprender nuevos talentos!</h2>
-        </div>
-      <div class="flex justify-center space-x-10 font-semibold text-xl">
-        <div>
-          <span>Categorias: </span>
-          <select onChange={(e) => handleCatFilter(e)}>
-          {categories.map(e=><FilteredCat category={e.title}/>)}
+      <div className="flex flex-col items-center justify-center w-full space-y-4 mb-6 mt-6">
+        <h2 className="text-4xl p-5 font-semibold underline underline-offset-4 ">
+          ¡Aventurate al desafio de enseñar y aprender nuevos talentos!
+        </h2>
+      </div>
+      <div className="flex justify-center space-x-10 font-semibold text-xl">
+        <div className="py-2">
+          <span className="text-2xl font-normal">Categorias: </span>
+          <select className="w-[200px]" onChange={(e) => handleCatFilter(e)}>
+            {categories.map((e, index) => (
+              <FilteredCat key={index} category={e.title} />
+            ))}
           </select>
         </div>
         <div>
@@ -93,11 +97,13 @@ export default function Home() {
       {cargando ? (
         <Spinner />
       ) : (
-        <div class="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           {skill?.length === 0 ? (
-            <div class="text-4xl min-h-screen font-bold m-4">
+            <div className="text-4xl min-h-screen font-bold m-4">
               {" "}
-              <h3 class="m-auto">Ups! no encontramos lo que buscas, intenta de nuevo</h3>
+              <h3 className="m-auto">
+                Ups! no encontramos lo que buscas, intenta de nuevo
+              </h3>
             </div>
           ) : (
             skill?.map((talent) => {

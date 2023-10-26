@@ -4,10 +4,5 @@ import React from "react";
 // import "slick-carousel/slick/slick-theme.css";
 
 export default function MultipleItems() {
-
-  return (
-    <div class="h-40 m-4">
-    Categorias
-    </div>
-  )
+  return <div className=" text-3xl font-normal h-40 m-4">Categorias</div>;
 }
