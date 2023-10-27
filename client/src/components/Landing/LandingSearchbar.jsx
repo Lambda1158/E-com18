@@ -3,26 +3,29 @@ import React from "react";
 // import { searchTalent } from "../../actions";
 
 export default function LandingSearchbar() {
+  // const [ search, setSearch ] = useState('')
+  // const dispatch = useDispatch()
 
-    // const [ search, setSearch ] = useState('')
-    // const dispatch = useDispatch()
+  // function onSubmit(e) {
+  //     e.preventDefault()
+  //     dispatch(searchTalent(search))
+  // }
+  // function onChange(e) {
+  //     e.preventDefault()
+  //     setSearch(e.target.value)
+  // }
 
-    // function onSubmit(e) {
-    //     e.preventDefault()
-    //     dispatch(searchTalent(search))
-    // }
-    // function onChange(e) {
-    //     e.preventDefault()
-    //     setSearch(e.target.value)
-    // }
-
-    return (
-        <div class="p-3 h-72 bg-light rounded-md m-5 flex flex-col items-center justify-around bg-opacity-70">
-            <div class="flex flex-col items-center">
-                <h3 class="font-semibold text-3xl mb-4">¿Quieres aprender algo nuevo?</h3>
-                <small class="text-2xl">¡Busca en este sitio y encuentra lo adecuado para ti!</small>
-            </div>
-            {/* <form onSubmit={onSubmit}>
+  return (
+    <div className="p-3 h-72 bg-light rounded-md m-5 flex flex-col items-center justify-around bg-opacity-70">
+      <div className="flex flex-col items-center">
+        <h3 className="font-semibold text-3xl mb-4">
+          ¿Quieres aprender algo nuevo?
+        </h3>
+        <small className="text-2xl">
+          ¡Busca en este sitio y encuentra lo adecuado para ti!
+        </small>
+      </div>
+      {/* <form onSubmit={onSubmit}>
             <div class="searchbar-inner bg-gray-200">
               <div class="searchbar-input-wrap container flex justify-center items-center px-4 sm:px-6 lg:px-8">
                 <input
@@ -48,6 +51,6 @@ export default function LandingSearchbar() {
               </div>
             </div>
           </form> */}
-        </div>
-    )
+    </div>
+  );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PROXY } from '../../actions';
+import { PROXY } from "../../actions";
 import ReactModal from "react-modal";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -45,7 +45,6 @@ function Form({ onModalClick, onModalChange }) {
 
   const [modalIsOpen, setIsOpen] = useState(true);
 
-
   async function handleOnSubmit(e) {
     e.preventDefault();
     let respuesta = await axios
@@ -69,6 +68,7 @@ function Form({ onModalClick, onModalChange }) {
 
   return (
     <ReactModal
+      ariaHideApp={false}
       isOpen={modalIsOpen}
       onRequestClose={onModalClick}
       contentLabel="Example Modal"
