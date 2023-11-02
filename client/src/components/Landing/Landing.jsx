@@ -33,7 +33,11 @@ export default function Landing() {
       <Navbar onModalClick={onModalClick} onModaleClick={onModaleClick} />
       <div className="flex justify-around items-center content-center bg-landingImg bg-cover min-h-screen object-cover">
         {ventanaLogIn ? (
-          <Form onModalClick={onModalClick} onModalChange={onModalChange} />
+          <Form
+            ariaHideApp={false}
+            onModalClick={onModalClick}
+            onModalChange={onModalChange}
+          />
         ) : (
           console.log("ingreso")
         )}

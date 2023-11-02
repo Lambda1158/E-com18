@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PROXY } from "../../actions";
 import ReactModal from "react-modal";
 import { Link } from "react-router-dom";
@@ -65,7 +65,12 @@ function Form({ onModalClick, onModalChange }) {
         userLogin.username === "admin" ? navigate("/admin") : navigate("/home");
     }
   }
-
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
   return (
     <ReactModal
       ariaHideApp={false}
@@ -99,6 +104,7 @@ function Form({ onModalClick, onModalChange }) {
                 placeholder="Contraseña"
                 onChange={(e) => handleOnChange(e)}
                 required
+                autoComplete="on"
                 className="h-8 w-4/5 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
               />
               <button
