@@ -150,42 +150,45 @@ export default function Register({ onModaleClick, onModalChange }) {
               onChange={(e) => handleChange(e)}
               required
             />
-            <div className="">
-              <div className="flex border ">
-                <input
-                  className="h-4 py-6 bg-semidark w-11/12 bg-opacity-0 border-white outline-none placeholder-white"
-                  placeholder="Contraseña"
-                  type="password"
-                  value={input.password}
-                  name="password"
-                  onChange={(e) => handleChange(e)}
-                  required
-                  autoComplete="on"
-                />
-                <button
-                  className=" border-l-2 p-3"
-                  onClick={(e) => handleOnChange(e)}
-                >
-                  Show
+            <div className=" flex h-[90px]">
+              <div>
+                <div className=" border h-[45px] ">
+                  <input
+                    className="h-4 py-5 px-2 bg-semidark w-11/12 bg-opacity-0 border-white outline-none placeholder-white"
+                    placeholder="Contraseña"
+                    type={state.type}
+                    value={input.password}
+                    name="password"
+                    onChange={(e) => handleChange(e)}
+                    required
+                    autoComplete="on"
+                  />
+                </div>
+                <div className=" border  h-[45px] ">
+                  <input
+                    className="h-4 py-5 px-2 bg-semidark w-11/12 bg-opacity-0 border-white outline-none placeholder-white"
+                    placeholder="Repite contraseña"
+                    type={state.type}
+                    value={input.password2}
+                    name="password2"
+                    onChange={(e) => handleChange(e)}
+                    required
+                    autoComplete="on"
+                  />
+                </div>
+              </div>
+              <div className=" border flex">
+                <button className=" p-3" onClick={(e) => handleOnChange(e)}>
+                  {state.button}
                 </button>
               </div>
-              <input
-                className="h-4 py-5 border-b-2 bg-semidark bg-opacity-0 border-white outline-none placeholder-white"
-                placeholder="Repite la contraseña"
-                type="password"
-                value={input.password2}
-                name="password2"
-                onChange={(e) => handleChange(e)}
-                required
-                autoComplete="on"
-              />
             </div>
-            <div className="flex flex-col">
-              <label name="fecha-nacimiento" className="mt-2">
+            <div className="flex flex-col ">
+              <label name="fecha-nacimiento" className="mt-2 text-center">
                 Fecha de Nacimiento
               </label>
               <input
-                className="bg-semidark text-center hover:bg-dark transition duration-300 ease-in-out rounded-lg"
+                className="bg-semidark text-center hover:bg-dark transition duration-300 mt-2 ease-in-out rounded-lg"
                 type="date"
                 value={input.birthdate}
                 name="birthdate"
@@ -195,18 +198,21 @@ export default function Register({ onModaleClick, onModalChange }) {
             </div>
             <div className="flex justify-center m-2">
               <button
-                className=" border rounded-sm p-1 mt-3 hover:bg-dark "
+                className=" border rounded-sm p-3 mt-3 hover:bg-dark "
                 type="submit"
               >
                 Registrarme
               </button>
             </div>
           </form>
-          <div className="flex justify-center content-center items-center m-4">
-            <p className="text-sm mr-2">¿Ya tienes cuenta?</p>
+          <div className="flex justify-between mt-4 ">
+            <p className="text-1xl underline w-[120px]   mr-2">
+              ¿Ya tienes cuenta?
+            </p>
+
             <button
               onClick={onModalChange}
-              className="text-1xl font-semibold border rounded-sm p-1 mt-3 hover:bg-dark btn-custom btn-colors"
+              className="text-1xl font-semibold border rounded-sm p-2 mt-3 hover:bg-dark btn-custom btn-colors"
             >
               Iniciar sesión
             </button>

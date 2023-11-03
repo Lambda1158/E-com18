@@ -81,12 +81,12 @@ function Form({ onModalClick, onModalChange }) {
       overlayClassName="fixed inset-0 bg-black bg-opacity-90"
     >
       <div className="flex h-96 items-center flex-col bg-semidark bg-opacity-40 text-white w-96 space-y-4">
-        <h2 className="text-3xl my-2 font-semibold">Iniciar sesion</h2>
+        <h2 className="text-3xl my-2 font-medium">Iniciar sesion</h2>
         <form
           className="text-center space-y-4"
           onSubmit={(e) => handleOnSubmit(e)}
         >
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-5">
             <div className="w-full rounded">
               <input
                 name="username"
@@ -97,7 +97,7 @@ function Form({ onModalClick, onModalChange }) {
                 className="h-8 w-11/12 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
               />
             </div>
-            <div className="w-full rounded">
+            <div className=" flex w-full ">
               <input
                 name="password"
                 type={state.type}
@@ -105,15 +105,14 @@ function Form({ onModalClick, onModalChange }) {
                 onChange={(e) => handleOnChange(e)}
                 required
                 autoComplete="on"
-                className="h-8 w-4/5 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
+                className="h-8  w-10/12 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
               />
               <button
-                className="border-b-2 border-white"
+                className=" border-l-2 border-b-2  rounded-sm   border-white h-8"
                 onClick={(e) => handleChange(e)}
               >
-                pendiente ver
+                {state.button}
               </button>
-              <br />
             </div>
           </div>
           <div className="flex flex-row items-center">
@@ -128,13 +127,13 @@ function Form({ onModalClick, onModalChange }) {
               Olvide mi contraseña
             </Link>
           </div>
-          <div className="flex">
-            <button className="btn-custom btn-colors mb-2 mr-2">
+          <div className="flex justify-around">
+            <button className="border rounded-sm p-3 w-[120px] hover:bg-dark  border-white">
               Ingresar
             </button>
             <button
               onClick={onModalClick}
-              className="btn-custom btn-colors ml-2"
+              className="border rounded-sm p-3 hover:bg-dark w-[120px]  border-white"
             >
               Cancelar
             </button>
@@ -142,7 +141,10 @@ function Form({ onModalClick, onModalChange }) {
         </form>
         <div className="flex justify-center content-center items-center m-4">
           <p className="text-sm mr-2">¿No tienes cuenta?</p>
-          <button onClick={onModalChange} className="text-1xl font-semibold">
+          <button
+            onClick={onModalChange}
+            className="text-1xl underline  font-semibold"
+          >
             ¡Registrate ahora!
           </button>
         </div>
