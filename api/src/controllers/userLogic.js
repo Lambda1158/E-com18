@@ -205,17 +205,17 @@ async function getLogIn(req, res, next) {
 
 const editUser = async (req, res, next) => {
   let file = req.file;
-  let {country,username,description } = req.body;
-  
+  let { country, username, description } = req.body;
+
   try {
     var user = await Users.findOne({ where: { username } });
-    if(file){
-      let path = "http://localhost:3001" + file.filename;
+    if (file) {
+      let path = "http://localhost:3001/" + file.filename;
       user.image = path;
     }
-    if(country) user.country=country
-    if(description) user.resume=description
-    await user.save()
+    if (country) user.country = country;
+    if (description) user.resume = description;
+    await user.save();
     res.send(user.toJSON());
   } catch (e) {
     console.log(e);

@@ -9,7 +9,6 @@ const io = new Server(httpServer, {
     origin: "*",
   },
 });
-
 // const server = http.createServer(app);
 // const io = socketio.listen(server);
 
@@ -52,8 +51,7 @@ conn.sync({ force: true }).then(() => {
       { title: "Educación" },
       { title: "Mantenimiento del hogar" },
       { title: "Meditación" },
-      {title:"All"}
-      
+      { title: "All" },
     ])
       .then((e) => {})
       .catch((e) => console.log(e));
@@ -94,6 +92,7 @@ conn.sync({ force: true }).then(() => {
       country: "Rusia",
       aprobado: false,
       email_verified: true,
+      image: "http://localhost:3001/foto-perfil.jpg",
     });
     var usuarioPrueba2 = await Users.create({
       name: "Martina",
@@ -352,12 +351,13 @@ conn.sync({ force: true }).then(() => {
     await testReviewProfile3.setPost(testPostProfile3); //EL post sobre el q se hizo la review Clases de cultivos
     calcularRating(testPostProfile3, testReviewProfile3);
 
-    var  reviewviola=await Review.create({ //review sobre guitarra
-      qualification:3,
-      description:"buena guitarra"
+    var reviewviola = await Review.create({
+      //review sobre guitarra
+      qualification: 3,
+      description: "buena guitarra",
     });
-    await reviewviola.setUser(testuser3) // el usuario test user 3 
-    await reviewviola.setPost(testpost2) // sobre post de guitarra 
+    await reviewviola.setUser(testuser3); // el usuario test user 3
+    await reviewviola.setPost(testpost2); // sobre post de guitarra
     calcularRating(testpost2, reviewviola);
 
     //----------------------------------------------- QUESTIONS---------------------------------------------------------------------

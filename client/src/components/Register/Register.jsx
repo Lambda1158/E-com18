@@ -205,16 +205,13 @@ export default function Register({ onModaleClick, onModalChange }) {
               </button>
             </div>
           </form>
-          <div className="flex justify-between mt-4 ">
-            <p className="text-1xl underline w-[120px]   mr-2">
-              ¿Ya tienes cuenta?
-            </p>
-
+          <div className="flex justify-around mt-6">
+            <p className="text-sm">¿Ya tienes cuenta?</p>
             <button
               onClick={onModalChange}
-              className="text-1xl font-semibold border rounded-sm p-2 mt-3 hover:bg-dark btn-custom btn-colors"
+              className="text-1xl font-semibold underline "
             >
-              Iniciar sesión
+              ¡Iniciar sesión!
             </button>
           </div>
         </div>

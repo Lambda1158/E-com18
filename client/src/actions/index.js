@@ -1,9 +1,27 @@
 import axios from "axios";
-import {getT,getTbyId,searchT,getC,sortPrice,filterCategory,filterRating,getS} from "../actions/logicredux"
-import { cargarUser,getUserT,getUserI,getUserO,getM,getSeller,dislog} from "./userredux";
-import { getR,getQa,getQp } from "./revqueredux"
-import { cargando,refreshT} from "./statereducer";
-export const PROXY = "http://localhost:3001"||"https://hitalent-project.herokuapp.com";
+import {
+  getT,
+  getTbyId,
+  searchT,
+  getC,
+  sortPrice,
+  filterCategory,
+  filterRating,
+  getS,
+} from "../actions/logicredux";
+import {
+  cargarUser,
+  getUserT,
+  getUserI,
+  getUserO,
+  getM,
+  getSeller,
+  dislog,
+} from "./userredux";
+import { getR, getQa, getQp } from "./revqueredux";
+import { cargando, refreshT } from "./statereducer";
+export const PROXY =
+  "http://localhost:3001" || "https://hitalent-project.herokuapp.com";
 export const SEARCH_TALENT = "SEARCH_TALENT";
 export const CARGAR_USUARIO = "CARGAR_USUARIO";
 export const POST_USER = "POST_USER";
@@ -28,10 +46,8 @@ export const POST_ORDER = "POST_ORDER";
 export const CARGANDO = "CARGANDO";
 export const SELLER_PROFILE = "SELLER_PROFILE";
 export const REFRESH = "REFRESH";
-export const GET_SALES = "GET_SALES"
-export const DESLOGUEAR = "DESLOGUEAR"
-
-
+export const GET_SALES = "GET_SALES";
+export const DESLOGUEAR = "DESLOGUEAR";
 
 export const getTalents = () => async (dispatch) => {
   try {
@@ -39,36 +55,33 @@ export const getTalents = () => async (dispatch) => {
 
     dispatch(getT(talents.data)); // Dispatch the action with the talents array
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
-export const getTalentById=(id)=> async (dispatch)=> {
-  try{
-    let respuesta= await axios.get(`${PROXY}/post/` + id);
-    dispatch(getTbyId(respuesta.data))
-  }catch(error){
-    console.log(error)
+export const getTalentById = (id) => async (dispatch) => {
+  try {
+    let respuesta = await axios.get(`${PROXY}/post/` + id);
+    dispatch(getTbyId(respuesta.data));
+  } catch (error) {
+    console.log(error);
   }
-
-}
-export const searchTalent=(search)=> async(dispatch)=>{
-  console.log("entre")
+};
+export const searchTalent = (search) => async (dispatch) => {
+  console.log("entre");
   axios
-      .get(`${PROXY}/post/title/` + search)
-      .then((talents) => {
-        dispatch(searchT(talents.data));
-      })
-      .catch((error) => {
-        console.log("no se encontró el curso");
-      });
+    .get(`${PROXY}/post/title/` + search)
+    .then((talents) => {
+      dispatch(searchT(talents.data));
+    })
+    .catch((error) => {
+      console.log("no se encontró el curso");
+    });
+};
 
-  }
-
-
-export const cargarUsuario=(payload)=>  (dispatch)=>{
-  dispatch(cargarUser(payload))
-}
+export const cargarUsuario = (payload) => (dispatch) => {
+  dispatch(cargarUser(payload));
+};
 // export function cargarUsuario(payload) {
 //   return {
 //     type: CARGAR_USUARIO,
@@ -76,21 +89,23 @@ export const cargarUsuario=(payload)=>  (dispatch)=>{
 //   };
 // }
 
-
 export function createUser(payload) {
   return async function (dispatch) {
     const newUser = await axios.post(`${PROXY}/user`, payload);
-    dispatch(cargarUser(newUser.data))
+    dispatch(cargarUser(newUser.data));
   };
 }
 
-
-export const getUserbyToken=(token)=> async(dispatch)=>{
+export const getUserbyToken = (token) => async (dispatch) => {
   axios
-  .post(`${PROXY}/user/confirm/` + token)
-  .then((response)=>{dispatch(getUserT(response.data))})
-  .catch((error)=>{console.log(error+"fallo get token by id")})
-}
+    .post(`${PROXY}/user/confirm/` + token)
+    .then((response) => {
+      dispatch(getUserT(response.data));
+    })
+    .catch((error) => {
+      console.log(error + "fallo get token by id");
+    });
+};
 // export function getUserbyToken(token) {
 //   return async function (dispatch) {
 //     try {
@@ -104,12 +119,16 @@ export const getUserbyToken=(token)=> async(dispatch)=>{
 //     }
 //   };
 // }
-export const getUserbyId=(id)=>async(dispatch)=>{
+export const getUserbyId = (id) => async (dispatch) => {
   axios
-  .get(`${PROXY}/user/` + id)
-  .then((response)=>{dispatch(getUserI(response.data))})
-  .catch((error)=>{console.log(error)})
-}
+    .get(`${PROXY}/user/` + id)
+    .then((response) => {
+      dispatch(getUserI(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 // export function getUserbyId(id) {
 //   return async function (dispatch) {
@@ -125,12 +144,12 @@ export const getUserbyId=(id)=>async(dispatch)=>{
 //   };
 // }
 
-export const getOrderbyId=(id)=>async(dispatch)=>{
+export const getOrderbyId = (id) => async (dispatch) => {
   axios
-  .get(`${PROXY}/user/` + id)
-  .then(response=>dispatch(getUserO(response.data)))
-  .catch((error)=>console.log(error))
-}
+    .get(`${PROXY}/user/` + id)
+    .then((response) => dispatch(getUserO(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getOrderbyId(id) {
 //   return async function (dispatch) {
@@ -147,12 +166,12 @@ export const getOrderbyId=(id)=>async(dispatch)=>{
 //   };
 // }
 
-export const getReviewbyId=(id)=>async(dispatch)=>{
+export const getReviewbyId = (id) => async (dispatch) => {
   axios
-  .get(`${PROXY}/review/all/` + id)
-  .then(response=>dispatch(getR(response.data)))
-  .catch(error=>console.log(error))
-}
+    .get(`${PROXY}/review/all/` + id)
+    .then((response) => dispatch(getR(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getReviewbyId(id) {
 //   return async function (dispatch) {
@@ -168,12 +187,12 @@ export const getReviewbyId=(id)=>async(dispatch)=>{
 //   };
 // }
 
-export const getUserofReviewbyId=(id)=>async(dispatch)=>{
+export const getUserofReviewbyId = (id) => async (dispatch) => {
   axios
-  .get(`${PROXY}/review/` + id)
-  .then(response=>dispatch(getR(response.data)))
-  .catch(error=>console.log(error))
-}
+    .get(`${PROXY}/review/` + id)
+    .then((response) => dispatch(getR(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getUserofReviewbyId(id) {
 //   return async function (dispatch) {
@@ -189,12 +208,12 @@ export const getUserofReviewbyId=(id)=>async(dispatch)=>{
 //   };
 // }
 
-export const getMovebyId=(id)=>async(dispatch)=>{
+export const getMovebyId = (id) => async (dispatch) => {
   axios
-  .get(`${PROXY}/user/` + id)
-  .then(response=>dispatch(getM(response.data)))
-  .catch(error=>console.log(error))
-}
+    .get(`${PROXY}/user/` + id)
+    .then((response) => dispatch(getM(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getMovebyId(id) {
 //   return async function (dispatch) {
@@ -211,12 +230,12 @@ export const getMovebyId=(id)=>async(dispatch)=>{
 //   };
 // }
 
-export const getQAbyId=(idUser)=> async(dispatch)=>{
+export const getQAbyId = (idUser) => async (dispatch) => {
   axios
-  .get(`${PROXY}/question/all/` + idUser)
-  .then(response=>dispatch(getQa(response.data)))
-  .catch(error=>console.log(error))
-}
+    .get(`${PROXY}/question/all/` + idUser)
+    .then((response) => dispatch(getQa(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getQAbyId(idUser) {
 //   return async function (dispatch) {
@@ -232,12 +251,12 @@ export const getQAbyId=(idUser)=> async(dispatch)=>{
 //   };
 // }
 
-export const createAnswer=(answer)=>async(dispatch)=>{
+export const createAnswer = (answer) => async (dispatch) => {
   axios
-  .put(`${PROXY}/question/answer`, answer)
-  .then(response=>dispatch(getQa(response.data)))
-  .catch(error=>console.log(error))
-}
+    .put(`${PROXY}/question/answer`, answer)
+    .then((response) => dispatch(getQa(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function createAnswer(answer) {
 //   return async function (dispatch) {
@@ -254,12 +273,12 @@ export const createAnswer=(answer)=>async(dispatch)=>{
 //   };
 // }
 
-export const postQuestion=(body)=>async(dispatch)=>{
+export const postQuestion = (body) => async (dispatch) => {
   axios
-  .post(`${PROXY}/question`, body)
-  .then(response=>dispatch(getQp(response.data)))
-  .catch(error=>console.log(error))
-}
+    .post(`${PROXY}/question`, body)
+    .then((response) => dispatch(getQp(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function postQuestion(body) {
 //   console.log("body de la action", body);
@@ -273,14 +292,15 @@ export const postQuestion=(body)=>async(dispatch)=>{
 //   };
 // }
 
-export const getPostQuestion=(idPost)=>async(dispatch)=>{
+export const getPostQuestion = (idPost) => async (dispatch) => {
   axios
-  .get(`${PROXY}/question/` + idPost)
-  .then(response=>{
-    dispatch(cargando(false))
-    dispatch(getQp(response.data))})
-  .catch(error=>console.log(error))
-}
+    .get(`${PROXY}/question/` + idPost)
+    .then((response) => {
+      dispatch(cargando(false));
+      dispatch(getQp(response.data));
+    })
+    .catch((error) => console.log(error));
+};
 
 // export function getPostQuestion(idPost) {
 //   return async function (dispatch) {
@@ -292,12 +312,12 @@ export const getPostQuestion=(idPost)=>async(dispatch)=>{
 //   };
 // }
 
-export const getCategories=()=>async(dispatch)=>{
+export const getCategories = () => async (dispatch) => {
   axios
-  .get(`${PROXY}/categories`)
-  .then(response=>dispatch(getC(response.data)))
-  .catch(error=>console.log(error))
-}
+    .get(`${PROXY}/categories`)
+    .then((response) => dispatch(getC(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getCategories() {
 //   return async function (dispatch) {
@@ -309,9 +329,8 @@ export const getCategories=()=>async(dispatch)=>{
 //   };
 // }
 
-
-export const sortByPrice=(order)=>async(dispatch)=>dispatch(sortPrice(order))
-
+export const sortByPrice = (order) => async (dispatch) =>
+  dispatch(sortPrice(order));
 
 // export function sortByPrice(order) {
 //   return {
@@ -320,12 +339,12 @@ export const sortByPrice=(order)=>async(dispatch)=>dispatch(sortPrice(order))
 //   };
 // }
 
-export const getPostReview=(idPost)=>async(dispatch)=>{
+export const getPostReview = (idPost) => async (dispatch) => {
   axios
     .get(`${PROXY}/review/` + idPost)
-    .then(response=>dispatch(getR(response.data)))
-    .catch(error=>console.log(error))
-}
+    .then((response) => dispatch(getR(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getPostReview(idPost) {
 //   return async function (dispatch) {
@@ -341,7 +360,8 @@ export const getPostReview=(idPost)=>async(dispatch)=>{
 //   };
 // }
 
-export const filteredCat=(payload)=>async(dispatch)=>dispatch(filterCategory(payload))
+export const filteredCat = (payload) => async (dispatch) =>
+  dispatch(filterCategory(payload));
 
 // export function filteredCat(payload) {
 //   return {
@@ -350,7 +370,8 @@ export const filteredCat=(payload)=>async(dispatch)=>dispatch(filterCategory(pay
 //   };
 // }
 
-export const getTalentByRating=(rating)=>async(dispatch)=>dispatch(filterRating(rating))
+export const getTalentByRating = (rating) => async (dispatch) =>
+  dispatch(filterRating(rating));
 
 // export function getTalentByRating(rating) {
 //   return async function (dispatch) {
@@ -362,7 +383,6 @@ export const getTalentByRating=(rating)=>async(dispatch)=>dispatch(filterRating(
 
 //   };
 // }
-
 
 // export function postOrder(payload) {
 //   console.log('action', payload)
@@ -380,13 +400,12 @@ export const getTalentByRating=(rating)=>async(dispatch)=>dispatch(filterRating(
 //   }
 // }
 
-export const publicProfile=(id)=>async dispatch=>{
+export const publicProfile = (id) => async (dispatch) => {
   axios
-  .get(`${PROXY}/user/` + id)
-  .then(response=>dispatch(getSeller(response.data)))
-  .catch(error=>console.log(error))
-}
-
+    .get(`${PROXY}/user/` + id)
+    .then((response) => dispatch(getSeller(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function publicProfile(id) {
 //   return async function (dispatch) {
@@ -402,7 +421,7 @@ export const publicProfile=(id)=>async dispatch=>{
 //   };
 // }
 
-export const refresh=(dispatch)=>dispatch(refreshT())
+export const refresh = (dispatch) => dispatch(refreshT());
 
 // export function refresh() {
 //   return {
@@ -410,12 +429,12 @@ export const refresh=(dispatch)=>dispatch(refreshT())
 //   };
 // }
 
-export const getSales=(id)=>async(dispatch)=>{
+export const getSales = (id) => async (dispatch) => {
   axios
-  .get(`${PROXY}/orden/ventas/` + id)
-  .then(response=>dispatch(getS(response.data)))
-  .catch(error=>console.log(error))
-}
+    .get(`${PROXY}/orden/ventas/` + id)
+    .then((response) => dispatch(getS(response.data)))
+    .catch((error) => console.log(error));
+};
 
 // export function getSales(id) {
 //   return async function(dispatch) {
@@ -433,7 +452,7 @@ export const getSales=(id)=>async(dispatch)=>{
 //   }
 // }
 
-export const desloguear=(dispatch)=>dispatch(dislog())
+export const desloguear = () => dislog();
 
 // export function desloguear(){
 //   return{

@@ -97,7 +97,7 @@ function Form({ onModalClick, onModalChange }) {
                 className="h-8 w-11/12 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
               />
             </div>
-            <div className=" flex w-full ">
+            <div className=" flex w-full justify-center ">
               <input
                 name="password"
                 type={state.type}
@@ -105,10 +105,10 @@ function Form({ onModalClick, onModalChange }) {
                 onChange={(e) => handleOnChange(e)}
                 required
                 autoComplete="on"
-                className="h-8  w-10/12 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
+                className="h-8  w-9/12 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
               />
               <button
-                className=" border-l-2 border-b-2  rounded-sm   border-white h-8"
+                className=" border-l-2 border-b-2 p-1 rounded-sm   border-white h-8"
                 onClick={(e) => handleChange(e)}
               >
                 {state.button}

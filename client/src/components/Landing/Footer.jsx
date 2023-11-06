@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="grid grid-cols-3 bg-semidark text-black">
+    <footer className="grid grid-cols-3 bg-semidark text-black ">
       <div className="grid col-start-1 col-end-2 m-3">
         <img
           src="https://codes.unidepix.com/img/hi.png"
