@@ -44,7 +44,6 @@ export default function Home() {
     console.log(e.target.value);
     dispatch(filteredCat(e.target.value));
   }
-
   return (
     <div className="user-select-none">
       <Nav
@@ -97,13 +96,13 @@ export default function Home() {
       {cargando ? (
         <Spinner />
       ) : (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="flex flex-wrap w-[1600px] ml-[11%]  ">
           {skill?.length === 0 ? (
             <div className="text-4xl min-h-screen font-bold m-4">
               {" "}
-              <h3 className="m-auto">
+              <h1 className="m-auto">
                 Ups! no encontramos lo que buscas, intenta de nuevo
-              </h3>
+              </h1>
             </div>
           ) : (
             skill?.map((talent) => {
@@ -118,6 +117,7 @@ export default function Home() {
                   image={talent.image}
                   cost={talent.cost}
                   rating={talent.rating}
+                  reviews={talent.reviews}
                 />
               );
             })
