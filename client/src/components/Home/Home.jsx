@@ -8,7 +8,6 @@ import { FilteredCat } from "../Filter/FilteredCat";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
 import { SortByPrice } from "../Sort/SortByPrice";
-import { Link } from "react-router-dom";
 import { filteredCat } from "../../actions";
 import Spinner from "../Spinner/Spinner";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PROXY } from '../../actions';
+import { PROXY } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getTalentById } from "../../actions";
@@ -13,10 +13,7 @@ import Reviews from "./Reviews";
 import axios from "axios";
 import { addToCart } from "../../actions/shoppingActions";
 import Spinner from "../Spinner/Spinner";
-import {
-  Alert,
-  AlertIcon,
-} from '@chakra-ui/react'
+import { Alert, AlertIcon } from "@chakra-ui/react";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
 
@@ -26,11 +23,9 @@ export default function SeeMore() {
   const { id } = useParams();
   const seemore = useSelector((state) => state.misliceReducer.moreTalent);
   const user = useSelector((state) => state.userSliceReducer.user);
-  let payloadMp =  { items: [
-    {   title: seemore.title, 
-       unit_price: seemore.cost, 
-       quantity: 1}
-     ]}
+  let payloadMp = {
+    items: [{ title: seemore.title, unit_price: seemore.cost, quantity: 1 }],
+  };
 
   useEffect(() => {
     dispatch(getTalentById(id));
@@ -38,11 +33,19 @@ export default function SeeMore() {
 
   async function handleCheckOut(e) {
     let payloadOrder = {
-      carrito: [{ title: seemore.title, price: seemore.cost, quantity: 1, post_id: seemore.id, user_id: user?.id}]
-    }
+      carrito: [
+        {
+          title: seemore.title,
+          price: seemore.cost,
+          quantity: 1,
+          post_id: seemore.id,
+          user_id: user?.id,
+        },
+      ],
+    };
     console.log("ordenes", payloadOrder);
     axios
-      .post(`${PROXY}/orden/`/*"http://localhost:3001/orden/" */, payloadOrder )
+      .post(`${PROXY}/orden/` /*"http://localhost:3001/orden/" */, payloadOrder)
       .then((res) => console.log("post order", res))
       .catch((error) => console.log("err de seemore", error));
 
@@ -51,22 +54,22 @@ export default function SeeMore() {
     let response = await axios.post(
       `${PROXY}/checkout/mercadopago/`,
       // "http://localhost:3001/checkout/mercadopago/",
-      {payloadMp}
+      { payloadMp }
     );
-    console.log('res',response);
+    console.log("res", response);
     window.location.href = response.data.init_points;
   }
-  
+
   const [ventanaLogIn, setVentanaLogIn] = useState(false);
   const [ventanaRegister, setVentanaRegister] = useState(false);
 
   function onModalClick(e) {
-    console.log("click login")
+    console.log("click login");
     e.preventDefault();
     setVentanaLogIn(!ventanaLogIn);
   }
   function onModaleClick(e) {
-    console.log("click registro")
+    console.log("click registro");
     e.preventDefault();
     setVentanaRegister(!ventanaRegister);
   }
@@ -75,7 +78,6 @@ export default function SeeMore() {
     setVentanaLogIn(!ventanaLogIn);
     setVentanaRegister(!ventanaRegister);
   }
-
 
   function onClick(e) {
     e.preventDefault();
@@ -93,26 +95,32 @@ export default function SeeMore() {
   }
 
   return (
-    
     <div className="seemore">
-      <Nav 
+      <Nav
         onModalChange={onModalChange}
         onModaleClick={onModaleClick}
-        onModalClick={onModalClick}/>
+        onModalClick={onModalClick}
+      />
 
       <div>
-        {ventanaLogIn ? 
-        <Form onModalClick={onModalClick} onModalChange={onModalChange} /> :
-        console.log("ingreso")}
+        {ventanaLogIn ? (
+          <Form onModalClick={onModalClick} onModalChange={onModalChange} />
+        ) : (
+          console.log("ingreso")
+        )}
 
-        {ventanaRegister ? 
-        <Register onModaleClick={onModaleClick} onModalChange={onModalChange}/> : 
-        console.log("registro")
-        }
+        {ventanaRegister ? (
+          <Register
+            onModaleClick={onModaleClick}
+            onModalChange={onModalChange}
+          />
+        ) : (
+          console.log("registro")
+        )}
       </div>
 
       {seemore ? (
-        <Box 
+        <Box
           m="auto"
           mt="2"
           mb="2"
@@ -122,24 +130,26 @@ export default function SeeMore() {
           borderRadius="lg"
           overflow="scroll"
           css={{
-            '&::-webkit-scrollbar': {
-              width: '4px',
+            "&::-webkit-scrollbar": {
+              width: "4px",
             },
-            '&::-webkit-scrollbar-track': {
-              width: '6px',
+            "&::-webkit-scrollbar-track": {
+              width: "6px",
             },
-            '&::-webkit-scrollbar-thumb': {
+            "&::-webkit-scrollbar-thumb": {
               background: "#5E8B7E",
-              borderRadius: '24px',
+              borderRadius: "24px",
             },
           }}
         >
           <Image src={seemore.image} alt="talent_image" />
 
-          <Box  p="6">
-          <Link to={"/profilePublic/" + seemore?.user_id}>
-            <h4 class="text-dark text-sm hover:text-semilight">by {seemore?.user?.username}</h4>
-          </Link>
+          <Box p="6">
+            <Link to={"/profilePublic/" + seemore?.user_id}>
+              <h4 class="text-dark text-sm hover:text-semilight">
+                by {seemore?.user?.username}
+              </h4>
+            </Link>
             <Box
               mt="2"
               fontWeight="semibold"
@@ -181,15 +191,15 @@ export default function SeeMore() {
                 </Box>
               </Box>
             ) : !user.id ? (
-              <Alert status='warning'>
-              <AlertIcon />
-              Ingresa a tu cuenta para adquirir este curso o hacer una pregunta
-              </Alert>
+              <p status="warning">
+                Ingresa a tu cuenta para adquirir este curso o hacer una
+                pregunta
+              </p>
             ) : (
-              <Alert status='info'>
+              <Alert status="info">
                 <AlertIcon />
-                  Esta publicacion te pertenece
-                </Alert>
+                Esta publicacion te pertenece
+              </Alert>
             )}
           </Box>
           <QyAanswer />
