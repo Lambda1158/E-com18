@@ -106,7 +106,7 @@ export default function SeeMore() {
         {ventanaLogIn ? (
           <Form onModalClick={onModalClick} onModalChange={onModalChange} />
         ) : (
-          console.log("ingreso")
+          <></>
         )}
 
         {ventanaRegister ? (
@@ -115,7 +115,7 @@ export default function SeeMore() {
             onModalChange={onModalChange}
           />
         ) : (
-          console.log("registro")
+          <></>
         )}
       </div>
 
@@ -146,7 +146,7 @@ export default function SeeMore() {
 
           <Box p="6">
             <Link to={"/profilePublic/" + seemore?.user_id}>
-              <h4 class="text-dark text-sm hover:text-semilight">
+              <h4 className="text-dark text-sm hover:text-semilight">
                 by {seemore?.user?.username}
               </h4>
             </Link>
@@ -184,7 +184,7 @@ export default function SeeMore() {
               {seemore.cost}
             </Box>
             {seemore.user_id !== user.id && user.id ? (
-              <Box class="flex flex-col items-center" m="2">
+              <Box className="flex flex-col items-center" m="2">
                 <Button onClick={(e) => handleCheckOut(e)}>Comprar</Button>
                 <Box as="span" m="2" color="gray.600" fontSize="sm">
                   <Button onClick={onClick}>Agregar al carrito</Button>

@@ -6,7 +6,9 @@ import { getPostQuestion } from "../../actions/index";
 export default function QyAanswer() {
   const dispatch = useDispatch();
   const qya = useSelector((state) => state.misliceReducer.moreTalent);
-  const questionsPost = useSelector((state) => state.reviewSliceReducer.questionsPost);
+  const questionsPost = useSelector(
+    (state) => state.reviewSliceReducer.questionsPost
+  );
   const cargando = useSelector((state) => state.stateSliceReducer.cargando);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function QyAanswer() {
         {questionsPost?.questions?.length > 0 ? (
           questionsPost.questions.map((e) => (
             <>
-              <div class="flex flex-col bg-light mb-2 rounded-md">
+              <div className="flex flex-col bg-light mb-2 rounded-md">
                 {"P: " + e.question}
                 <div>
                   {e.answer
@@ -31,7 +33,7 @@ export default function QyAanswer() {
             </>
           ))
         ) : (
-          <span class="text-gray-400">Aún no hay preguntas</span>
+          <span className="text-gray-400">Aún no hay preguntas</span>
         )}
       </div>
       <hr />
