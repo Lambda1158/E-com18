@@ -13,7 +13,9 @@ import QyAanswer from "./Q&Aanswer";
 import { useToast } from "@chakra-ui/react";
 
 export default function QyA() {
-  const questionsPost = useSelector((state) => state.reviewSliceReducer.questionsPost);
+  const questionsPost = useSelector(
+    (state) => state.reviewSliceReducer.questionsPost
+  );
   const user = useSelector((state) => state.userSliceReducer.user);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -73,8 +75,8 @@ export default function QyA() {
   return (
     <>
       {user.id ? (
-        <div class="m-3">
-          <h3 class="text-xl font-semibold">Haz una pregunta</h3>
+        <div className="m-3">
+          <h3 className="text-xl font-semibold">Haz una pregunta</h3>
           <form onSubmit={(e) => onSubmit(e)}>
             <Input
               value={question}

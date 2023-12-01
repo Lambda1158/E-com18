@@ -18,11 +18,11 @@ export default function QyAanswer() {
   return (
     <div className="h-1/4 m-3">
       <h3 className="text-xl font-semibold">Preguntas</h3>
-      <div>
+      <div className="p-2">
         {questionsPost?.questions?.length > 0 ? (
-          questionsPost.questions.map((e) => (
-            <>
-              <div className="flex flex-col bg-light mb-2 rounded-md">
+          questionsPost.questions.map((e, index) => (
+            <div className=" border-b-2 border-gray-500" key={index}>
+              <div className="flex flex-col  mb-2 rounded-md">
                 {"P: " + e.question}
                 <div>
                   {e.answer
@@ -30,7 +30,7 @@ export default function QyAanswer() {
                     : "Esta pregunta aún no tiene respuesta"}
                 </div>
               </div>
-            </>
+            </div>
           ))
         ) : (
           <span className="text-gray-400">Aún no hay preguntas</span>

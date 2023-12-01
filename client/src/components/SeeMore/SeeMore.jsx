@@ -120,69 +120,40 @@ export default function SeeMore() {
       </div>
 
       {seemore ? (
-        <Box
-          m="auto"
-          mt="2"
-          mb="2"
-          maxW="lg"
-          maxH="80em"
-          borderWidth="2px"
-          borderRadius="lg"
-          overflow="scroll"
-          css={{
-            "&::-webkit-scrollbar": {
-              width: "4px",
-            },
-            "&::-webkit-scrollbar-track": {
-              width: "6px",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              background: "#5E8B7E",
-              borderRadius: "24px",
-            },
-          }}
-        >
-          <Image src={seemore.image} alt="talent_image" />
+        <div className="w-[750px] ml-[20%] border-2 rounded-3xl p-1  border-gray-400">
+          <img
+            className="rounded-3xl ml-2 p-2 w-[700px]"
+            src={seemore.image}
+            alt="talent_image"
+          />
 
           <Box p="6">
             <Link to={"/profilePublic/" + seemore?.user_id}>
-              <h4 className="text-dark text-sm hover:text-semilight">
+              <h1 className=" ml-2 text-dark text-2xl transform-all duration-100 ease-in-out hover:font-bold hover:underline">
                 by {seemore?.user?.username}
-              </h4>
+              </h1>
             </Link>
-            <Box
-              mt="2"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight"
-              fontSize="25"
-              isTruncated
-            >
-              {seemore.title}
-            </Box>
+            <h1 className="text-4xl font-semibold p-2">{seemore.title}</h1>
+            <p className=" text-1xl font-medium">{seemore.description}</p>
+            <div className="flex flex-wrap flex-row justify-between">
+              <div>
+                <p className=" text-1xl p-2 font-bold">Idioma:</p>
+                {seemore?.language}
+              </div>
 
-            <Box>{seemore.description}</Box>
-
-            <Box>
-              <Box as="span" color="gray.600 fontSize=-sm">
-                Idioma:
-              </Box>
-              {seemore?.language}
-            </Box>
-
-            <Box>
-              <Box as="span" color="gray.600 fontSize=-sm">
-                Huso horario:
-              </Box>
-              {seemore?.timeZone}
-            </Box>
-
-            <Box>
-              <Box as="span" color="gray.600" fontSize="sm">
-                $
-              </Box>
-              {seemore.cost}
-            </Box>
+              <div>
+                <p as="span" color="gray.600 fontSize=-sm">
+                  Huso horario:
+                </p>
+                {seemore?.timeZone}
+              </div>
+              <div>
+                <p as="span" color="gray.600" fontSize="sm">
+                  Presio: $
+                </p>
+                {seemore.cost}
+              </div>
+            </div>
             {seemore.user_id !== user.id && user.id ? (
               <Box className="flex flex-col items-center" m="2">
                 <Button onClick={(e) => handleCheckOut(e)}>Comprar</Button>
@@ -211,7 +182,7 @@ export default function SeeMore() {
               <Button m="2">Volver</Button>
             </Link>
           </Box>
-        </Box>
+        </div>
       ) : (
         <Spinner />
       )}

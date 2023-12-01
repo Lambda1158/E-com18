@@ -67,14 +67,14 @@ export default function TalentCard({
 
           {reviews?.map((e, index) => {
             return (
-              <p className="text-sm font-light px-1 w-fit" key={index}>
+              <p className="text-sm font-medium px-1 w-fit" key={index}>
                 {e.description}
               </p>
             );
           })}
           <div className="mt-1 w-fit">
             <Link to={"/talent/" + id}>
-              <button className="ml-2  transform ease-out duration-300 transition-transform hover:underline">
+              <button className="ml-2 font-semibold  transform ease-out duration-300 transition-transform hover:underline">
                 Ver mas
               </button>
             </Link>
