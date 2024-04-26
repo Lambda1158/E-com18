@@ -273,9 +273,7 @@ conn.sync({ force: true }).then(() => {
       description:
         "Técnicas y ejercicios de relajación y conexión con nuestro lado inconsciente, muy positiva para tratar diferentes problemas de ansiedad, miedos o estrés.",
       cost: 980,
-      image: [
-        "https://images-ext-1.discordapp.net/external/HI1Ac92dYdKO1WGZO18Up6geo4F9VG1apGPU1f7TfMg/https/t1.pb.ltmcdn.com/es/posts/5/4/1/pasos_para_aprender_a_meditar_en_casa_4145_orig.jpg?width=730&height=438",
-      ],
+      image: ["https://images8.alphacoders.com/480/480950.jpg"],
       timeZone: " GMT-5",
       language: " español",
     });

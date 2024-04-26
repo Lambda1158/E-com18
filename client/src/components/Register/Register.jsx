@@ -112,10 +112,10 @@ export default function Register({ onModaleClick, onModalChange }) {
     >
       <div className=" bg-dark items-center w-screen text-white m-auto max-w-max inset-16 border border-dark rounded-lg">
         <div className=" bg-semidark bg-opacity-40 border-white border-2 rounded-lg w-80 p-8">
-          <h2 className=" text-3xl font-extrabold mb-2">Registro</h2>
-          <form className=" space-y-3 mb-1" onSubmit={(e) => handleOnSubmit(e)}>
+          <h2 className=" text-3xl font-bold mb-4 text-center">Registro</h2>
+          <form className=" mb-1" onSubmit={(e) => handleOnSubmit(e)}>
             <input
-              className="h-4 py-5 border-b-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white"
+              className="h-4 py-5 px-5 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full"
               placeholder="Nombre"
               type="text"
               value={input.name}
@@ -124,7 +124,7 @@ export default function Register({ onModaleClick, onModalChange }) {
               required
             />
             <input
-              className="h-4 py-5 border-b-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white"
+              className="mt-2 h-4 py-5 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
               placeholder="Apellido"
               type="text"
               value={input.lastName}
@@ -133,7 +133,7 @@ export default function Register({ onModaleClick, onModalChange }) {
               required
             />
             <input
-              className="h-4 py-5 border-b-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white"
+              className=" mt-10 h-4 py-5 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
               placeholder="Correo electrónico"
               type="email"
               value={input.email}
@@ -142,7 +142,7 @@ export default function Register({ onModaleClick, onModalChange }) {
               required
             />
             <input
-              className="h-4 py-5 mt-5 border-b-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white"
+              className="h-4 py-5 mt-2 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
               placeholder="Nombre de usuario"
               type="text"
               value={input.username}
@@ -150,38 +150,35 @@ export default function Register({ onModaleClick, onModalChange }) {
               onChange={(e) => handleChange(e)}
               required
             />
-            <div className=" flex h-[90px]">
-              <div>
-                <div className=" border h-[45px] ">
-                  <input
-                    className="h-4 py-5 px-2 bg-semidark w-11/12 bg-opacity-0 border-white outline-none placeholder-white"
-                    placeholder="Contraseña"
-                    type={state.type}
-                    value={input.password}
-                    name="password"
-                    onChange={(e) => handleChange(e)}
-                    required
-                    autoComplete="on"
-                  />
-                </div>
-                <div className=" border  h-[45px] ">
-                  <input
-                    className="h-4 py-5 px-2 bg-semidark w-11/12 bg-opacity-0 border-white outline-none placeholder-white"
-                    placeholder="Repite contraseña"
-                    type={state.type}
-                    value={input.password2}
-                    name="password2"
-                    onChange={(e) => handleChange(e)}
-                    required
-                    autoComplete="on"
-                  />
-                </div>
-              </div>
-              <div className=" border flex">
-                <button className=" p-3" onClick={(e) => handleOnChange(e)}>
-                  {state.button}
-                </button>
-              </div>
+            <div className="">
+              <input
+                className=" h-4 py-5 mt-10 border-2  bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
+                placeholder="Contraseña"
+                type={state.type}
+                value={input.password}
+                name="password"
+                onChange={(e) => handleChange(e)}
+                required
+                autoComplete="on"
+              />
+
+              <input
+                className=" h-4 py-5 mt-2 border-2 bg-semidark  bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
+                placeholder="Repite contraseña"
+                type={state.type}
+                value={input.password2}
+                name="password2"
+                onChange={(e) => handleChange(e)}
+                required
+                autoComplete="on"
+              />
+
+              <button
+                className=" hover:bg-dark border-2 mt-4 p-3 ml-[30%]"
+                onClick={(e) => handleOnChange(e)}
+              >
+                {state.button}
+              </button>
             </div>
             <div className="flex flex-col ">
               <label name="fecha-nacimiento" className="mt-2 text-center">
@@ -198,7 +195,7 @@ export default function Register({ onModaleClick, onModalChange }) {
             </div>
             <div className="flex justify-center m-2">
               <button
-                className=" border rounded-sm p-3 mt-3 hover:bg-dark "
+                className="  border rounded-sm p-3 mt-3 hover:bg-dark "
                 type="submit"
               >
                 Registrarme

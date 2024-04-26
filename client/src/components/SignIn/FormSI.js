@@ -19,7 +19,7 @@ function Form({ onModalClick, onModalChange }) {
 
   const [state, setState] = useState({
     type: "password",
-    button: "mostrar",
+    button: "S",
   });
 
   function handleOnChange(e) {
@@ -32,8 +32,8 @@ function Form({ onModalClick, onModalChange }) {
   function handleChange(e) {
     e.preventDefault();
     state.type === "password"
-      ? setState({ type: "text", button: "ocultar" })
-      : setState({ type: "password", button: "mostrar" });
+      ? setState({ type: "text", button: "S" })
+      : setState({ type: "password", button: "O" });
   }
 
   function handleSession(e) {
@@ -94,7 +94,7 @@ function Form({ onModalClick, onModalChange }) {
                 placeholder="Usuario / Email"
                 onChange={(e) => handleOnChange(e)}
                 required
-                className="h-8 w-11/12 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
+                className="h-8 w-11/12 bg-semidark bg-opacity-0 border-2 focus:outline-none placeholder-white rounded-2xl p-5"
               />
             </div>
             <div className=" flex w-full justify-center ">
@@ -105,10 +105,10 @@ function Form({ onModalClick, onModalChange }) {
                 onChange={(e) => handleOnChange(e)}
                 required
                 autoComplete="on"
-                className="h-8  w-9/12 bg-semidark bg-opacity-0 border-b-2 focus:outline-none placeholder-white"
+                className="h-8  w-9/12 bg-semidark bg-opacity-0 border-2 focus:outline-none placeholder-white rounded-2xl p-5"
               />
               <button
-                className=" border-l-2 border-b-2 p-1 rounded-sm   border-white h-8"
+                className=" ml-4  border-2 p-1 w-10  border-white rounded-full  hover:bg-dark"
                 onClick={(e) => handleChange(e)}
               >
                 {state.button}
@@ -123,7 +123,10 @@ function Form({ onModalClick, onModalChange }) {
               value=""
               type="checkbox"
             />
-            <Link to="/user/emailresetpassword" className="ml-14">
+            <Link
+              to="/user/emailresetpassword"
+              className="ml-14 underline font-bold"
+            >
               Olvide mi contraseña
             </Link>
           </div>

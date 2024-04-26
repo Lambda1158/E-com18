@@ -43,7 +43,7 @@ export default function EmailResetPassword() {
             />
             <button
               type="submit"
-              className="rounded-1xl border-green-100 text-2xl border-2 p-2"
+              className=" hover:bg-dark rounded-1xl border-green-100 text-2xl border-2 p-2"
             >
               Enviar correo
             </button>

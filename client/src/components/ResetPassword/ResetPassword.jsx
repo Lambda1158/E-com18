@@ -81,7 +81,10 @@ export default function ResetPassword() {
             onChange={(e) => handleChange(e)}
             required
           />
-          <button type="submit" className=" border-2 p-4 border-gray-100 ">
+          <button
+            type="submit"
+            className=" hover:bg-dark border-2 p-4 border-gray-100 "
+          >
             Restablecer contraseña
           </button>
         </form>
