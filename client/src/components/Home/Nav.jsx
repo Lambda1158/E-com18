@@ -19,7 +19,6 @@ export default function Nav({ onModalClick, onModaleClick, onModalChange }) {
     e.preventDefault();
     setState(e.target.value);
   }
-
   return (
     <nav className="bg-semidark">
       <div className="flex justify-between items-center py-1">

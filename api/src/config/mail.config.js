@@ -7,12 +7,7 @@ const mail = {
 };
 
 let transporter = nodemailer.createTransport({
-  host: HOST,
-  port: 465,
-  tls: {
-    rejectUnauthorized: false,
-  },
-  secure: true, // true for 465, false for other ports
+  service: "gmail",
   auth: {
     user: mail.user, // generated ethereal user
     pass: mail.pass, // generated ethereal password
@@ -64,7 +59,7 @@ const sendEmailPassword = async (email, subject, html) => {
       to: email, // list of receivers
       subject, // Subject line
       text: "Recuperación de contraseña", // plain text body
-      html, // html body
+      html, // OJO CAMBIAR POR PROXY CUANDO SE HAGA EL DEPLOY
     });
   } catch (error) {
     console.log("Algo no va bien con el email", error);
@@ -79,7 +74,7 @@ const getTemplatePassword = () => {
       
       <div id="email___content">
           <p>Hola! Recientemente has solicitado restablecer tu contraseña.
-          Hacé <a href="http://localhost:3000/user/resetpassword" target="_blank">clic acá</a>
+          Hacé <a href="http://localhost:3000/user/resetpassword" target="_blank">clic acá</a> 
           para restablercerla.</p>
       </div>
     `;

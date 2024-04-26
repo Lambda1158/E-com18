@@ -32,23 +32,19 @@ export default function Landing() {
     <div className="bg-semilight min-h-screen max-w-full select-none">
       <Navbar onModalClick={onModalClick} onModaleClick={onModaleClick} />
       <div className="flex justify-around items-center content-center bg-landingImg bg-cover min-h-screen object-cover">
-        {ventanaLogIn ? (
+        {ventanaLogIn && (
           <Form
             ariaHideApp={false}
             onModalClick={onModalClick}
             onModalChange={onModalChange}
           />
-        ) : (
-          console.log("ingreso")
         )}
-        {ventanaRegister ? (
+        {ventanaRegister && (
           <Register
             ariaHideApp={false}
             onModaleClick={onModaleClick}
             onModalChange={onModalChange}
           />
-        ) : (
-          console.log("registro")
         )}
         <div className="flex flex-col items-center justify-between bg-dark rounded-md m-7 bg-opacity-70">
           <LandingSearchbar />

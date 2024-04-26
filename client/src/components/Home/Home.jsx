@@ -52,18 +52,14 @@ export default function Home() {
       />
 
       <div>
-        {ventanaLogIn ? (
+        {ventanaLogIn && (
           <Form onModalClick={onModalClick} onModalChange={onModalChange} />
-        ) : (
-          <></>
         )}
-        {ventanaRegister ? (
+        {ventanaRegister && (
           <Register
             onModaleClick={onModaleClick}
             onModalChange={onModalChange}
           />
-        ) : (
-          <></>
         )}
         {/* <h1 class="text-4xl font-bold m-4">CATEGORIAS</h1>
         <Categories /> <hr /> */}

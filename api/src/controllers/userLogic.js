@@ -228,10 +228,10 @@ const editUser = async (req, res, next) => {
 
 async function emailResetPassword(req, res, next) {
   let { email } = req.body;
+  if (!email) return res.status(500).send({ message: "email nulo" });
   try {
     //-----OBTENER UN TEMPLATE-----
     const template = getTemplatePassword();
-
     //-----ENVIAR EL EMAIL------
     await sendEmailPassword(email, "Recuperación de contraseña", template);
 
@@ -245,7 +245,6 @@ async function emailResetPassword(req, res, next) {
 }
 const editPassword = async (req, res, next) => {
   let { email, password } = req.body;
-  console.log(email, password);
   try {
     let user = await Users.findOne({ where: { email: email } });
     let passwordHash = await bcrypt.hash(password, 10);
