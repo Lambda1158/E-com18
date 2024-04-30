@@ -88,7 +88,7 @@ conn.sync({ force: true }).then(() => {
       username: "bruno_herrera",
       password: passwordHash,
       birthdate: "1994-10-10",
-      email: "brunoherrera@gmail.com",
+      email: "brunoherrera1158@gmail.com",
       country: "Rusia",
       aprobado: false,
       email_verified: true,

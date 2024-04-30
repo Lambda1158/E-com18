@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { getTokenData } = require("./jwt.config");
 const { HOST, USER, PASSWORD } = process.env;
 
 const mail = {
@@ -66,7 +67,8 @@ const sendEmailPassword = async (email, subject, html) => {
   }
 };
 
-const getTemplatePassword = () => {
+const getTemplatePassword = (token) => {
+  let url = "http://localhost:3000/user/resetpassword/" + token;
   return `
       <head>
           <link rel="stylesheet" href="./style.css">
@@ -74,7 +76,7 @@ const getTemplatePassword = () => {
       
       <div id="email___content">
           <p>Hola! Recientemente has solicitado restablecer tu contraseña.
-          Hacé <a href="http://localhost:3000/user/resetpassword" target="_blank">clic acá</a> 
+          Hacé <a href=${url} target="_blank">clic acá</a> 
           para restablercerla.</p>
       </div>
     `;

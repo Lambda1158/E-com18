@@ -65,6 +65,12 @@ function Form({ onModalClick, onModalChange }) {
         userLogin.username === "admin" ? navigate("/admin") : navigate("/home");
     }
   }
+  const handleKey = (e) => {
+    e.preventDefault();
+    if (e.key === "Enter") {
+      handleOnSubmit(e);
+    }
+  };
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -105,6 +111,7 @@ function Form({ onModalClick, onModalChange }) {
                 onChange={(e) => handleOnChange(e)}
                 required
                 autoComplete="on"
+                //onKeyDown={(e) => handleKey(e)}
                 className="h-8  w-9/12 bg-semidark bg-opacity-0 border-2 focus:outline-none placeholder-white rounded-2xl p-5"
               />
               <button

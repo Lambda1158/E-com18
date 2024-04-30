@@ -8,6 +8,7 @@ const {
   sendEmailPassword,
   getTemplatePassword,
 } = require("../config/mail.config");
+const { token } = require("morgan");
 
 async function createUser(req, res, next) {
   let {
@@ -230,11 +231,16 @@ async function emailResetPassword(req, res, next) {
   let { email } = req.body;
   if (!email) return res.status(500).send({ message: "email nulo" });
   try {
-    //-----OBTENER UN TEMPLATE-----
-    const template = getTemplatePassword();
-    //-----ENVIAR EL EMAIL------
-    await sendEmailPassword(email, "Recuperación de contraseña", template);
-
+    let userToReset = await Users.findOne({ where: { email } });
+    if (!userToReset)
+      return res.status(500).send({ message: "usuario no encontrado" });
+    let codeUser = getToken({ userToReset });
+    let template = getTemplatePassword(codeUser);
+    await sendEmailPassword(
+      userToReset.email,
+      "Recuperación de contraseña",
+      template
+    );
     res.json({
       success: true,
       msg: "Enviado",
@@ -243,10 +249,16 @@ async function emailResetPassword(req, res, next) {
     next(error);
   }
 }
-const editPassword = async (req, res, next) => {
-  let { email, password } = req.body;
+const editPassword = async (req, res) => {
+  let { password, token } = req.body;
+  let { data } = getTokenData(token);
+  let email = data.userToReset.email;
   try {
-    let user = await Users.findOne({ where: { email: email } });
+    let user = await Users.findOne({ where: { email } });
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "error no se encontro el usuario" });
     let passwordHash = await bcrypt.hash(password, 10);
     user.password = passwordHash;
     await user.save();

@@ -3,31 +3,30 @@ import { PROXY } from "../../actions";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ResetPassword() {
   let navigate = useNavigate();
   const [input, setInput] = useState({
-    email: "",
     password: "",
-    password2: "",
+    newpassword: "",
+    newpassword2: "",
   });
 
-  const body = { email: input.email, password: input.password };
-
+  const { token } = useParams();
   function reset() {
-    resetPassword(body);
+    resetPassword(input.newpassword2);
     alert("¡La contraseña ha sido cambiada exitosamente");
     setInput({
-      email: "",
       password: "",
-      password2: "",
+      newpassword: "",
+      newpassword2: "",
     });
     navigate("/");
   }
 
-  function resetPassword(body) {
-    axios.put(`${PROXY}/user/editPassword`, body);
+  function resetPassword(password) {
+    axios.put(`${PROXY}/user/editPassword`, { password, token });
   }
 
   function handleChange(e) {
@@ -43,7 +42,7 @@ export default function ResetPassword() {
 
   function handleOnSubmit(e) {
     e.preventDefault();
-    passCheck(input.password, input.password2);
+    passCheck(input.newpassword, input.newpassword2);
   }
   return (
     <div className="flex bg-semidark justify-center items-center w-screen h-screen text-white ">
@@ -57,18 +56,18 @@ export default function ResetPassword() {
         >
           <input
             className="h-4 py-5 border-b-2 bg-semidark bg-opacity-0 border-white outline-none placeholder-white text-1xl px-2 w-[330px] placeholder:ml-[50%]"
-            placeholder="Correo electrónico"
+            placeholder="Vieja contraseña"
             type="text"
-            value={input.email}
-            name="email"
+            value={input.password}
+            name="password"
             onChange={(e) => handleChange(e)}
           />
           <input
             className="h-4  py-5 border-b-2 bg-semidark bg-opacity-0 border-white outline-none placeholder-white text-1xl px-2 w-[330px]  placeholder:items-center"
             placeholder="Introduce la nueva contraseña"
             type="text"
-            value={input.password}
-            name="password"
+            value={input.newpassword}
+            name="newpassword"
             onChange={(e) => handleChange(e)}
             required
           />
@@ -76,8 +75,8 @@ export default function ResetPassword() {
             className="h-4 py-5 border-b-2 bg-semidark bg-opacity-0 border-white outline-none placeholder-white text-1xl px-2 w-[330px]  placeholder:items-center"
             placeholder="Repite la nueva contraseña"
             type="text"
-            value={input.password2}
-            name="password2"
+            value={input.newpassword2}
+            name="newpassword2"
             onChange={(e) => handleChange(e)}
             required
           />
