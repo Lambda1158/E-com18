@@ -4,14 +4,13 @@ import { Link } from "react-router-dom";
 
 import Dropdown from "../Home/Dropdown";
 export default function Navbar({ onModalClick, onModaleClick }) {
-  let usuario = useSelector((state) => state.userSliceReducer.user);
+  let { user } = useSelector((state) => state.user);
 
-  useEffect(() => {}, [usuario]);
-
+  useEffect(() => {}, [user]);
   return (
     <nav className="bg-semidark place-content-center items-center py-2">
       <div className="flex items-center justify-between">
-        <Link to="/home">
+        <Link to="/">
           <img
             className="flex items-center pl-4 "
             src="http://codes.unidepix.com/img/hi.png"
@@ -19,7 +18,7 @@ export default function Navbar({ onModalClick, onModaleClick }) {
             width="140px"
           />
         </Link>
-        {usuario.username ? (
+        {user.username ? (
           <Dropdown />
         ) : (
           <div>

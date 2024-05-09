@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Nav from "./Nav";
+import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";
 import TalentCard from "./TalentCard";
 import { getCategories, getTalents } from "../../actions";
@@ -12,10 +12,10 @@ import { filteredCat } from "../../actions";
 import Spinner from "../Spinner/Spinner";
 
 export default function Home() {
-  let skill = useSelector((state) => state.misliceReducer.filteredTalents);
+  let skill = useSelector((state) => state.mislice.filteredTalents);
   //let skillAprobados = skill.filter(el => el.aprobado === true);
-  const cargando = useSelector((state) => state.stateSliceReducer.cargando);
-  const categories = useSelector((state) => state.misliceReducer.categories);
+  const cargando = useSelector((state) => state.cargando);
+  const categories = useSelector((state) => state.mislice.categories);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTalents());
@@ -45,7 +45,7 @@ export default function Home() {
   }
   return (
     <div className="user-select-none">
-      <Nav
+      <Navbar
         onModalChange={onModalChange}
         onModaleClick={onModaleClick}
         onModalClick={onModalClick}
@@ -79,7 +79,7 @@ export default function Home() {
         <div className="py-2">
           <span className="text-2xl font-normal">Categorias: </span>
           <select className="w-[200px]" onChange={(e) => handleCatFilter(e)}>
-            {categories.map((e, index) => (
+            {categories?.map((e, index) => (
               <FilteredCat key={index} category={e.title} />
             ))}
           </select>

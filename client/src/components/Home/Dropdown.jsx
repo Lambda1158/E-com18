@@ -15,14 +15,7 @@ import { desloguear, getUserbyId } from "../../actions";
 import { clearItemsCart } from "../../actions/shoppingActions";
 
 export default function Dropdown() {
-  let emailVerificado = useSelector(
-    (state) => state.userSliceReducer.user.email_verified
-  );
-  let usuarioAprobado = useSelector(
-    (state) => state.userSliceReducer.user.aprobado
-  );
-
-  const userState = useSelector((state) => state.userSliceReducer.user);
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   let dispatch = useDispatch();
@@ -38,34 +31,32 @@ export default function Dropdown() {
     getImage();
     return () => {
       getImage();
-      dispatch(getUserbyId(userState.id));
+      dispatch(getUserbyId(user.id));
     };
-  }, [dispatch, userState.id]);
+  }, [dispatch, user.id]);
   function getImage() {
-    dispatch(getUserbyId(userState.id));
-    if (!userState.image) return defaultImage;
-    return userState.image;
+    dispatch(getUserbyId(user.id));
+    if (!user.image) return defaultImage;
+    return user.image;
   }
-
   return (
     <Menu>
       <MenuButton className="m-3 h-9 w-9" as={Button}>
         <img
           className="h-9 w-9 border-solid border-black rounded-full"
-          // src={userState.image ? userState.image : defaultImage}
-          src={userState?.image ? userState?.image : defaultImage}
+          src={user?.image ? user?.image : defaultImage}
           alt="user_image"
         />
       </MenuButton>
       <MenuList className="bg-light m-2">
         <MenuGroup>
-          Hola <b>{userState.username}</b>
+          Hola <b>{user.username}</b>
         </MenuGroup>
         <MenuDivider />
-        <Link to={"/profile/" + userState.id}>
+        <Link to={"/profile/" + user.id}>
           <MenuItem>Mi perfil</MenuItem>
         </Link>
-        {emailVerificado || usuarioAprobado ? (
+        {user.email_verified || user.aprobado ? (
           <Link to="/createTalent">
             <MenuItem>Publicar</MenuItem>
           </Link>
@@ -75,7 +66,7 @@ export default function Dropdown() {
         {/* <Link to="/createTalent">
           <MenuItem>Publicar</MenuItem>
         </Link> */}
-        {emailVerificado || usuarioAprobado ? (
+        {user.email_verified || user.aprobado ? (
           <Link to={"/cart"}>
             <MenuItem>Carrito</MenuItem>
           </Link>

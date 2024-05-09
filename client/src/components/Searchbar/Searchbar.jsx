@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { searchTalent } from "../../actions";
 
 export default function Searchbar() {
   const [state, setState] = useState("");
   const dispatch = useDispatch();
-  let usuario = useSelector((state) => state.userSliceReducer.user);
-
   function onSubmit(e) {
     e.preventDefault();
     dispatch(searchTalent(state));

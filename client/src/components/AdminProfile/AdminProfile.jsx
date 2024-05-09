@@ -9,14 +9,14 @@ import { Link } from "react-router-dom";
 import { PROXY } from "../../actions";
 
 function AdminProfile() {
-  let [data, setData] = useState({
+  const [data, setData] = useState({
     user: [],
     posts: [],
     review: [],
   });
 
-  let usuarioLogueado = useSelector((state) => state.userSliceReducer.user);
-  let [pestaña, setPestaña] = useState("user");
+  const { user } = useSelector((state) => state.user);
+  const [pestaña, setPestaña] = useState("user");
 
   useEffect(() => {
     axios.get(`${PROXY}/admin`).then((res) =>
@@ -27,10 +27,10 @@ function AdminProfile() {
       })
     );
   }, [pestaña]);
-
+  console.log(user);
   return (
     <div>
-      {!usuarioLogueado.isAdmin ? (
+      {!user.isAdmin ? (
         <div>
           <h1>Permisos denegados</h1>
           <Link to="/home">Regresar</Link>

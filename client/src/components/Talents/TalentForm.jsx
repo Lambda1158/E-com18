@@ -6,21 +6,20 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../actions";
 import { useNavigate } from "react-router-dom";
-import Nav from "../Profile/Nav";
+import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";
 
 function TalentForm() {
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
-  let usuario = useSelector((state) => state.userSliceReducer.user.username);
-  let categories = useSelector((state) => state.misliceReducer.categories);
-
+  const { user } = useSelector((state) => state.user);
+  const categories = useSelector((state) => state.mislice.categories);
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
 
-  const [previewSource, setPreviewSource] = useState();
+  const [previewSource, setPreviewSource] = useState(null);
   const [file, setFile] = useState(null);
   const [form, setForm] = useState({
     title: "",
@@ -31,13 +30,11 @@ function TalentForm() {
     timeZone: "",
     language: "",
   });
-  console.log("FORMULARIO: ", form);
   //! VER EL PATH
   const [ventanaModal, setVentanaModal] = useState(false);
 
   function handleOnChange(e) {
     if (e.target.name === "image") {
-      console.log("IMAGEN", e.target.value);
       setFile(e.target.files[0]);
       previewFile(e.target.files[0]);
     } else {
@@ -59,7 +56,6 @@ function TalentForm() {
   let filteredCategories = categories.filter(
     (el) => el.title !== form.category
   );
-
   const onSubmit = (e) => {
     e.preventDefault();
     setVentanaModal(true);
@@ -79,7 +75,7 @@ function TalentForm() {
   function onSubmitForm(e) {
     e.preventDefault();
     let fb = new FormData();
-    fb.append("username", usuario);
+    fb.append("username", user.username);
     fb.append("title", form.title);
     fb.append("description", form.description);
     fb.append("duration", form.duration);
@@ -110,7 +106,7 @@ function TalentForm() {
 
   return (
     <div className="box-border w-full h-screen">
-      <Nav />
+      <Navbar />
       <h1 className="flex justify-center bg-semilight text-dark text-4xl font-semibold py-8">
         ¡Crea un nuevo curso en base a tu talento!
       </h1>
@@ -131,7 +127,7 @@ function TalentForm() {
                 placeholder="Nombre curso"
                 required
               />
-              <label class="text-lg">Descripcion: </label>
+              <label className="text-lg">Descripcion: </label>
               <textarea
                 onChange={handleOnChange}
                 className="resize-none overflow-y-auto justify-self-center border-2 rounded-md border-white bg-dark text-white placeholder-white border-opacity-70 text-center p-8"
@@ -141,21 +137,19 @@ function TalentForm() {
                 placeholder="Ingrese la descripcion del curso"
                 required
               />
-              {!previewSource
-                ? console.log("no hay imagen")
-                : previewSource && (
-                    // eslint-disable-next-line jsx-a11y/alt-text
-                    <img
-                      src={previewSource}
-                      className="flex justify-center rounded"
-                    />
-                  )}
+              {previewSource && (
+                // eslint-disable-next-line jsx-a11y/alt-text
+                <img
+                  src={previewSource}
+                  className="flex justify-center rounded"
+                />
+              )}
             </div>
             <div>
               <div className="flex flex-col space-y-2">
                 <h1 className="text-lg">Imagenes de tu talento:</h1>
                 <label
-                  class="
+                  className="
                                 w-full
                                 flex flex-col
                                 items-center
@@ -176,7 +170,7 @@ function TalentForm() {
                                 "
                 >
                   <span>🗂</span>
-                  <span class="mt-2 text-base leading-normal">
+                  <span className="mt-2 text-base leading-normal">
                     Selecciona una imagen
                   </span>
                   <input
@@ -267,9 +261,7 @@ function TalentForm() {
                   <button className="btn-primary btn-colors"> Volver </button>
                 </Link>
               </div>
-              {!ventanaModal ? (
-                console.log("")
-              ) : (
+              {!ventanaModal && (
                 <ReactModal
                   isOpen={ventanaModal}
                   onRequestClose={changeModal}

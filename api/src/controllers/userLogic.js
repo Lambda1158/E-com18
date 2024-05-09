@@ -280,6 +280,7 @@ async function getUserById(req, res, next) {
       let result = await Users.findOne({
         where: {
           id: idUser,
+          attributes: { exclude: [password] },
         },
         include: [
           {

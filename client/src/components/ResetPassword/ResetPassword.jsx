@@ -8,7 +8,6 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function ResetPassword() {
   let navigate = useNavigate();
   const [input, setInput] = useState({
-    password: "",
     newpassword: "",
     newpassword2: "",
   });
@@ -18,7 +17,6 @@ export default function ResetPassword() {
     resetPassword(input.newpassword2);
     alert("¡La contraseña ha sido cambiada exitosamente");
     setInput({
-      password: "",
       newpassword: "",
       newpassword2: "",
     });
@@ -54,14 +52,6 @@ export default function ResetPassword() {
           className="flex flex-col w-11/12 items-center space-y-6 mb-6"
           onSubmit={(e) => handleOnSubmit(e)}
         >
-          <input
-            className="h-4 py-5 border-b-2 bg-semidark bg-opacity-0 border-white outline-none placeholder-white text-1xl px-2 w-[330px] placeholder:ml-[50%]"
-            placeholder="Vieja contraseña"
-            type="text"
-            value={input.password}
-            name="password"
-            onChange={(e) => handleChange(e)}
-          />
           <input
             className="h-4  py-5 border-b-2 bg-semidark bg-opacity-0 border-white outline-none placeholder-white text-1xl px-2 w-[330px]  placeholder:items-center"
             placeholder="Introduce la nueva contraseña"

@@ -8,7 +8,7 @@ import { getQAbyId, createAnswer } from "../../../actions/index";
 export default function Qas() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const qa = useSelector((state) => state.reviewSliceReducer.qa);
+  const qa = useSelector((state) => state.review.qa);
   const [answer, setAnswer] = useState({});
   const [refresh, setRefresh] = useState(false);
 
@@ -18,7 +18,6 @@ export default function Qas() {
       answer: e.target.value,
       idQuestion: e.target.name,
     });
-    console.log("Esta es la respuesta", answer);
   }
 
   function handleOnSubmit(e) {
@@ -29,15 +28,12 @@ export default function Qas() {
       answer: "",
       idQuestion: "",
     });
-
-    console.log("Esta es la respuesta" + answer);
   }
 
   useEffect(() => {
     dispatch(getQAbyId(id));
     setRefresh(false);
   }, [refresh, dispatch, id]);
-
   return (
     <div className="flex flex-col justify-center border-2 text-white border-white rounded-lg w-11/12 h-full py-4">
       <div className="flex flex-col items-center py-2">
@@ -45,8 +41,11 @@ export default function Qas() {
           <h2>No tienes publicaciones para obtener preguntas...</h2>
         ) : qa.posts.map((e) => e.questions?.length > 0) ? (
           qa.posts?.map((el) =>
-            el.questions?.map((e) => (
-              <div className="flex flex-col items-center bg-semidark border-2 text-white border-white rounded-lg w-11/12 py-4 mb-4">
+            el.questions?.map((e, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center bg-semidark border-2 text-white border-white rounded-lg w-11/12 py-4 mb-4"
+              >
                 <div className="flex flex-row justify-center items-center  bg-dark text-white w-11/12 h-auto m-1">
                   <div className="flex flex-row justify-around items-center border w-full p-1">
                     <div>{el.title}</div>
@@ -76,7 +75,7 @@ export default function Qas() {
                       </button>
                     </form>
                   ) : (
-                    <div class="flex flex-row justify-around items-center border w-full p-1">
+                    <div className="flex flex-row justify-around items-center border w-full p-1">
                       {e.answer}
                     </div>
                   )}

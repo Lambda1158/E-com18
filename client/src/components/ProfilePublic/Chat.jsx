@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
-import axios from 'axios';
-import {
-  Alert,
-  AlertIcon,
-} from '@chakra-ui/react'
-import { PROXY } from '../../actions';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
+import axios from "axios";
+import { Alert, AlertIcon } from "@chakra-ui/react";
+import { PROXY } from "../../actions";
 
 export default function Chat() {
-  const id  = useParams()
-  console.log('id params', id)
+  const id = useParams();
+  console.log("id params", id);
   let navigate = useNavigate();
-  const user = useSelector((state) => state.userSliceReducer.user);
-  const orders = useSelector((state) => state.userSliceReducer.profile);
+  const user = useSelector((state) => state.user);
+  const orders = useSelector((state) => state.profile);
   const [order, setOrder] = useState([]);
 
-    let body = {
+  let body = {
     senderId: user?.id,
     receiverId: id?.idVendedor,
   };
 
-    async function onClick(e) {
+  async function onClick(e) {
     e.preventDefault();
     try {
       const res = await axios.post(`${PROXY}/conversation`, body);
@@ -32,7 +29,6 @@ export default function Chat() {
     }
   }
   useEffect(() => {
-
     const validate = async () => {
       try {
         let orderValidate = await orders?.orders?.find(
@@ -46,9 +42,9 @@ export default function Chat() {
     validate();
   }, [orders, id]);
 
-    return (
-      <div>
-        {order ? (
+  return (
+    <div>
+      {order ? (
         <button
           onClick={onClick}
           className="flex items-center bg-dark rounded-full text-white h-8 mt-10 p-5 hover:bg-semidark"
@@ -56,11 +52,11 @@ export default function Chat() {
           Comenzar conversación
         </button>
       ) : (
-        <Alert status='warning'>
-        <AlertIcon />
-        Para comenzar una conversación debes adquirir un curso
-      </Alert>
+        <Alert status="warning">
+          <AlertIcon />
+          Para comenzar una conversación debes adquirir un curso
+        </Alert>
       )}
-      </div>
-    )
+    </div>
+  );
 }

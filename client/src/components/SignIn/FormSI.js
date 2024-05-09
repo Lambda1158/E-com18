@@ -66,7 +66,6 @@ function Form({ onModalClick, onModalChange }) {
     }
   }
   const handleKey = (e) => {
-    e.preventDefault();
     if (e.key === "Enter") {
       handleOnSubmit(e);
     }
@@ -108,10 +107,10 @@ function Form({ onModalClick, onModalChange }) {
                 name="password"
                 type={state.type}
                 placeholder="Contraseña"
-                onChange={(e) => handleOnChange(e)}
+                onChange={handleOnChange}
+                onKeyDown={handleKey}
                 required
                 autoComplete="on"
-                //onKeyDown={(e) => handleKey(e)}
                 className="h-8  w-9/12 bg-semidark bg-opacity-0 border-2 focus:outline-none placeholder-white rounded-2xl p-5"
               />
               <button

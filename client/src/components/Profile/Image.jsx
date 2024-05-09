@@ -11,7 +11,7 @@ export default function Image({ modal, isModal }) {
   const [file, setFile] = useState(null);
   const [previewSource, setPreviewSource] = useState();
 
-  const user = useSelector((state) => state.userSliceReducer.profile);
+  const { user } = useSelector((state) => state.user);
 
   function handleSubmit(e) {
     let fb = new FormData();
@@ -23,7 +23,7 @@ export default function Image({ modal, isModal }) {
       data: fb,
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then((res) => console.log(res))
+      .then((res) => res)
       .catch((err) => console.log(err));
     dispatch(getUserbyId(id));
     setPreviewSource(null);
