@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import defaultImage from "../../assets/profile_default.png";
 import { desloguear, getUserbyId } from "../../actions";
 import { clearItemsCart } from "../../actions/shoppingActions";
@@ -17,28 +17,12 @@ import { clearItemsCart } from "../../actions/shoppingActions";
 export default function Dropdown() {
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-
-  let dispatch = useDispatch();
-  const [image, setImage] = useState();
-
+  const dispatch = useDispatch();
   const logOut = (e) => {
     e.preventDefault();
     dispatch(desloguear());
-    dispatch(clearItemsCart());
     navigate("/");
   };
-  useEffect(() => {
-    getImage();
-    return () => {
-      getImage();
-      dispatch(getUserbyId(user.id));
-    };
-  }, [dispatch, user.id]);
-  function getImage() {
-    dispatch(getUserbyId(user.id));
-    if (!user.image) return defaultImage;
-    return user.image;
-  }
   return (
     <Menu>
       <MenuButton className="m-3 h-9 w-9" as={Button}>

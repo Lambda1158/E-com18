@@ -38,13 +38,12 @@ export default function Profile() {
 
   const [modal, setModal] = useState(false);
   const { user } = useSelector((state) => state.user);
-
   useEffect(() => {
     dispatch(getUserbyId(id));
-  }, [modal, id, dispatch]);
-
+    document.body.style.overflow = modal ? "hidden" : "unset";
+  }, [modal, id, dispatch, ventanaLogIn]);
   return (
-    <section className=" h-screen bg-semilight flex flex-col justify-between ">
+    <section className=" h-full bg-semilight flex flex-col justify-between w-full ">
       <Navbar onModalClick={onModalClick} onModaleClick={onModaleClick} />
       {ventanaLogIn && (
         <Form
@@ -68,21 +67,17 @@ export default function Profile() {
           <Footer />
         </>
       ) : (
-        <div className="flex flex-row w-full">
+        <div className="flex w-full">
           <div className="w-96 mx-6 mt-6 mb-20">
-            <aside className=" w-[300px]">
-              <User modal={setModal} />
-            </aside>
+            <User modal={setModal} />
           </div>
           <Image modal={modal} isModal={setModal} ariaHideApp={false} />
           <div className="flex flex-col mt-6 mx-6 w-full space-y-4">
             <section className="space-y-4">
               <section>
-                <h2 className="text-2xl font-medium pl-4">Compras</h2>
                 <Orders />
               </section>
               <section>
-                <h2 className="text-2xl font-medium pl-4">Ventas</h2>
                 <Movements />
               </section>
               <section>

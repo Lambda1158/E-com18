@@ -10,7 +10,7 @@ import { FaRegEdit, FaRegSave, FaRegWindowClose } from "react-icons/fa";
 export default function User({ modal }) {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  let { user } = useSelector((state) => state.user);
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(user.fullName);
   const [editedResume, setEditedResume] = useState("");
@@ -21,7 +21,7 @@ export default function User({ modal }) {
   };
   useEffect(() => {
     dispatch(getUserbyId(id));
-  }, [modal, id, dispatch, user]);
+  }, [modal, id, dispatch]);
 
   function handleOnClick(e) {
     e.preventDefault();
@@ -32,7 +32,7 @@ export default function User({ modal }) {
     setEditedName(e.target.value);
   };
   return (
-    <div>
+    <>
       {!user ? (
         <h2>Cargando...</h2>
       ) : (
@@ -135,6 +135,6 @@ export default function User({ modal }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -9,6 +9,7 @@ const {
   getTemplatePassword,
 } = require("../config/mail.config");
 const { token } = require("morgan");
+const { where } = require("sequelize");
 
 async function createUser(req, res, next) {
   let {
@@ -278,27 +279,11 @@ async function getUserById(req, res, next) {
     // 36 es la length del UUID /// TODA ESTA INFO DEBERIA VERLA SOLO EL ADMIN
     try {
       let result = await Users.findOne({
+        attributes: { exclude: ["password"] },
         where: {
           id: idUser,
-          attributes: { exclude: [password] },
         },
         include: [
-          {
-            model: Orders,
-            order: [["createdAt", "DESC"]],
-            include: [
-              {
-                model: Posts,
-                attributes: ["id", "title"],
-                include: [
-                  {
-                    model: Users,
-                    attributes: ["id", "username"],
-                  },
-                ],
-              },
-            ],
-          },
           {
             model: Posts,
             attributes: { exclude: ["user_id", "category_id"] },
@@ -337,7 +322,17 @@ async function getUserById(req, res, next) {
           },
         ],
       });
-      if (result) res.json(result);
+
+      let compras = await Orders.findAll({
+        include: [
+          {
+            model: Posts,
+            attributes: ["id", "title", "user_id"],
+            where: { user_id: idUser },
+          },
+        ],
+      });
+      if (result || compras) res.json({ result, compras });
       else
         throw new Error(
           "ERROR 500: El usuario no fue encontrado en la base de datos (UUID no existe)."

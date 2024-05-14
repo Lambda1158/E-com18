@@ -34,9 +34,9 @@ const miSlice = createSlice({
     sortPrice: (state, action) => {
       let talentPrice = [...state.filteredTalents];
       talentPrice.sort((a, b) => {
-        if (action.payload == "ascendente") {
+        if (action.payload === "ascendente") {
           return a.cost - b.cost;
-        } else if (action.payload == "descendente") {
+        } else if (action.payload === "descendente") {
           return b.cost - a.cost;
         }
         return 0;
@@ -54,9 +54,9 @@ const miSlice = createSlice({
     filterRating: (state, action) => {
       let aux = [...state.filteredTalents];
       aux.sort((a, b) => {
-        if (action.payload == "asc") {
+        if (action.payload === "asc") {
           return a.rating - b.rating;
-        } else if (action.payload == "desc") {
+        } else if (action.payload === "desc") {
           return b.rating - a.rating;
         }
         return 0;

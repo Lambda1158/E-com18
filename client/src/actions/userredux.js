@@ -15,28 +15,51 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    // Define las acciones y cómo se actualizará el estado
     cargarUser: (state, action) => {
-      state.user = action.payload;
+      return {
+        ...state,
+        user: action.payload,
+        cargando: false,
+      };
     },
     getUserT: (state, action) => {
-      state.token = action.payload;
+      return {
+        ...state,
+        token: action.payload,
+      };
     },
     getUserI: (state, action) => {
-      state.profile = action.payload;
+      return {
+        ...state,
+        profile: action.payload,
+        user: action.payload.result,
+      };
     },
     getUserO: (state, action) => {
-      state.order = action.payload;
+      return {
+        ...state,
+        order: action.payload,
+      };
     },
     getM: (state, action) => {
-      state.movement = action.payload;
+      return {
+        ...state,
+        movement: action.payload,
+      };
     },
     getSeller: (state, action) => {
-      state.public_profile = action.payload;
+      return {
+        ...state,
+        public_profile: action.payload,
+      };
     },
     dislog: (state) => {
-      state.user = [];
-      state.profile = [];
+      return {
+        ...state,
+        user: [],
+        profile: [],
+        public_profile: [],
+      };
     },
   },
 });

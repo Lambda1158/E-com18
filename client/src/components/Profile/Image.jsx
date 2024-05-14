@@ -4,6 +4,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getUserbyId, PROXY } from "../../actions";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import { FaCloudUploadAlt, FaSave } from "react-icons/fa";
 
 export default function Image({ modal, isModal }) {
   const { id } = useParams();
@@ -12,22 +14,24 @@ export default function Image({ modal, isModal }) {
   const [previewSource, setPreviewSource] = useState();
 
   const { user } = useSelector((state) => state.user);
-
   function handleSubmit(e) {
-    let fb = new FormData();
-    fb.append("username", user.username);
-    fb.append("image", file);
-    axios({
-      method: "put",
-      url: `${PROXY}/user`,
-      data: fb,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((res) => res)
-      .catch((err) => console.log(err));
-    dispatch(getUserbyId(id));
-    setPreviewSource(null);
-    isModal(!modal);
+    if (file) {
+      let fb = new FormData();
+      fb.append("username", user.username);
+      fb.append("image", file);
+      axios({
+        method: "put",
+        url: `${PROXY}/user`,
+        data: fb,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((res) => dispatch(getUserbyId(id)))
+        .catch((err) => console.log(err));
+      setPreviewSource(null);
+      isModal(!modal);
+    } else {
+      return alert("seleccione una imagen por favor");
+    }
   }
 
   function previewFile(file) {
@@ -46,6 +50,13 @@ export default function Image({ modal, isModal }) {
   function isClosed(e) {
     e.preventDefault(e);
     isModal(!modal);
+    setFile(null);
+    setPreviewSource(null);
+  }
+  function ChangeImg(e) {
+    e.preventDefault(e);
+    setFile(null);
+    setPreviewSource(null);
   }
 
   return (
@@ -55,43 +66,48 @@ export default function Image({ modal, isModal }) {
         ariaHideApp={false}
         onRequestClose={isClosed}
         contentLabel="Example Modal"
-        className=" absolute m-auto w-4/12 inset-x-0 top-40 bg-dark border-2 border-white rounded-lg"
+        className=" absolute m-auto w-[650px] h-[400px] inset-x-0 top-[90px] bg-dark border-2 border-white rounded-lg"
         overlayClassName="fixed inset-0 bg-black bg-opacity-90"
       >
-        <div className="flex justify-between items-center">
-          <h1 className="text-white text-xl m-2 p-2">Foto de perfil</h1>
-          <button
-            className="flex items-center justify-center text-white w-4 h-6 rounded text-2xl pr-6"
+        <div className="flex  items-center">
+          <h1 className="text-white text-2xl  font-light text-center w-full p-8">
+            Por favor seleccione una foto de perfil
+          </h1>
+          <IoIosCloseCircleOutline
             onClick={isClosed}
-          >
-            X
-          </button>
+            className=" text-white cursor-pointer text-5xl mr-4  hover:scale-125 transform transition-transform duration-300"
+          />
         </div>
-        <div className="flex justify-center">
-          <div className="flex flex-col items-center justify-center w-full space-y-10">
-            <div className="flex justify-center items-center">
-              <img
-                className="rounded-full border-4 border-semilight w-72"
-                src={previewSource}
-              />
-            </div>
-            <div className="w-full flex flex-row justify-center items-center pb-2">
+        {previewSource && (
+          <div className="flex flex-row justify-evenly items-center">
+            <img
+              className="rounded-full border-4 border-semilight h-[290px] w-[290px] cursor-pointer"
+              src={previewSource}
+              onClick={ChangeImg}
+            />
+            <FaSave
+              onClick={(e) => handleSubmit(e)}
+              className=" text-8xl text-white cursor-pointer"
+            >
+              subir
+            </FaSave>
+          </div>
+        )}
+        {!previewSource && (
+          <div className=" w-full h-2/4 flex justify-center items-center">
+            <label htmlFor="fileInput">
+              <FaCloudUploadAlt className=" text-9xl text-white cursor-pointer" />
               <input
-                className="text-white"
-                onChange={handleFile}
+                id="fileInput"
+                className="hidden"
+                onChange={(e) => handleFile(e)}
                 type="file"
                 name="image"
                 required
               />
-              <button
-                onClick={(e) => handleSubmit(e)}
-                className="btn-secondary btn-colors"
-              >
-                Actualizar imagen
-              </button>
-            </div>
+            </label>
           </div>
-        </div>
+        )}
       </ReactModal>
     </div>
   );

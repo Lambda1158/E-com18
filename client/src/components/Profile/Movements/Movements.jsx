@@ -15,7 +15,8 @@ export default function Movements() {
   }, [dispatch, id]);
 
   return (
-    <div className="flex flex-col items-center border-2 text-white border-white rounded-lg w-11/12 pt-4">
+    <div className="border-b-2 text-white border-white w-full py-4">
+      <h2 className="text-2xl font-medium pl-4">Ventas</h2>
       <table>
         <thead>
           <tr className="bg-semidark">

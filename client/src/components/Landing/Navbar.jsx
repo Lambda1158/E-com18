@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 
 import Dropdown from "../Home/Dropdown";
 export default function Navbar({ onModalClick, onModaleClick }) {
-  let { user } = useSelector((state) => state.user);
-
-  useEffect(() => {}, [user]);
+  const { user } = useSelector((state) => state.user);
   return (
     <nav className="bg-semidark place-content-center items-center py-2">
       <div className="flex items-center justify-between">
