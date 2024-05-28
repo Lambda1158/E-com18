@@ -207,7 +207,7 @@ async function getLogIn(req, res, next) {
 
 const editUser = async (req, res, next) => {
   let file = req.file;
-  let { country, username, description } = req.body;
+  let { country, username, resume } = req.body;
 
   try {
     var user = await Users.findOne({ where: { username } });
@@ -216,7 +216,7 @@ const editUser = async (req, res, next) => {
       user.image = path;
     }
     if (country) user.country = country;
-    if (description) user.resume = description;
+    if (resume) user.resume = resume;
     await user.save();
     res.send(user.toJSON());
   } catch (e) {
@@ -288,35 +288,28 @@ async function getUserById(req, res, next) {
             model: Posts,
             attributes: { exclude: ["user_id", "category_id"] },
             order: [["createdAt", "DESC"]],
-          },
-          {
-            model: Review,
-            attributes: { exclude: ["user_id", "post_id", "updatedAt"] },
-            order: [["createdAt", "DESC"]],
             include: [
               {
-                model: Users,
-                attributes: ["id", "username", "name", "fullName", "lastName"],
-              },
-              {
-                model: Posts,
-                attributes: ["id", "title"],
+                model: Review,
+                attributes: ["qualification", "description"],
                 order: [["createdAt", "DESC"]],
-              },
-            ],
-          },
-          {
-            model: Question,
-            attributes: { exclude: ["user_id", "post_id", "updatedAt"] },
-            order: [["createdAt", "DESC"]],
-            include: [
-              {
-                model: Users,
-                attributes: ["id", "username", "name", "fullName", "lastName"],
+                include: [
+                  {
+                    model: Users,
+                    attributes: ["username"],
+                  },
+                ],
               },
               {
-                model: Posts,
-                attributes: ["id", "title"],
+                model: Question,
+                attributes: ["title", "question", "answer"],
+                order: [["createdAt", "DESC"]],
+                include: [
+                  {
+                    model: Users,
+                    attributes: ["username"],
+                  },
+                ],
               },
             ],
           },
@@ -332,7 +325,7 @@ async function getUserById(req, res, next) {
           },
         ],
       });
-      if (result || compras) res.json({ result, compras });
+      if (result) res.json({ result, compras });
       else
         throw new Error(
           "ERROR 500: El usuario no fue encontrado en la base de datos (UUID no existe)."
@@ -340,8 +333,7 @@ async function getUserById(req, res, next) {
     } catch (err) {
       next(err);
     }
-  }
-  if (idUser && idUser.length !== 36) {
+  } else {
     try {
       throw new TypeError(
         "ERROR 404: ID inválido (ID no es un tipo UUID válido)."

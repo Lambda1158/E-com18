@@ -14,16 +14,28 @@ const reviewSlice = createSlice({
   reducers: {
     // Define las acciones y cómo se actualizará el estado
     getR: (state, action) => {
-      state.review = action.payload;
+      return {
+        ...state,
+        review: action.payload,
+      };
     },
     getQ: (state, action) => {
-      state.questionsPost = action.payload;
+      return {
+        ...state,
+        questionsPost: action.payload,
+      };
     },
     getQa: (state, action) => {
-      state.qa = action.payload;
+      return {
+        ...state,
+        qa: action.payload,
+      };
     },
     getQp: (state, action) => {
-      state.questionsPost = action.payload;
+      return {
+        ...state,
+        questionsPost: action.payload,
+      };
     },
   },
 });

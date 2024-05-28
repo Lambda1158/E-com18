@@ -61,6 +61,13 @@ const userSlice = createSlice({
         public_profile: [],
       };
     },
+    editU: (state, action) => {
+      return {
+        ...state,
+        user: action.payload,
+        profile: action.payload,
+      };
+    },
   },
 });
 
@@ -72,5 +79,6 @@ export const {
   getM,
   getSeller,
   dislog,
+  editU,
 } = userSlice.actions;
 export default userSlice.reducer;

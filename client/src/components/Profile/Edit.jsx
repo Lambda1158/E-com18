@@ -12,28 +12,28 @@ export default function Edit({
       {isEditing[text] ? (
         <div className="relative">
           <FaRegWindowClose
-            className=" cursor-pointer absolute right-0"
+            className=" cursor-pointer absolute right-[-12px] top-[-12px]  "
             onClick={() => edit({ text, close: true })}
           />
           <FaRegSave
-            className=" cursor-pointer absolute right-7"
+            className=" cursor-pointer absolute right-[15px] top-[-12px]  "
             onClick={() => edit(text)}
           />
           <input
-            className=" w-[240px] italic bg-dark  p-2 h-10 border-b-2"
+            className=" w-[200px] italic bg-dark  p-2 h-8 border-b-2"
             type="text"
             name={text}
             value={editedName[text]}
             onChange={handleChange}
-          ></input>
+          />
         </div>
       ) : (
-        <div className="relative">
+        <div className=" relative">
           <FaRegEdit
-            className=" cursor-pointer absolute right-0"
+            className=" absolute  right-[-12px] top-[-12px]  cursor-pointer"
             onClick={() => edit(text)}
           />
-          <p className=" ">{editedName[text]}</p>
+          <p className=" text-base mt-2">{editedName[text]}</p>
         </div>
       )}
     </>

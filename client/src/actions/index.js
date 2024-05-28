@@ -18,36 +18,11 @@ import {
   getSeller,
   dislog,
 } from "./userredux";
+import { editU } from "./userredux";
 import { getR, getQa, getQp } from "./revqueredux";
 import { cargando, refreshT } from "./statereducer";
 export const PROXY =
   "http://localhost:3001" || "https://hitalent-project.herokuapp.com";
-export const SEARCH_TALENT = "SEARCH_TALENT";
-export const CARGAR_USUARIO = "CARGAR_USUARIO";
-export const POST_USER = "POST_USER";
-export const GET_USER_TOKEN = "GET_USER_TOKEN";
-export const GET_TALENT = "GET_TALENT";
-export const GET_USER_ID = "GET_USER_ID";
-export const GET_ORDER_ID = "GET_ORDER_ID";
-export const GET_REVIEW_ID = "GET_REVIEW_ID";
-export const GET_MOVE_ID = "GET_MOVE_ID";
-export const GET_QA_ID = "GET_QA_ID";
-export const GET_TALENT_BY_ID = "GET_TALENT_BY_ID";
-export const LOGUEAR_USUARIO = "LOGUEAR_USUARIO";
-export const PUT_ANSWER = "PUT_ANSWER";
-export const GET_CATEGORIES = "GET_CATEGORIES";
-export const POST_QUESTION = "POST_QUESTION";
-export const GET_POST_QUESTION = "GET_POST_QUESTION";
-export const SORT_BY_PRICE = "SORT_BY_PRICE";
-export const GET_POST_REVIEW = "GET_POST_REVIEW";
-export const FILTRO_CAT = "FILTRO_CAT";
-export const TALENT_BY_RATING = "TALENT_BY_RATING";
-export const POST_ORDER = "POST_ORDER";
-export const CARGANDO = "CARGANDO";
-export const SELLER_PROFILE = "SELLER_PROFILE";
-export const REFRESH = "REFRESH";
-export const GET_SALES = "GET_SALES";
-export const DESLOGUEAR = "DESLOGUEAR";
 
 export const getTalents = () => async (dispatch) => {
   try {
@@ -459,3 +434,10 @@ export const desloguear = () => dislog();
 //     type: DESLOGUEAR,
 //   }
 // }
+
+export const editarUsuario = (body) => async (dispatch) => {
+  axios
+    .put(`${PROXY}/user/`, body)
+    .then((response) => dispatch(editU(response.data)))
+    .catch((error) => console.log(error));
+};

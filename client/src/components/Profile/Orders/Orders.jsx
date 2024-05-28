@@ -12,29 +12,30 @@ export default function Orders() {
     dispatch(getOrderbyId(id));
   }, [dispatch, id]);
   return (
-    <div className="border-b-2 text-white border-white">
-      <h2 className=" underline text-2xl font-semibold tracking-wider text-primary mb-4 shadow-xl w-fit">
-        Ordenes de Ventas
+    <div className="border-b-2 text-white border-white shadow-md">
+      <h2 className=" underline text-2xl font-semibold tracking-wider mb-4 shadow-xl w-fit transform hover:scale-110 duration-200">
+        Ventas de Talentos
       </h2>
-
-      <table className="mb-6 border-2 border-white p-4 rounded-lg w-full shadow-xl ">
-        <thead>
-          <tr className=" border-2 border-white p-4 ">
-            <th className=" w-[600px] font-normal text-xl">Talento</th>
-            <th className=" w-[350px] font-normal text-xl">Numero de orden</th>
-            <th className=" w-[200px] font-normal text-xl">Estado</th>
-            <th className=" w-[200px] font-normal text-xl">Monto</th>
-          </tr>
-        </thead>
-        <tbody>
-          {order?.compras.length > 0 ? (
-            order?.compras.map((item, index) => (
+      {order?.compras.length > 0 ? (
+        <table className="mb-4 border-2 border-white rounded-lg w-full shadow-xl bg-semidark ">
+          <thead>
+            <tr className=" border-2 border-white p-4 ">
+              <th className=" w-[600px] font-normal text-xl">Talento</th>
+              <th className=" w-[350px] font-normal text-xl">
+                Numero de orden
+              </th>
+              <th className=" w-[200px] font-normal text-xl">Estado</th>
+              <th className=" w-[200px] font-normal text-xl">Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            {order?.compras.map((item, index) => (
               <tr key={index} className="border-2 border-white ">
                 <td className=" border-2 border-white py-2 px-4 text-center ">
                   {item?.title}
                 </td>
                 <td className=" border-2 border-white text-center ">
-                  N{item?.id.slice(10)}
+                  N: {item?.id.slice(10)}
                 </td>
                 <td className=" border-2 border-white text-center ">
                   {item?.status}
@@ -43,16 +44,19 @@ export default function Orders() {
                   ${item?.price}
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td className="border-2 border-white text-center">
-                No hay pedidos para mostrar
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div className=" bg-semidark p-8 rounded shadow-xl w-full">
+          <h2 className="text-3xl font-medium text-white mb-4">
+            Disculpanos 😓
+          </h2>
+          <p className="text-white text-xl">
+            Perdon no tienes ventas sobre tus post ...
+          </p>
+        </div>
+      )}
     </div>
   );
 }

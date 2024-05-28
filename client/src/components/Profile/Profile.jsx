@@ -68,7 +68,7 @@ export default function Profile() {
         </>
       ) : (
         <div className="flex w-full">
-          <div className="w-96 mx-6 mt-6 mb-20">
+          <div className=" mx-4 mt-6 mb-20">
             <User modal={setModal} />
           </div>
           <Image modal={modal} isModal={setModal} ariaHideApp={false} />
@@ -81,7 +81,6 @@ export default function Profile() {
                 <Movements />
               </section>
               <section>
-                <h2 className="text-2xl font-medium pl-4">Reseñas</h2>
                 <Reviews />
               </section>
               <section>
@@ -89,11 +88,7 @@ export default function Profile() {
                 <Qas />
               </section>
             </section>
-            <div className="flex justify-center">
-              <Link to="/home">
-                <button className="btn-custom btn-colors">Volver</button>
-              </Link>
-            </div>
+            <div className="flex justify-center"></div>
           </div>
         </div>
       )}

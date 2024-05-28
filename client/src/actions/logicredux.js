@@ -15,21 +15,35 @@ const miSlice = createSlice({
   reducers: {
     // Define las acciones y cómo se actualizará el estado
     getT: (state, action) => {
-      state.talents = action.payload;
-      state.filteredTalents = action.payload;
+      return {
+        ...state,
+        talents: action.payload,
+        filteredTalents: action.payload,
+      };
     },
     getTbyId: (state, action) => {
-      state.moreTalent = action.payload;
-      state.qa = action.payload;
+      return {
+        ...state,
+        moreTalent: action.payload,
+        qa: action.payload,
+      };
     },
     searchT: (state, action) => {
-      state.filteredTalents = action.payload;
+      return {
+        ...state,
+        filteredTalents: action.payload,
+      };
     },
     getC: (state, action) => {
-      state.categories = action.payload;
+      return {
+        ...state,
+        categories: action.payload,
+      };
     },
     cargar: (state, action) => {
-      state.cargar = action.payload;
+      return {
+        cargar: action.payload,
+      };
     },
     sortPrice: (state, action) => {
       let talentPrice = [...state.filteredTalents];
@@ -41,7 +55,10 @@ const miSlice = createSlice({
         }
         return 0;
       });
-      state.filteredTalents = talentPrice;
+      return {
+        ...state,
+        filteredTalents: talentPrice,
+      };
     },
     filterCategory: (state, action) => {
       let allCat = [...state.talents];
@@ -49,7 +66,10 @@ const miSlice = createSlice({
         action.payload === "All"
           ? allCat
           : allCat.filter((el) => el?.category?.title === action.payload);
-      state.filteredTalents = fil;
+      return {
+        ...state,
+        filteredTalents: fil,
+      };
     },
     filterRating: (state, action) => {
       let aux = [...state.filteredTalents];
@@ -61,10 +81,15 @@ const miSlice = createSlice({
         }
         return 0;
       });
-      state.filteredTalents = aux;
+      return {
+        filteredTalents: aux,
+      };
     },
     getS: (state, action) => {
-      state.sale = action.payload;
+      return {
+        ...state,
+        sales: action.payload,
+      };
     },
   },
 });

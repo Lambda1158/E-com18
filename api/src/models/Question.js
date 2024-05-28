@@ -14,14 +14,5 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       defaultValue: "",
     },
-    post_id: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    user_id: {
-      // id del user que pregunta
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
   });
 };
