@@ -84,7 +84,6 @@ export default function Profile() {
                 <Reviews />
               </section>
               <section>
-                <h2 className="text-2xl font-medium pl-4">Preguntas</h2>
                 <Qas />
               </section>
             </section>

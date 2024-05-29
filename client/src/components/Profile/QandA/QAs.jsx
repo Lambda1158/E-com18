@@ -15,78 +15,106 @@ export default function Qas() {
   function handleChange(e) {
     e.preventDefault();
     setAnswer({
-      answer: e.target.value,
-      idQuestion: e.target.name,
+      [e.name]: { respuesta: e.target.value, id: e.target.name },
     });
   }
-
   function handleOnSubmit(e) {
     e.preventDefault();
-    dispatch(createAnswer(answer));
-    setRefresh(true);
-    setAnswer({
-      answer: "",
-      idQuestion: "",
+    console.log({
+      answer: answer[e.name].respuesta,
+      idQuestion: answer[e.name].id,
     });
+    if (answer[e.name].respuesta.length < 5 || !answer[e.name])
+      return alert("Por favor escriba una respuesta");
+    dispatch(
+      createAnswer({
+        answer: answer[e.name].respuesta,
+        idQuestion: answer[e.name].id,
+      })
+    );
+    setRefresh(true);
+    setAnswer({});
   }
-
+  console.log(qa);
   useEffect(() => {
     dispatch(getQAbyId(id));
     setRefresh(false);
   }, [refresh, dispatch, id]);
   return (
-    <div className="flex flex-col justify-center border-2 text-white border-white rounded-lg w-11/12 h-full py-4">
-      <div className="flex flex-col items-center py-2">
-        {!(qa.posts?.length > 0) ? (
-          <h2>No tienes publicaciones para obtener preguntas...</h2>
-        ) : qa.posts.map((e) => e.questions?.length > 0) ? (
-          qa.posts?.map((el) =>
-            el.questions?.map((e, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center bg-semidark border-2 text-white border-white rounded-lg w-11/12 py-4 mb-4"
-              >
-                <div className="flex flex-row justify-center items-center  bg-dark text-white w-11/12 h-auto m-1">
-                  <div className="flex flex-row justify-around items-center border w-full p-1">
-                    <div>{el.title}</div>
-                    <div>{e.question}</div>
-                    <span className="ml-2 italic"> {e.user?.username}</span>
-                  </div>
+    <div className="border-b-2 text-white border-white shadow-lg  py-4">
+      <h2 className=" underline text-2xl font-semibold tracking-wider mb-4 shadow-xl w-fit transform hover:scale-110 duration-200">
+        Preguntas
+      </h2>
+      {!(qa.posts?.length > 0) ? (
+        <div className=" bg-semidark p-8 rounded shadow-xl w-full">
+          <h2 className="text-3xl font-medium text-white mb-4">
+            Disculpanos 😓
+          </h2>
+          <p className="text-white text-xl">
+            Perdon no tienes publicaciones para responder Preguntas...
+          </p>
+        </div>
+      ) : qa.posts.map((e) => e.questions?.length > 0) ? (
+        qa.posts?.map((el) =>
+          el.questions?.map((e) => (
+            <div
+              key={e.id}
+              className="bg-semidark text-white rounded-2xl mb-4 h-50 p-4 flex flex-col space-y-4"
+            >
+              <div className="bg-dark text-white rounded-2xl p-3 w-3/5 self-start ">
+                <h4 className="text-lg font-medium ml-2">
+                  Usuario: {e.user.username}
+                </h4>
+                <p className="inline ml-4">Pregunto el </p>
+                <spam className=" font-bold underline inline underline-offset-2 ">
+                  {e.createdAt.slice(0, 10)} :
+                </spam>
+                <p className=" ml-8 font-light text-lg">{e.question}</p>
+              </div>
+              {e.answer ? (
+                <div className="bg-semilight text-[#2F5D62] rounded-2xl p-3 w-3/5 self-end">
+                  <h4 className="text-lg font-medium">{qa.username}</h4>
+                  <p className="inline">Respondio el </p>
+                  <spam className=" font-bold underline inline underline-offset-2 ">
+                    {e.updatedAt.slice(0, 10)} :
+                  </spam>
+                  <p className=" ml-8 text-lg font-light">{e.answer}</p>
                 </div>
-                <div className="flex  items-center bg-dark w-11/12 rounded">
-                  {!e.answer ? (
-                    <form
-                      className=" w-full pb-3 pt-3"
-                      onSubmit={(e) => handleOnSubmit(e)}
-                    >
-                      <input
-                        className="flex flex-row justify-around bg-dark items-center border w-full p-1"
-                        name={e.id}
-                        id={e.id}
-                        value={answer[`${id}`]}
-                        onChange={(e) => handleChange(e)}
-                        placeholder="Añade tu respuesta aquí..."
-                      />
+              ) : (
+                <div className="bg-semilight text-[#2F5D62] rounded-2xl p-3 w-3/5 self-end ">
+                  <form className="p-2" onSubmit={(e) => handleOnSubmit(e)}>
+                    <input
+                      className="bg-semidark text-[#2F5D62]  text-center border w-full p-1 placeholder:text-center"
+                      name={e.id}
+                      id={e.id}
+                      value={answer[`${id}`]}
+                      onChange={(e) => handleChange(e)}
+                      placeholder="Añade tu respuesta aquí..."
+                    />
+                    <div className="text-center">
                       <button
                         type="submit"
-                        className="flex btn-quaternary btn-colors w-full ml-80"
+                        className=" border-2 border-white rounded-md  hover:bg-semidark hover:text-white p-2 mt-2 w-32"
                       >
-                        Enviar
+                        Responder
                       </button>
-                    </form>
-                  ) : (
-                    <div className="flex flex-row justify-around items-center border w-full p-1">
-                      {e.answer}
                     </div>
-                  )}
+                  </form>
                 </div>
-              </div>
-            ))
-          )
-        ) : (
-          <h1>No tienes preguntas por el momento...</h1>
-        )}
-      </div>
+              )}
+            </div>
+          ))
+        )
+      ) : (
+        <div className=" bg-semidark p-8 rounded shadow-xl w-full">
+          <h2 className="text-3xl font-medium text-white mb-4">
+            Disculpanos 😓
+          </h2>
+          <p className="text-white text-xl">
+            No tienes preguntas por el momento ...
+          </p>
+        </div>
+      )}
     </div>
   );
 }

@@ -38,9 +38,9 @@ export default function User({ modal }) {
       [obj]: !prev[obj],
     }));
   };
-  useEffect(() => {
-    dispatch(getUserbyId(id));
-  }, [modal, id, dispatch]);
+  //   useEffect(() => {
+  //     dispatch(getUserbyId(id));
+  //   }, [modal, id, dispatch]);
 
   function handleOnClick(e) {
     e.preventDefault();
