@@ -35,7 +35,6 @@ export default function Qas() {
     setRefresh(true);
     setAnswer({});
   }
-  console.log(qa);
   useEffect(() => {
     dispatch(getQAbyId(id));
     setRefresh(false);
@@ -61,27 +60,27 @@ export default function Qas() {
               key={e.id}
               className="bg-semidark text-white rounded-2xl mb-4 h-50 p-4 flex flex-col space-y-4"
             >
-              <div className="bg-dark text-white rounded-2xl p-3 w-3/5 self-start ">
+              <div className="bg-dark text-white rounded-2xl p-3 w-3/5 self-start shadow-2xl">
                 <h4 className="text-lg font-medium ml-2">
                   Usuario: {e.user.username}
                 </h4>
                 <p className="inline ml-4">Pregunto el </p>
-                <spam className=" font-bold underline inline underline-offset-2 ">
+                <span className=" font-bold underline inline underline-offset-2 ">
                   {e.createdAt.slice(0, 10)} :
-                </spam>
+                </span>
                 <p className=" ml-8 font-light text-lg">{e.question}</p>
               </div>
               {e.answer ? (
-                <div className="bg-semilight text-[#2F5D62] rounded-2xl p-3 w-3/5 self-end">
+                <div className="bg-semilight text-[#2F5D62] rounded-2xl p-3 w-3/5 self-end shadow-2xl">
                   <h4 className="text-lg font-medium">{qa.username}</h4>
                   <p className="inline">Respondio el </p>
-                  <spam className=" font-bold underline inline underline-offset-2 ">
+                  <span className=" font-bold underline inline underline-offset-2 ">
                     {e.updatedAt.slice(0, 10)} :
-                  </spam>
+                  </span>
                   <p className=" ml-8 text-lg font-light">{e.answer}</p>
                 </div>
               ) : (
-                <div className="bg-semilight text-[#2F5D62] rounded-2xl p-3 w-3/5 self-end ">
+                <div className="bg-semilight text-[#2F5D62] rounded-2xl p-3 w-3/5 self-end shadow-2xl ">
                   <form className="p-2" onSubmit={(e) => handleOnSubmit(e)}>
                     <input
                       className="bg-semidark text-[#2F5D62]  text-center border w-full p-1 placeholder:text-center"

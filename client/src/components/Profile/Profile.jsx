@@ -4,7 +4,6 @@ import User from "./User";
 import Reviews from "./Reviews/Reviews";
 import Movements from "./Movements/Movements";
 import Qas from "./QandA/QAs";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import Navbar from "../Landing/Navbar";
@@ -14,6 +13,7 @@ import { getUserbyId } from "../../actions";
 import Footer from "../Landing/Footer";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
+import Publicaciones from "./Publicaciones/Publicaciones.jsx";
 export default function Profile() {
   const [ventanaLogIn, setVentanaLogIn] = useState(false);
   const [ventanaRegister, setVentanaRegister] = useState(false);
@@ -74,18 +74,11 @@ export default function Profile() {
           <Image modal={modal} isModal={setModal} ariaHideApp={false} />
           <div className="flex flex-col mt-6 mx-6 w-full space-y-4">
             <section className="space-y-4">
-              <section>
-                <Orders />
-              </section>
-              <section>
-                <Movements />
-              </section>
-              <section>
-                <Reviews />
-              </section>
-              <section>
-                <Qas />
-              </section>
+              <Movements />
+              <Orders />
+              <Publicaciones />
+              <Reviews />
+              <Qas />
             </section>
             <div className="flex justify-center"></div>
           </div>

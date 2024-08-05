@@ -3,23 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";
 import TalentCard from "./TalentCard";
-import { getCategories, getTalents } from "../../actions";
-import { FilteredCat } from "../Filter/FilteredCat";
+import { getTalents } from "../../actions";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
 import { SortByPrice } from "../Sort/SortByPrice";
-import { filteredCat } from "../../actions";
 import Spinner from "../Spinner/Spinner";
-
+import { SortByCategorie } from "../Sort/SortByCategorie";
+import SimpleSlider from "./SimpleSlider";
 export default function Home() {
   let skill = useSelector((state) => state.mislice.filteredTalents);
   //let skillAprobados = skill.filter(el => el.aprobado === true);
   const cargando = useSelector((state) => state.cargando);
-  const categories = useSelector((state) => state.mislice.categories);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTalents());
-    dispatch(getCategories());
   }, [dispatch]);
   const [ventanaLogIn, setVentanaLogIn] = useState(false);
   const [ventanaRegister, setVentanaRegister] = useState(false);
@@ -38,13 +35,8 @@ export default function Home() {
     setVentanaRegister(!ventanaRegister);
   }
 
-  function handleCatFilter(e) {
-    e.preventDefault();
-    console.log(e.target.value);
-    dispatch(filteredCat(e.target.value));
-  }
   return (
-    <div className="user-select-none">
+    <div className="flex min-h-screen flex-col">
       <Navbar
         onModalChange={onModalChange}
         onModaleClick={onModaleClick}
@@ -61,66 +53,34 @@ export default function Home() {
             onModalChange={onModalChange}
           />
         )}
-        {/* <h1 class="text-4xl font-bold m-4">CATEGORIAS</h1>
-        <Categories /> <hr /> */}
-        {/* <h1 class="text-4xl font-bold m-4">TALENTOS</h1> */}
-        {/* <Link to="/messenger">
-          <button class="font-semibold bg-light rounded-md w-40 p-1 m-3">
-            Chat
-          </button>
-        </Link> */}
       </div>
-      <div className="flex flex-col items-center justify-center w-full space-y-4 mb-6 mt-6">
-        <h2 className="text-4xl p-5 font-semibold underline underline-offset-4 ">
-          ¡Aventurate al desafio de enseñar y aprender nuevos talentos!
-        </h2>
-      </div>
-      <div className="flex justify-center space-x-10 font-semibold text-xl">
-        <div className="py-2">
-          <span className="text-2xl font-normal">Categorias: </span>
-          <select className="w-[200px]" onChange={(e) => handleCatFilter(e)}>
-            {categories?.map((e, index) => (
-              <FilteredCat key={index} category={e.title} />
-            ))}
-          </select>
-        </div>
-        <div>
-          <SortByPrice />
-        </div>
+
+      <h2 className="text-4xl text-center p-2 font-semibold underline underline-offset-4 text-[#2F5D62]">
+        ¡Aventurate al desafio de enseñar y aprender nuevos talentos!
+      </h2>
+      <div className="flex justify-center space-x-10 font-semibold text-xl mt-4">
+        <SortByCategorie />
+        <SortByPrice />
       </div>
       {cargando ? (
         <Spinner />
       ) : (
-        <div className="flex flex-wrap w-[1600px] ml-[11%]  ">
+        <>
           {skill?.length === 0 ? (
-            <div className="text-4xl min-h-screen font-bold m-4">
-              {" "}
-              <h1 className="m-auto">
+            <div className="text-4xl h-[300px] mt-10 flex-grow font-semibold text-[#2F5D62]  m-4 w-full">
+              <h1 className="text-center">
                 Ups! no encontramos lo que buscas, intenta de nuevo
               </h1>
             </div>
           ) : (
-            skill?.map((talent) => {
-              return (
-                <TalentCard
-                  key={talent.id}
-                  category={talent?.category?.title}
-                  id={talent.id}
-                  username={talent?.user?.username}
-                  title={talent.title}
-                  description={talent.description}
-                  image={talent.image}
-                  cost={talent.cost}
-                  rating={talent.rating}
-                  reviews={talent.reviews}
-                />
-              );
-            })
+
+			<SimpleSlider items={skill}>
+			</SimpleSlider>
+
+       
           )}
-        </div>
+        </>
       )}
-      {/* <h1 class="text-2xl font-bold m-4">CATEGORIAS</h1>
-      <Categories /> <hr /> */}
       <Footer />
     </div>
   );

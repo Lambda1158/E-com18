@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import BotonOptions from "./BotonOptions";
 import { PROXY } from '../../actions/index'
-import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 
 
 function AdminData({ pestaña, data, setData }) {
@@ -52,28 +51,28 @@ function AdminData({ pestaña, data, setData }) {
       {
         //Caso de que sea la pestaña usuarios
         pestaña === "user" ? (
-          <Table>
-            <Thead>
-              <Tr>
-                <Th>FullName</Th>
-                <Th>Username</Th>
-                <Th>Email</Th>
-                <Th>Verificado</Th>
-                <Th>Estado</Th>
-                <Th>Opciones</Th>
-              </Tr>
-            </Thead>
+          <table>
+            <thead>
+              <tr>
+                <th>FullName</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Verificado</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
               {data[`${pestaña}`].map((el) => {
                 if(el.username === "admin") return;
                 return (
-                  <Tbody>
-                    <Tr key={el.id} className="bg-semilight border w-max">
-                      <Td>{el.fullName}</Td>
-                      <Td>{el.username}</Td>
-                      <Td>{el.email}</Td>
+                  <tbody>
+                    <tr key={el.id} className="bg-semilight border w-max">
+                      <td>{el.fullName}</td>
+                      <td>{el.username}</td>
+                      <td>{el.email}</td>
                       {el.email_verified ? <Td>Si</Td> : <Td>No</Td>}
                       {el.aprobado ? <Td>Aprobado</Td> : <Td>Pendiente</Td>}
-                      <Td>
+                      <td>
                         <BotonOptions
                           mail={el.email}
                           estado={el.aprobado}
@@ -81,35 +80,35 @@ function AdminData({ pestaña, data, setData }) {
                           botonClick={botonClick}
                           funcionBorrar={funcionBorrar}
                         />
-                      </Td>
-                    </Tr>
-                  </Tbody>
+                      </td>
+                    </tr>
+                  </tbody>
                 );
               })}
-          </Table>
+          </table>
         ) : //Caso de que sea la pestaña Post
         pestaña === "post" ? (
-          <Table>
-            <Thead>
-              <Tr>
-                <Th>Titulo</Th>
-                <Th>Docente</Th>
-                <Th>Costo</Th>
-                <Th>Puntaje</Th>
-                <Th>Estado</Th>
-                <Th>Opciones</Th>
-              </Tr>
-            </Thead>
+          <table>
+            <thead>
+              <tr>
+                <th>Titulo</th>
+                <th>Docente</th>
+                <th>Costo</th>
+                <th>Puntaje</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
             {data[`${pestaña}`].map((el) => {
               return (
-                <Tbody>
-                  <Tr key={el.id} className="bg-semilight border w-max">
-                    <Td>{el.title}</Td>
-                    <Td>{el[`user.username`]}</Td>
-                    <Td>{el.cost}</Td>
-                    <Td>{el.rating}</Td>
+                <tbody>
+                  <tr key={el.id} className="bg-semilight border w-max">
+                    <td>{el.title}</td>
+                    <td>{el[`user.username`]}</td>
+                    <td>{el.cost}</td>
+                    <td>{el.rating}</td>
                     {el.aprobado ? <Td>Aprobado</Td> : <Td>Pendiente</Td>}
-                    <Td>
+                    <td>
                       <BotonOptions
                         mail={el[`user.email`]}
                         value={el.id}
@@ -117,33 +116,33 @@ function AdminData({ pestaña, data, setData }) {
                         botonClick={botonClick}
                         funcionBorrar={funcionBorrar}
                       />
-                    </Td>
-                  </Tr>
-                </Tbody>
+                    </td>
+                  </tr>
+                </tbody>
               );
             })}
-          </Table>
+          </table>
         ) : (
           //Caso de que sea la pestaña Review
-          <Table>
-            <Thead>
-              <Tr>
-                <Th>Usuario</Th>
-                <Th>Calificacion</Th>
-                <Th>Reseña</Th>
-                <Th>Estado</Th>
-                <Th>Opciones</Th>
-              </Tr>
-            </Thead>
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Calificacion</th>
+                <th>Reseña</th>
+                <th>Estado</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
             {data[`${pestaña}`].map((el) => {
               return (
-                <Tbody>
-                  <Tr key={el.id} className="bg-semilight border w-max">
-                    <Td>{el[`user.username`]}</Td>
-                    <Td>{el.qualification}</Td>
-                    <Td>{el.description}</Td>
+                <tbody>
+                  <tr key={el.id} className="bg-semilight border w-max">
+                    <td>{el[`user.username`]}</td>
+                    <td>{el.qualification}</td>
+                    <td>{el.description}</td>
                     {el.aprobado ? <Td>Aprobado</Td> : <Td>Pendiente</Td>}
-                    <Td>
+                    <td>
                       <BotonOptions
                         mail={el[`user.email`]}
                         value={el.id}
@@ -151,12 +150,12 @@ function AdminData({ pestaña, data, setData }) {
                         botonClick={botonClick}
                         funcionBorrar={funcionBorrar}
                       />
-                    </Td>
-                  </Tr>
-                </Tbody>
+                    </td>
+                  </tr>
+                </tbody>
               );
             })}
-          </Table>
+          </table>
         )
       }
     </div>

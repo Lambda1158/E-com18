@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { FaRegEdit, FaRegSave, FaRegWindowClose } from "react-icons/fa";
 export default function Edit({
   isEditing,
@@ -19,13 +19,23 @@ export default function Edit({
             className=" cursor-pointer absolute right-[15px] top-[-12px]  "
             onClick={() => edit(text)}
           />
-          <input
-            className=" w-[200px] italic bg-dark  p-2 h-8 border-b-2"
-            type="text"
-            name={text}
-            value={editedName[text]}
-            onChange={handleChange}
-          />
+          {text === "resume" ? (
+            <textarea
+              className="w-full p-2 border h-[160px] mt-4 overflow-hidden border-gray-300 rounded-md transition-height duration-200 ease text-[#5E8B7E]"
+              type="text"
+              name={text}
+              value={editedName[text]}
+              onChange={handleChange}
+            />
+          ) : (
+            <input
+              className="w-full p-2 border h-auto mt-4 overflow-hidden border-gray-300 rounded-md transition-height duration-200 ease text-[#5E8B7E]"
+              type="text"
+              name={text}
+              value={editedName[text]}
+              onChange={handleChange}
+            />
+          )}
         </div>
       ) : (
         <div className=" relative">

@@ -4,16 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import Nav from "../Home/Nav";
 import Footer from "../Landing/Footer";
 import { Link } from 'react-router-dom';
-import { Button, useToast } from "@chakra-ui/react";
 import { clearItemsCart, deleteTalent } from '../../actions/shoppingActions';
-import { Alert, AlertIcon, Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
 import { PROXY } from "../../actions";
 
 export default function ShoppingCart() {
 const cart = useSelector(state => state.cart)
 const user = useSelector(state => state.userSliceReducer.user)
 const dispatch = useDispatch()
-const toast = useToast()
 let total = 0 // Voy a ir sumando los totales para mostrar en el carrito
 cart?.cart?.map((item) => total += (item?.quantity * item?.cost)) // Asigno los valores a total con +=
 
@@ -26,17 +23,7 @@ async function handleCheckOut(e) {
         unit_price: e.cost,
         quantity: e.quantity}))) : console.log('mercadopago')
     
-    cart?.cart?.length > 0 ? (cart?.cart?.map((e) => payload.carrito.push({
-        user_id: user?.id,
-        post_id: e.id,
-        title: e.title,
-        price: e.cost
-    }))) : toast({
-        title: 'Debes agregar algo para comprar',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      })
+
       //Enviar el carrito\\
       axios.post(`${PROXY}/orden`, payload)
       .then (res => console.log(res))
@@ -71,7 +58,7 @@ async function handleCheckOut(e) {
     return (
         <div class="bg-semilight">
             <Nav/>
-            <Table class=' min-h-screen max-h-screen bg-light rounded-md m-auto mt-3 mb-3' variant='simple'>
+            {/* <Table class=' min-h-screen max-h-screen bg-light rounded-md m-auto mt-3 mb-3' variant='simple'>
                 <Thead>
                     <Tr>
                     <Th>Titulo</Th>
@@ -117,7 +104,7 @@ async function handleCheckOut(e) {
             <Button class='w-32 h-8 border-2 border-dark rounded-md m-3 hover:bg-semilight'>Volver</Button>
             </Link>
             </Tr>
-            </Table>
+            </Table> */}
             <Footer/>
         </div>
     )

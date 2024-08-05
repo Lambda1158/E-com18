@@ -25,7 +25,6 @@ const miSlice = createSlice({
       return {
         ...state,
         moreTalent: action.payload,
-        qa: action.payload,
       };
     },
     searchT: (state, action) => {
@@ -42,6 +41,7 @@ const miSlice = createSlice({
     },
     cargar: (state, action) => {
       return {
+        ...state,
         cargar: action.payload,
       };
     },
@@ -82,6 +82,7 @@ const miSlice = createSlice({
         return 0;
       });
       return {
+        ...state,
         filteredTalents: aux,
       };
     },

@@ -1,15 +1,14 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import { getUserbyId, editarUsuario } from "../../actions";
+import { useNavigate } from "react-router-dom";
+import { editarUsuario } from "../../actions";
 import defaultImage from "../../assets/profile_default.png";
 import Edit from "./Edit";
 //import { Box, Image, Button } from '@chakra-ui/react';
 
 export default function User({ modal }) {
   const navigate = useNavigate();
-  const { id } = useParams();
   const dispatch = useDispatch();
   let { user } = useSelector((state) => state.user);
   const [isEditing, setIsEditing] = useState({
@@ -69,7 +68,7 @@ export default function User({ modal }) {
         <h2>Cargando...</h2>
       ) : (
         <div className="flex flex-col py-6 px-8 bg-dark  text-white rounded-lg space-y-4  max-w-[440px] shadow-outline ">
-          <div>
+          <div className="ml-8">
             <img
               className="rounded-full border-4 border-semilight w-[220px]"
               src={user.image ? user.image : defaultImage}
@@ -103,7 +102,7 @@ export default function User({ modal }) {
           <p className="font-medium ">
             Registrado desde: {user.createdAt.slice(0, 10)}
           </p>
-          <div>
+          <div className=" min-w-[300px]">
             <p className="font-medium text-xl">Sobre mi: </p>
             <Edit
               isEditing={isEditing}
@@ -143,13 +142,13 @@ export default function User({ modal }) {
 
           <button
             onClick={volver}
-            className=" border-2 rounded-xl border-white text-sm font-medium font-sans p-2 "
+            className=" border-2 rounded-xl border-white text-sm font-medium font-sans p-2 hover:bg-semilight hover:text-[#2F5D62] hover:border-[#5E8B7E] "
           >
             Volver
           </button>
           <button
             onClick={guardarCambios}
-            className=" border-2 rounded-xl border-white text-sm font-medium font-sans p-2 "
+            className=" border-2 rounded-xl border-white text-sm font-medium font-sans p-2 hover:bg-semilight hover:text-[#2F5D62] hover:border-[#5E8B7E] "
           >
             Editar
           </button>

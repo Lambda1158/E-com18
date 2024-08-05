@@ -3,26 +3,23 @@ import { PROXY } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getTalentById } from "../../actions";
-import Nav from "../Profile/Nav";
 import Footer from "../Landing/Footer";
 import { Link } from "react-router-dom";
-import { Box, useToast, Button, Image } from "@chakra-ui/react";
 import QyA from "./Q&A";
 import QyAanswer from "./Q&Aanswer";
 import Reviews from "./Reviews";
 import axios from "axios";
 import { addToCart } from "../../actions/shoppingActions";
 import Spinner from "../Spinner/Spinner";
-import { Alert, AlertIcon } from "@chakra-ui/react";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
+import Navbar from "../Landing/Navbar";
 
 export default function SeeMore() {
-  const toast = useToast();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const seemore = useSelector((state) => state.misliceReducer.moreTalent);
-  const user = useSelector((state) => state.userSliceReducer.user);
+  const seemore = useSelector((state) => state.mislice.moreTalent);
+  const { user } = useSelector((state) => state.user);
   let payloadMp = {
     items: [{ title: seemore.title, unit_price: seemore.cost, quantity: 1 }],
   };
@@ -84,104 +81,102 @@ export default function SeeMore() {
     dispatch(
       addToCart({ title: seemore.title, cost: seemore.cost, id: seemore.id })
     );
-    toast({
-      position: "bottom-right",
-      render: () => (
-        <Box color="white" p={3} bg="green.500">
-          Agregado al carrito
-        </Box>
-      ),
-    });
+    
   }
 
   return (
-    <div className="seemore">
-      <Nav
+    <div className="flex min-h-screen flex-col justify-between">
+      <Navbar
         onModalChange={onModalChange}
         onModaleClick={onModaleClick}
         onModalClick={onModalClick}
       />
 
       <div>
-        {ventanaLogIn ? (
+        {ventanaLogIn && (
           <Form onModalClick={onModalClick} onModalChange={onModalChange} />
-        ) : (
-          <></>
         )}
-
-        {ventanaRegister ? (
+        {ventanaRegister && (
           <Register
             onModaleClick={onModaleClick}
             onModalChange={onModalChange}
           />
-        ) : (
-          <></>
         )}
       </div>
 
       {seemore ? (
-        <div className="w-[750px] ml-[20%] border-2 rounded-3xl p-1  border-gray-400">
-          <img
-            className="rounded-3xl ml-2 p-2 w-[700px]"
-            src={seemore.image}
-            alt="talent_image"
-          />
+        <div className=" border-[#2F5D62] text-[#2F5D62]  border-2 max-w-[1300px]">
+          <div className="flex m-2  text-[#2F5D62] p-4 border-[#2F5D62] border-b-2">
+            <img
+              className=" w-[620px] flex-grow p-2"
+              src={seemore.image}
+              alt="talent_image"
+            />
 
-          <Box p="6">
-            <Link to={"/profilePublic/" + seemore?.user_id}>
-              <h1 className=" ml-2 text-dark text-2xl transform-all duration-100 ease-in-out hover:font-bold hover:underline">
-                by {seemore?.user?.username}
+            <div className=" flex-grow p-2 ml-2 max-w-7xl">
+              <h1 className="text-4xl font-bold p-2 transform hover:translate-x-6 duration-300 hover:scale-105">
+                {seemore.title}
               </h1>
-            </Link>
-            <h1 className="text-4xl font-semibold p-2">{seemore.title}</h1>
-            <p className=" text-1xl font-medium">{seemore.description}</p>
-            <div className="flex flex-wrap flex-row justify-between">
-              <div>
-                <p className=" text-1xl p-2 font-bold">Idioma:</p>
-                {seemore?.language}
-              </div>
-
-              <div>
-                <p as="span" color="gray.600 fontSize=-sm">
-                  Huso horario:
-                </p>
-                {seemore?.timeZone}
-              </div>
-              <div>
-                <p as="span" color="gray.600" fontSize="sm">
-                  Presio: $
-                </p>
-                {seemore.cost}
-              </div>
-            </div>
-            {seemore.user_id !== user.id && user.id ? (
-              <Box className="flex flex-col items-center" m="2">
-                <Button onClick={(e) => handleCheckOut(e)}>Comprar</Button>
-                <Box as="span" m="2" color="gray.600" fontSize="sm">
-                  <Button onClick={onClick}>Agregar al carrito</Button>
-                </Box>
-              </Box>
-            ) : !user.id ? (
-              <p status="warning">
-                Ingresa a tu cuenta para adquirir este curso o hacer una
-                pregunta
+              <Link to={"/profilePublic/" + seemore?.user_id}>
+                <h1 className=" ml-2 text-dark text-3xl transform hover:translate-x-6 duration-300 hover:scale-105 hover:underline">
+                  by {seemore?.user?.username}
+                </h1>
+              </Link>
+              <p className=" text-2xl mt-2 font-normal border-t-2 border-[#2F5D62] py-2">
+                {seemore.description}
               </p>
-            ) : (
-              <Alert status="info">
-                <AlertIcon />
-                Esta publicacion te pertenece
-              </Alert>
-            )}
-          </Box>
-          <QyAanswer />
-          <Reviews />
-          {seemore.user_id !== user.id && <QyA />}
+              <div className="flex flex-wrap flex-row justify-between">
+                <div>
+                  <p className=" text-1xl p-2 font-bold">Idioma:</p>
+                  {seemore?.language}
+                </div>
+                <div>
+                  <p as="span" color="gray.600 fontSize=-sm">
+                    Huso horario:
+                  </p>
+                  {seemore?.timeZone}
+                </div>
+                <div>
+                  <p as="span" color="gray.600" fontSize="sm">
+                    Presio: $
+                  </p>
+                  {seemore.cost}
+                </div>
+              </div>
+              {seemore.user_id !== user.id && user.id ? (
+                <div className="flex flex-row  justify-between text-center mt-2">
+                  <button
+                    className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300"
+                    onClick={(e) => handleCheckOut(e)}
+                  >
+                    Comprar
+                  </button>
+                  <button
+                    className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300"
+                    onClick={onClick}
+                  >
+                    Agregar al carrito
+                  </button>
+                  <Link to="/home">
+                    <button className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300">
+                      Volver
+                    </button>
+                  </Link>
+                </div>
+              ) : !user.id ? (
+                <p status="warning">
+                  Ingresa a tu cuenta para adquirir este curso o hacer una
+                  pregunta
+                </p>
+              ) : (
+                <div>Esta publicacion te pertenece</div>
+              )}
+            </div>
 
-          <Box>
-            <Link to="/home">
-              <Button m="2">Volver</Button>
-            </Link>
-          </Box>
+            {/* <Reviews /> */}
+            {/* {seemore.user_id !== user.id && <QyA />} */}
+          </div>
+          <QyAanswer />
         </div>
       ) : (
         <Spinner />

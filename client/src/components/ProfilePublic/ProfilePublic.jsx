@@ -6,9 +6,7 @@ import { useParams } from "react-router";
 import { PROXY, publicProfile } from "../../actions";
 import Nav from "../Profile/Nav";
 import Footer from "../Landing/Footer";
-import Chat from "./Chat";
 import defaultImage from '../../assets/profile_default.png'
-import { StarIcon } from "@chakra-ui/icons";
 
 export default function ProfilePublic() {
   const id = useParams();
@@ -104,7 +102,7 @@ export default function ProfilePublic() {
                 </div>
               )} 
             </div> */}
-            <Chat/>
+        
       {/* {order ? (
         <button
           onClick={(e) => onClick(e)}

@@ -1,5 +1,4 @@
 import React from "react";
-import { Box, Button, Input, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +20,6 @@ export default function Reviews() {
     user_id: user.id,
     post_id: id,
   });
-  const toast = useToast();
 
   useEffect(() => {
     dispatch(getPostReview(id));
@@ -49,12 +47,7 @@ export default function Reviews() {
     } catch (error) {
       console.log(error);
     }
-    toast({
-      title: "Reseña enviada",
-      status: "success",
-      duration: 4000,
-      isClosable: true,
-    });
+
   }
 
   function handleChange(e) {
@@ -70,8 +63,8 @@ export default function Reviews() {
     <div className="m-3">
       <h3 className="text-xl font-semibold">Reviews del talento</h3>
       {review?.reviews?.length > 0 ? (
-        <Box className="w-min-full" display="flex" mt="2" alignItems="center">
-          <Box as="span" ml="2" color="gray.600" fontSize="sm">
+        <div className="w-min-full" display="flex" mt="2" alignItems="center">
+          <div as="span" ml="2" color="gray.600" fontSize="sm">
             {review?.reviews ? (
               review?.reviews?.map((e, index) => (
                 <div key={index} className="bg-light mb-2 rounded-md">
@@ -82,8 +75,8 @@ export default function Reviews() {
             ) : (
               <span>No han dejado ningún comentario</span>
             )}
-          </Box>
-        </Box>
+          </div>
+        </div>
       ) : (
         <span>Esta publicación no tiene reviews por el momento</span>
       )}
@@ -95,7 +88,7 @@ export default function Reviews() {
             Deja tu reseña sobre este curso para ayudar a las demas personas
           </h3>
           <form>
-            <Input
+            <input
               value={newReview.description}
               name="description"
               onChange={(e) => handleChange(e)}
@@ -103,7 +96,7 @@ export default function Reviews() {
               size="md"
               required
             />
-            <Input
+            <input
               type="number"
               value={newReview.qualification}
               name="qualification"
@@ -113,7 +106,7 @@ export default function Reviews() {
               onChange={(e) => handleChange(e)}
               required
             />
-            <Button onClick={(e) => onClick(e)}>Enviar</Button>
+            <button onClick={(e) => onClick(e)}>Enviar</button>
           </form>
         </div>
       ) : (

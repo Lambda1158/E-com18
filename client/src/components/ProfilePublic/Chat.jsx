@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
-import { Alert, AlertIcon } from "@chakra-ui/react";
+
 import { PROXY } from "../../actions";
 
 export default function Chat() {
@@ -44,7 +44,7 @@ export default function Chat() {
 
   return (
     <div>
-      {order ? (
+      {/* {order ? (
         <button
           onClick={onClick}
           className="flex items-center bg-dark rounded-full text-white h-8 mt-10 p-5 hover:bg-semidark"
@@ -56,7 +56,7 @@ export default function Chat() {
           <AlertIcon />
           Para comenzar una conversación debes adquirir un curso
         </Alert>
-      )}
+      )} */}
     </div>
   );
 }

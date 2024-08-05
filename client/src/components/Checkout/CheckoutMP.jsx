@@ -1,12 +1,6 @@
 import ReactModal from "react-modal";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-} from '@chakra-ui/react'
 import { clearItemsCart } from "../../actions/shoppingActions";
 import { useDispatch } from "react-redux";
 
@@ -27,7 +21,7 @@ export default function CheckoutMP() {
       overlayClassName="fixed inset-0 bg-black bg-opacity-40"
       className="absolute m-auto max-w-max inset-x-0 top-40  rounded-lg"
     >
-        <Alert
+        {/* <Alert
         status='success'
         variant='subtle'
         flexDirection='column'
@@ -49,8 +43,8 @@ export default function CheckoutMP() {
         >
           Entendido
         </Link>
-        </Alert>
-      {/* </div> */}
+        </Alert> */}
+
     </ReactModal>
   );
 }

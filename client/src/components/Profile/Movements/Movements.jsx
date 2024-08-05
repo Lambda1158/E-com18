@@ -12,7 +12,6 @@ export default function Movements() {
   useEffect(() => {
     dispatch(getSales(id));
   }, [dispatch, id]);
-  console.log(sales);
   const formatDia = (param) => {
     let dia = new Date(param);
     return `${dia.getUTCDate()}/${

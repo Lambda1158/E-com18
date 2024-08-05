@@ -183,7 +183,7 @@ export const getUserofReviewbyId = (id) => async (dispatch) => {
 //   };
 // }
 
-export const getMovebyId = (id) => async (dispatch) => {
+export const getComprasTalentos = () => async (dispatch) => {
   axios
     .get(`${PROXY}/user/` + id)
     .then((response) => dispatch(getM(response.data)))

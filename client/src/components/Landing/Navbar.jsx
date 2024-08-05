@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import Dropdown from "../Home/Dropdown";
+import Dropdown from "../Home/Dropdown/Dropdown";
 export default function Navbar({ onModalClick, onModaleClick }) {
   const { user } = useSelector((state) => state.user);
   return (
