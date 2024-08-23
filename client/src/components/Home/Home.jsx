@@ -36,7 +36,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col max-w-full overflow-x-hidden">
       <Navbar
         onModalChange={onModalChange}
         onModaleClick={onModaleClick}

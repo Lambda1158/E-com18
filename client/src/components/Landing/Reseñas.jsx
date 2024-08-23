@@ -1,20 +1,26 @@
 import React, { useEffect } from "react";
 import RESEÑAS from "./MOCKUP";
 import Slider from "react-slick";
-import { useDispatch, useSelector } from "react-redux";
-import { getTalents } from "../../actions";
+import { useSelector, useDispatch } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { getTalents } from "../../actions";
 
 function Reseñas() {
-  // const rev = useSelector(state => state.index.talents)
-
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getTalents());
+    dispatch(getTalents);
   }, [dispatch]);
-
-  let positivas = RESEÑAS.filter((e) => e.user.calificacion > 3);
+  const talents = useSelector(state=> state.mislice.talents)
+  
+  let review = talents.reduce((acc,elementoActual)=>{
+	return acc.concat(elementoActual.reviews)
+  },[])
+  let aux = []
+  review.forEach(element=>{
+	aux.push({user:{username:element.userId,reseña:element.description}})
+  })
+  aux=aux.concat(RESEÑAS)
 
   const settings = {
     dots: false,
@@ -32,33 +38,18 @@ function Reseñas() {
 
   return (
     <Slider {...settings}>
-      {positivas.map((el, index) => (
+      {aux.map((el, index) => (
         <div key={index} className="bg-semilight">
-          <h1 className=" text-center text-dark text-3xl font-semibold py-6">
+          <h1 className=" text-center text-dark text-2xl font-semibold py-2">
             -{el.user.username}
           </h1>
-          <p className="text-center text-2xl font-light p-8">
+          <p className="text-center text-xl font-normal p-4 mb-2">
             {el.user.reseña}
           </p>
         </div>
       ))}
     </Slider>
   );
-  // return(
-  // <div>
-  //     {positivas.map(el => {
-  //         return(
-  //             <div className="flex">
-  //                 <img className="max-h-64 w-md" alt='Imagenes sobre el curso' src={el.user.curso.imagen}/>
-  //                 <div className="flex-row bg-dark text-center w-full">
-  //                     <h1 className="text-white text-3xl font-semibold py-6">{el.user.username}</h1>
-  //                     <p className="text-2xl font-light  p-8">{el.user.reseña}</p>
-  //                 </div>
-  //             </div>
-  //         )
-  //     })}
-  // </div>
-  // )
 }
 
 export default Reseñas;
