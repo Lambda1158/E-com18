@@ -1,6 +1,6 @@
 import React from "react";
 import "./messenger.css";
-import Nav from "../Profile/Nav";
+import Navbar from "../Landing/Navbar";
 import Conversation from "./Conversation/Conversation";
 import Message from "./Message/Message";
 import ChatOnline from "./ChatOnline/ChatOnline";
@@ -107,7 +107,7 @@ export default function Messenger() {
 
   return (
     <>
-      <Nav />
+      <Navbar />
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">

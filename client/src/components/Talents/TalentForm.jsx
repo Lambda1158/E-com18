@@ -4,7 +4,7 @@ import ReactModal from "react-modal";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../../actions";
+import { getCategories } from "../../actions/action-talents/talents";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";

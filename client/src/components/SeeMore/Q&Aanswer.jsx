@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getPostQuestion } from "../../actions/index";
+import { getPostQuestion } from "../../actions/action-talents/review";
 
 export default function QyAanswer() {
   const dispatch = useDispatch();

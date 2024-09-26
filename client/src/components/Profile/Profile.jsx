@@ -9,33 +9,23 @@ import { useDispatch } from "react-redux";
 import Navbar from "../Landing/Navbar";
 import Image from "./Image";
 import { useParams } from "react-router-dom";
-import { getUserbyId } from "../../actions";
+import { getUserbyId } from "../../actions/action-talents/user.js";
 import Footer from "../Landing/Footer";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
 import Publicaciones from "./Publicaciones/Publicaciones.jsx";
+import useModal from "../../hooks/useModal.js";
 export default function Profile() {
-  const [ventanaLogIn, setVentanaLogIn] = useState(false);
-  const [ventanaRegister, setVentanaRegister] = useState(false);
+  const {
+    ventanaRegister,
+    ventanaLogIn,
+    onModalClick,
+    onModaleClick,
+    onModalChange,
+  } = useModal();
 
-  function onModalClick(e) {
-    e.preventDefault();
-    setVentanaLogIn(!ventanaLogIn);
-  }
-
-  function onModaleClick(e) {
-    e.preventDefault();
-    setVentanaRegister(!ventanaRegister);
-  }
-
-  function onModalChange(e) {
-    e.preventDefault();
-    setVentanaLogIn(!ventanaLogIn);
-    setVentanaRegister(!ventanaRegister);
-  }
   const { id } = useParams();
   const dispatch = useDispatch();
-
   const [modal, setModal] = useState(false);
   const { user } = useSelector((state) => state.user);
   useEffect(() => {

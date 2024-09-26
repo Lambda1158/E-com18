@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getUserbyId, PROXY } from "../../actions";
+import { editarUsuario } from "../../actions/action-talents/user";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { FaCloudUploadAlt, FaSave } from "react-icons/fa";
 
 export default function Image({ modal, isModal }) {
-  const { id } = useParams();
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const [previewSource, setPreviewSource] = useState();
@@ -19,14 +16,7 @@ export default function Image({ modal, isModal }) {
       let fb = new FormData();
       fb.append("username", user.username);
       fb.append("image", file);
-      axios({
-        method: "put",
-        url: `${PROXY}/user`,
-        data: fb,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((res) => dispatch(getUserbyId(id)))
-        .catch((err) => console.log(err));
+      dispatch(editarUsuario(fb));
       setPreviewSource(null);
       isModal(!modal);
     } else {

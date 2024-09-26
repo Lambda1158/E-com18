@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderbyId } from "../../../actions";
+import { getOrderbyId } from "../../../actions/action-talents/user";
 
 export default function Orders() {
   const { id } = useParams();

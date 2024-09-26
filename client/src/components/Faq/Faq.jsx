@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Nav from "../Profile/Nav";
+import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";
 
 export default function Faq() {
   return (
     <div width="100%" minHeight="100%">
-      <Nav />
+      <Navbar />
       <h1 className="flex bg-semilight justify-center font-semibold pt-3 text-2xl text-dark p-6">
         FAQ - Preguntas frecuentes
       </h1>

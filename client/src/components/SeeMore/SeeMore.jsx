@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { PROXY } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { getTalentById } from "../../actions";
+import { getTalentById } from "../../actions/action-talents/talents";
 import Footer from "../Landing/Footer";
 import { Link } from "react-router-dom";
 import QyA from "./Q&A";
 import QyAanswer from "./Q&Aanswer";
 import Reviews from "./Reviews";
-import axios from "axios";
-import { addToCart } from "../../actions/shoppingActions";
 import Spinner from "../Spinner/Spinner";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
@@ -28,34 +25,34 @@ export default function SeeMore() {
     dispatch(getTalentById(id));
   }, [dispatch, id]);
 
-  async function handleCheckOut(e) {
-    let payloadOrder = {
-      carrito: [
-        {
-          title: seemore.title,
-          price: seemore.cost,
-          quantity: 1,
-          post_id: seemore.id,
-          user_id: user?.id,
-        },
-      ],
-    };
-    console.log("ordenes", payloadOrder);
-    axios
-      .post(`${PROXY}/orden/` /*"http://localhost:3001/orden/" */, payloadOrder)
-      .then((res) => console.log("post order", res))
-      .catch((error) => console.log("err de seemore", error));
+//   async function handleCheckOut(e) {
+//     let payloadOrder = {
+//       carrito: [
+//         {
+//           title: seemore.title,
+//           price: seemore.cost,
+//           quantity: 1,
+//           post_id: seemore.id,
+//           user_id: user?.id,
+//         },
+//       ],
+//     };
+//     console.log("ordenes", payloadOrder);
+//     axios
+//       .post(`${PROXY}/orden/`, payloadOrder)
+//       .then((res) => console.log("post order", res))
+//       .catch((error) => console.log("err de seemore", error));
 
-    console.log("mercadopago", payloadMp);
-    e.preventDefault();
-    let response = await axios.post(
-      `${PROXY}/checkout/mercadopago/`,
-      // "http://localhost:3001/checkout/mercadopago/",
-      { payloadMp }
-    );
-    console.log("res", response);
-    window.location.href = response.data.init_points;
-  }
+//     console.log("mercadopago", payloadMp);
+//     e.preventDefault();
+//     let response = await axios.post(
+//       `${PROXY}/checkout/mercadopago/`,
+//       // "http://localhost:3001/checkout/mercadopago/",
+//       { payloadMp }
+//     );
+//     console.log("res", response);
+//     window.location.href = response.data.init_points;
+//   }
 
   const [ventanaLogIn, setVentanaLogIn] = useState(false);
   const [ventanaRegister, setVentanaRegister] = useState(false);

@@ -1,5 +1,5 @@
 import React from "react";
-import { sortByPrice, getTalentByRating } from "../../actions";
+import { sortByPrice, getTalentByRating } from "../../actions/action-talents/talents";
 import { useDispatch } from "react-redux";
 export const SortByPrice = () => {
   const dispatch = useDispatch();

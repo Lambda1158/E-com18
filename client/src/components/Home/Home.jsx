@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";
 import TalentCard from "./TalentCard";
-import { getTalents } from "../../actions";
+import { getTalents } from "../../actions/action-talents/talents";
 import Form from "../SignIn/FormSI";
 import Register from "../Register/Register";
 import { SortByPrice } from "../Sort/SortByPrice";

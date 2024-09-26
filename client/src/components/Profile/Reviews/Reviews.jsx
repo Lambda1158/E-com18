@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getReviewbyId } from "../../../actions/index";
+import { getReviewbyId } from "../../../actions/action-talents/review";
 
 export default function Reviews() {
   const { id } = useParams();

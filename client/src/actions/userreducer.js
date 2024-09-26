@@ -6,7 +6,6 @@ const initialState = {
   token: "",
   profile: [],
   order: [],
-  cargando: false,
   public_profile: [],
   movement: [],
 };
@@ -19,7 +18,6 @@ const userSlice = createSlice({
       return {
         ...state,
         user: action.payload,
-        cargando: false,
       };
     },
     getUserT: (state, action) => {

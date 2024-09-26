@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Beneficios from "./Beneficios";
 import LandingSearchbar from "./LandingSearchbar";
@@ -7,26 +7,16 @@ import Footer from "./Footer";
 import Form from "../SignIn/FormSI";
 import Reseñas from "./Reseñas";
 import Register from "../Register/Register";
+import useModal from "../../hooks/useModal";
 
 export default function Landing() {
-  const [ventanaLogIn, setVentanaLogIn] = useState(false);
-  const [ventanaRegister, setVentanaRegister] = useState(false);
-
-  function onModalClick(e) {
-    e.preventDefault();
-    setVentanaLogIn(!ventanaLogIn);
-  }
-
-  function onModaleClick(e) {
-    e.preventDefault();
-    setVentanaRegister(!ventanaRegister);
-  }
-
-  function onModalChange(e) {
-    e.preventDefault();
-    setVentanaLogIn(!ventanaLogIn);
-    setVentanaRegister(!ventanaRegister);
-  }
+  const {
+    ventanaRegister,
+    ventanaLogIn,
+    onModalClick,
+    onModaleClick,
+    onModalChange,
+  } = useModal();
 
   return (
     <div className="bg-semilight min-h-screen max-w-full overflow-x-hidden">
@@ -34,16 +24,16 @@ export default function Landing() {
       <div className="flex justify-around items-center content-center bg-landingImg bg-cover min-h-screen object-cover">
         {ventanaLogIn && (
           <Form
-            ariaHideApp={false}
             onModalClick={onModalClick}
             onModalChange={onModalChange}
+            isOpen={ventanaLogIn}
           />
         )}
         {ventanaRegister && (
           <Register
-            ariaHideApp={false}
             onModaleClick={onModaleClick}
             onModalChange={onModalChange}
+            isOpen={ventanaRegister}
           />
         )}
         <div className="flex flex-col items-center justify-between bg-dark rounded-md m-7 bg-opacity-70">

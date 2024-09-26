@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-// import { Private } from './Private';
 import Home from "../components/Home/Home";
 import Landing from "../components/Landing/Landing";
 import Validate from "../components/Register/Validate";
@@ -18,11 +17,6 @@ import Messenger from "../components/Chat/Messenger";
 import AboutUs from "../components/AboutUs/AboutUs";
 
 export const Aux = () => {
-  // No se para que es esto
-  //   if (checking) {
-  //     return <h3>Cargando...</h3>;
-  //   }
-
   return (
     <Routes>
       <Route exact path="/" element={<Landing />} />
@@ -47,7 +41,6 @@ export const Aux = () => {
         }
       />
       <Route path="/talent/:id" element={<SeeMore />} />
-      <Route path="/checkoutApro" element={<CheckoutMP />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/cart" element={<ShoppingCart />} />
       <Route path="/about" element={<AboutUs />} />

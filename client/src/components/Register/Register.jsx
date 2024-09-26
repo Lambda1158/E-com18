@@ -1,21 +1,13 @@
 import React, { useEffect } from "react";
-import { cargarUsuario, PROXY } from "../../actions";
+import { crearUsuario, logearUsuario } from "../../actions/action-talents/user";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-
 import ReactModal from "react-modal";
+import { useDispatch, useSelector } from "react-redux";
 
-import axios from "axios";
-
-export default function Register({ onModaleClick, onModalChange }) {
+export default function Register({ onModaleClick, onModalChange, isOpen }) {
   const dispatch = useDispatch();
-
-  const [modalIsOpen, setIsOpen] = useState(true);
-  const [state, setState] = useState({
-    type: "password",
-    button: "mostrar",
-  });
-
+  const error = useSelector((state) => state.state);
+  const { user } = useSelector((state) => state.user);
   const [input, setInput] = useState({
     name: "",
     lastName: "",
@@ -31,13 +23,6 @@ export default function Register({ onModaleClick, onModalChange }) {
       ...input,
       [e.target.name]: e.target.value,
     });
-  }
-
-  function handleOnChange(e) {
-    e.preventDefault();
-    state.type === "password"
-      ? setState({ type: "text", button: "ocultar" })
-      : setState({ type: "password", button: "mostrar" });
   }
 
   let regexMail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
@@ -59,15 +44,13 @@ export default function Register({ onModaleClick, onModalChange }) {
     else if (fecha[0] < 1920 || fecha[0] > 2018)
       alert("Ingrese un año valido, entre 1920 y 2018");
     else {
-      createUser(input);
-      alert("¡El usuario ha sido creado correctamente!");
+      dispatch(crearUsuario(input));
       let userLogin = {
         username: `${input.username}`,
         password: `${input.password}`,
       };
-      let respuesta = await axios
-        .post(`${PROXY}/user/loggin/`, userLogin)
-        .then((res) => res.data);
+      dispatch(logearUsuario(userLogin));
+
       setInput({
         name: "",
         lastName: "",
@@ -77,115 +60,104 @@ export default function Register({ onModaleClick, onModalChange }) {
         password2: "",
         birthdate: "",
       });
-      dispatch(cargarUsuario(respuesta));
-      setIsOpen(false);
     }
-  }
-
-  function createUser(input) {
-    axios.post(`${PROXY}/user`, input);
   }
 
   function passCheck(a, b) {
     a === b ? createPass() : alert("Las contraseñas no coinciden");
   }
-
   function handleOnSubmit(e) {
     e.preventDefault();
     passCheck(input.password, input.password2);
   }
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
-
+    if (user.username) {
+      onModaleClick();
+    }
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, []);
+  }, [user,onModaleClick]);
   return (
     <ReactModal
-      ariaHideApp={false}
-      isOpen={modalIsOpen}
+      isOpen={isOpen}
       onRequestClose={onModaleClick}
       contentLabel="Example Modal"
-      className="absolute m-auto max-w-max inset-x-0.5 top-14 bg-semidark border rounded-lg"
+      className="absolute m-auto max-w-max inset-x-0.5 top-14 bg-dark border rounded-lg"
       overlayClassName="fixed inset-0 bg-black bg-opacity-90"
     >
       <div className=" bg-dark items-center w-screen text-white m-auto max-w-max inset-16 border border-dark rounded-lg">
-        <div className=" bg-semidark bg-opacity-40 border-white border-2 rounded-lg w-80 p-8">
-          <h2 className=" text-3xl font-bold mb-4 text-center">Registro</h2>
-          <form className=" mb-1" onSubmit={(e) => handleOnSubmit(e)}>
-            <input
-              className="h-4 py-5 px-5 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full"
-              placeholder="Nombre"
-              type="text"
-              value={input.name}
-              name="name"
-              onChange={(e) => handleChange(e)}
-              required
-            />
-            <input
-              className="mt-2 h-4 py-5 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
-              placeholder="Apellido"
-              type="text"
-              value={input.lastName}
-              name="lastName"
-              onChange={(e) => handleChange(e)}
-              required
-            />
-            <input
-              className=" mt-10 h-4 py-5 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
-              placeholder="Correo electrónico"
-              type="email"
-              value={input.email}
-              name="email"
-              onChange={(e) => handleChange(e)}
-              required
-            />
-            <input
-              className="h-4 py-5 mt-2 border-2 w-[240px] bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
-              placeholder="Nombre de usuario"
-              type="text"
-              value={input.username}
-              name="username"
-              onChange={(e) => handleChange(e)}
-              required
-            />
-            <div className="">
+        <div className=" border-white border-2   rounded-lg ">
+          <h2 className=" text-3xl font-normal mb-4 p-4 text-center">
+            Registrate! 🤩
+          </h2>
+          <form className=" text-center " onSubmit={(e) => handleOnSubmit(e)}>
+            <div className=" flex  flex-col gap-2 items-center">
               <input
-                className=" h-4 py-5 mt-10 border-2  bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
+                className="h-4 py-5 px-5 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full mr-2"
+                placeholder="Nombre"
+                type="text"
+                value={input.name}
+                name="name"
+                onChange={(e) => handleChange(e)}
+                required
+              />
+              <input
+                className="mt-2 h-4 py-5 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5 "
+                placeholder="Apellido"
+                type="text"
+                value={input.lastName}
+                name="lastName"
+                onChange={(e) => handleChange(e)}
+                required
+              />
+              <input
+                className="h-4 py-5 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5 mr-2"
+                placeholder="Correo electrónico"
+                type="email"
+                value={input.email}
+                name="email"
+                onChange={(e) => handleChange(e)}
+                required
+              />
+              <input
+                className="h-4 py-5 mt-2 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
+                placeholder="Nombre de usuario"
+                type="text"
+                value={input.username}
+                name="username"
+                onChange={(e) => handleChange(e)}
+                required
+              />
+              <input
+                className=" h-4 py-5 border-2 w-[240px]  bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5 mr-2"
                 placeholder="Contraseña"
-                type={state.type}
+                type="password"
                 value={input.password}
                 name="password"
                 onChange={(e) => handleChange(e)}
                 required
                 autoComplete="on"
               />
-
               <input
-                className=" h-4 py-5 mt-2 border-2 bg-semidark  bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
+                className=" h-4 py-5 mt-2 border-2 w-[240px] bg-semidark hover:bg-semidark  bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
                 placeholder="Repite contraseña"
-                type={state.type}
+                type="password"
                 value={input.password2}
                 name="password2"
                 onChange={(e) => handleChange(e)}
                 required
                 autoComplete="on"
               />
-
-              <button
-                className=" hover:bg-dark border-2 mt-4 p-3 ml-[30%]"
-                onClick={(e) => handleOnChange(e)}
-              >
-                {state.button}
-              </button>
             </div>
-            <div className="flex flex-col ">
+            <div className="flex flex-col w-[200px] mx-auto mt-4 ">
               <label name="fecha-nacimiento" className="mt-2 text-center">
                 Fecha de Nacimiento
               </label>
               <input
-                className="bg-semidark text-center hover:bg-dark transition duration-300 mt-2 ease-in-out rounded-lg"
+                className="bg-semidark text-center hover:bg-slate-500 transition duration-300 mt-2 ease-in-out rounded-lg"
                 type="date"
                 value={input.birthdate}
                 name="birthdate"
@@ -195,22 +167,23 @@ export default function Register({ onModaleClick, onModalChange }) {
             </div>
             <div className="flex justify-center m-2">
               <button
-                className="  border rounded-sm p-3 mt-3 hover:bg-dark "
+                className="  border rounded-lg p-3 mt-3 transform hover:scale-105 duration-150 text-lg "
                 type="submit"
               >
                 Registrarme
               </button>
             </div>
           </form>
-          <div className="flex justify-around mt-6">
-            <p className="text-sm">¿Ya tienes cuenta?</p>
-            <button
+          <div className="flex gap-2 justify-center mt-4 p-4">
+            <p className="text-lg font-normal ">¿Ya tienes cuenta?</p>
+            <span
               onClick={onModalChange}
-              className="text-1xl font-semibold underline "
+              className="text-xl font-semibold underline hover:cursor-pointer transform hover:scale-105 duration-150 "
             >
               ¡Iniciar sesión!
-            </button>
+            </span>
           </div>
+          {error.message && <span>{error.message}</span>}
         </div>
       </div>
     </ReactModal>

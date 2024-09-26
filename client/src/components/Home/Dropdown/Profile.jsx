@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { desloguear } from "../../../actions";
+import { desloguear } from "../../../actions/action-talents/user";
 import { useNavigate } from "react-router-dom";
 import SubItem from "./SubItem";
 const Profile = ({ id }) => {

@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { getCategories, sortByPrice, getTalentByRating } from "../../actions";
+import { getCategories,filteredCat } from "../../actions/action-talents/talents";
 import { useDispatch, useSelector } from "react-redux";
 import { FilteredCat } from "./FilteredCat";
-import { filteredCat } from "../../actions";
 
 export const SortByCategorie = () => {
   const dispatch = useDispatch();

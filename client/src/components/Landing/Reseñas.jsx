@@ -4,7 +4,16 @@ import Slider from "react-slick";
 import { useSelector, useDispatch } from "react-redux";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { getTalents } from "../../actions";
+import { getTalents } from "../../actions/action-talents/talents";
+
+
+
+
+const useResenia =()=>{
+	
+}
+
+
 
 function Reseñas() {
   const dispatch = useDispatch();

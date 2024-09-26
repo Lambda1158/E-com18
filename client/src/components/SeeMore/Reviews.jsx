@@ -2,7 +2,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPostReview, PROXY } from "../../actions/index";
+import {
+  getPostReview,
+  postNewReview,
+} from "../../actions/action-talents/review";
 import axios from "axios";
 import StarsRating from "../Home/Star";
 
@@ -33,21 +36,14 @@ export default function Reviews() {
 
   async function onClick(e) {
     e.preventDefault();
-    try {
-      const res = await axios.post(`${PROXY}/review`, newReview);
-      console.log(res);
-      console.log(newReview);
-      setRefresh(true);
-      setNewReview({
-        qualification: "",
-        description: "",
-        user_id: user.id,
-        post_id: id,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-
+    postNewReview(newReview); //revisar post de review , armar un componente para poder crear reviews sobre productos comprados
+    setRefresh(true);
+    setNewReview({
+      qualification: "",
+      description: "",
+      user_id: user.id,
+      post_id: id,
+    });
   }
 
   function handleChange(e) {

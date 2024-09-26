@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { cargarUsuario } from "../../actions";
+import { cargarUsuario } from "../../actions/action-talents/user";
 import { useDispatch } from "react-redux";
 
 export default function Nav() {

@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import Dropdown from "../Home/Dropdown/Dropdown";
+
 export default function Navbar({ onModalClick, onModaleClick }) {
   const { user } = useSelector((state) => state.user);
   return (
@@ -17,9 +18,13 @@ export default function Navbar({ onModalClick, onModaleClick }) {
           />
         </Link>
         {user.username ? (
-          <Dropdown />
+          <section className="">
+            <Dropdown />
+            <ShoppingCart />
+          </section>
         ) : (
           <div>
+            <ShoppingCart />
             <button
               onClick={onModalClick}
               className="m-2 bg-transparent hover:bg-semilight  font-semibold hover:text-black py-2 px-4 border border-dark hover:border-semilight rounded p-0"

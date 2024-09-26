@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { FaRegEdit, FaRegSave, FaRegWindowClose } from "react-icons/fa";
 export default function Edit({
   isEditing,
