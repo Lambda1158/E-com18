@@ -1,6 +1,5 @@
 import React from "react";
 import "./messenger.css";
-import Navbar from "../Landing/Navbar";
 import Conversation from "./Conversation/Conversation";
 import Message from "./Message/Message";
 import ChatOnline from "./ChatOnline/ChatOnline";
@@ -9,6 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { PROXY } from "../../actions";
+import NavbarComp from "../Navbar/NavbarComp";
 
 
 export default function Messenger() {
@@ -107,7 +107,7 @@ export default function Messenger() {
 
   return (
     <>
-      <Navbar />
+      <NavbarComp/>
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">

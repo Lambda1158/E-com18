@@ -4,7 +4,7 @@ import linkedIn from "../../assets/linkedin-icon.svg";
 import gitHub from "../../assets/github-icon.svg";
 import Footer from "../Landing/Footer";
 import { Link } from "react-router-dom";
-import Navbar from "../Landing/Navbar";
+import NavbarComp from "../Navbar/NavbarComp";
 
 export default function AboutUs() {
   const creators = [
@@ -53,7 +53,7 @@ export default function AboutUs() {
   ];
   return (
     <div class="bg-semilight">
-      <Navbar />
+		<NavbarComp/>
       <h1 class="flex justify-center font-semibold text-4xl text-dark m-4">
         Quienes somos?
       </h1>

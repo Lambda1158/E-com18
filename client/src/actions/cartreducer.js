@@ -7,8 +7,8 @@ const carritoSlice = createSlice({
   initialState,
   reducers: {
     addCarrito: (state, action) => {
-      const { id } = action.payload;
-      const producto = state.findIndex((item) => item.id === id);
+      const { title } = action.payload;
+      const producto = state.findIndex((item) => item.title === title);
       if (producto >= 0) {
         const newState = [
           ...state.slice(0, producto),
@@ -18,14 +18,14 @@ const carritoSlice = createSlice({
         return newState;
       }
 
-      return [{ ...state, ...action.payload, quantity: 1 }];
+      return [...state, { ...action.payload, quantity: 1 }];
     },
-    clearCarrito: (state, action) => {
+    clearCarrito: () => {
       return [];
     },
     removeCarrito: (state, action) => {
-      const { id } = action.payload;
-      const producto = state.findIndex((element) => element.id === id);
+      const { title } = action.payload;
+      const producto = state.findIndex((element) => element.title === title);
       if (producto >= 0) {
         if (state[producto].quantity > 1) {
           return [
@@ -34,12 +34,20 @@ const carritoSlice = createSlice({
             ...state.slice(producto + 1),
           ];
         }
-        return state.filter((element) => element.id != id);
+        return state.filter((element) => element.title !== title);
       }
+      return state;
+    },
+    eliminarCarrito: (state, action) => {
+      const { title } = action.payload;
+      const producto = state.findIndex((element) => element.title === title);
+      if (producto >= 0)
+        return state.filter((element) => element.title !== title);
       return state;
     },
   },
 });
 
 export default carritoSlice.reducer;
-export const { addCarrito, clearCarrito, removeCarrito } = carritoSlice.actions;
+export const { addCarrito, clearCarrito, removeCarrito, eliminarCarrito } =
+  carritoSlice.actions;

@@ -19,6 +19,6 @@ require("./sockets")(io);
 conn.sync().then(() => {
   httpServer.listen(app.get("PORT"), async () => {
     //SedderData();
-    console.log("%s listening at ahi va!!!!", app.get("PORT")); // eslint-disable-line no-console
+    console.log("%s listening at ahi va!!!!", app.get("PORT"));
   });
 });

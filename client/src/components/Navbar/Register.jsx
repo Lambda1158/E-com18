@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { crearUsuario, logearUsuario } from "../../actions/action-talents/user";
 import { useState } from "react";
-import ReactModal from "react-modal";
+import ReactDom from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function Register({ onModaleClick, onModalChange, isOpen }) {
+export default function Register({ onModaleClick, onModalChange}) {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.state);
-  const { user } = useSelector((state) => state.user);
   const [input, setInput] = useState({
     name: "",
     lastName: "",
@@ -24,14 +23,15 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
       [e.target.name]: e.target.value,
     });
   }
-
-  let regexMail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-  let regexPw = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-  let regexUsername =
-    /^(?=.{4,16}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
-  let fecha = input.birthdate.split("-");
-
-  async function createPass() {
+  function handleOnSubmit(e) {
+    let regexMail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+    let regexPw = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    let regexUsername =
+      /^(?=.{4,16}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+    let fecha = input.birthdate.split("-");
+    e.preventDefault();
+    if ((input.password, input.password2))
+      alert("Las contraseñas no coinciden");
     if (!regexMail.test(input.email)) alert("Ingrese un mail valido");
     else if (!regexUsername.test(input.username))
       alert(
@@ -62,41 +62,17 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
       });
     }
   }
-
-  function passCheck(a, b) {
-    a === b ? createPass() : alert("Las contraseñas no coinciden");
-  }
-  function handleOnSubmit(e) {
-    e.preventDefault();
-    passCheck(input.password, input.password2);
-  }
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    if (user.username) {
-      onModaleClick();
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [user,onModaleClick]);
-  return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={onModaleClick}
-      contentLabel="Example Modal"
-      className="absolute m-auto max-w-max inset-x-0.5 top-14 bg-dark border rounded-lg"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-90"
-    >
-      <div className=" bg-dark items-center w-screen text-white m-auto max-w-max inset-16 border border-dark rounded-lg">
+  return ReactDom.createPortal(
+    <div className="absolute top-0 left-0 bg-black w-screen h-screen bg-opacity-90">
+      <div className="fixed top-[7%] left-[39%] bg-dark items-center text-white ">
         <div className=" border-white border-2   rounded-lg ">
-          <h2 className=" text-3xl font-normal mb-4 p-4 text-center">
+          <h2 className=" text-xl font-normal mb-2 p-2 text-center">
             Registrate! 🤩
           </h2>
-          <form className=" text-center " onSubmit={(e) => handleOnSubmit(e)}>
+          <form className=" text-center text-sm " onSubmit={(e) => handleOnSubmit(e)}>
             <div className=" flex  flex-col gap-2 items-center">
               <input
-                className="h-4 py-5 px-5 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full mr-2"
+                className="h-2 p-4 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full"
                 placeholder="Nombre"
                 type="text"
                 value={input.name}
@@ -105,7 +81,7 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
                 required
               />
               <input
-                className="mt-2 h-4 py-5 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5 "
+                className=" h-2 p-4 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full"
                 placeholder="Apellido"
                 type="text"
                 value={input.lastName}
@@ -114,7 +90,7 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
                 required
               />
               <input
-                className="h-4 py-5 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5 mr-2"
+                className="h-2 p-4 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full"
                 placeholder="Correo electrónico"
                 type="email"
                 value={input.email}
@@ -123,7 +99,7 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
                 required
               />
               <input
-                className="h-4 py-5 mt-2 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
+                className="h-2 p-4  border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full"
                 placeholder="Nombre de usuario"
                 type="text"
                 value={input.username}
@@ -132,7 +108,7 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
                 required
               />
               <input
-                className=" h-4 py-5 border-2 w-[240px]  bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5 mr-2"
+                className=" h-2 p-4 border-2 w-[240px]  bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full "
                 placeholder="Contraseña"
                 type="password"
                 value={input.password}
@@ -142,7 +118,7 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
                 autoComplete="on"
               />
               <input
-                className=" h-4 py-5 mt-2 border-2 w-[240px] bg-semidark hover:bg-semidark  bg-opacity-0 border-white outline-none placeholder-white rounded-full px-5"
+                className=" h-2 p-4 border-2 w-[240px] bg-semidark hover:bg-semidark  bg-opacity-0 border-white outline-none placeholder-white rounded-full"
                 placeholder="Repite contraseña"
                 type="password"
                 value={input.password2}
@@ -152,7 +128,7 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
                 autoComplete="on"
               />
             </div>
-            <div className="flex flex-col w-[200px] mx-auto mt-4 ">
+            <div className="flex flex-col w-[200px] mx-auto mt-4 border-2 border-white p-2 rounded-lg ">
               <label name="fecha-nacimiento" className="mt-2 text-center">
                 Fecha de Nacimiento
               </label>
@@ -165,12 +141,19 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
                 required
               />
             </div>
-            <div className="flex justify-center m-2">
+            <div className="flex justify-evenly mt-2">
               <button
-                className="  border rounded-lg p-3 mt-3 transform hover:scale-105 duration-150 text-lg "
+                className=" border rounded-lg p-4 mt-3 transform hover:scale-105 duration-150 text-sm font-bold w-[110px] "
                 type="submit"
               >
                 Registrarme
+              </button>
+              <button
+                type="button"
+                className=" border rounded-lg p-3 mt-3 transform hover:scale-105 duration-150 text-sm font-bold w-[110px] "
+                onClick={onModaleClick}
+              >
+                Cancelar
               </button>
             </div>
           </form>
@@ -186,6 +169,7 @@ export default function Register({ onModaleClick, onModalChange, isOpen }) {
           {error.message && <span>{error.message}</span>}
         </div>
       </div>
-    </ReactModal>
+    </div>,
+    document.getElementById("portal")
   );
 }

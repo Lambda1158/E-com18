@@ -6,24 +6,13 @@ import Movements from "./Movements/Movements";
 import Qas from "./QandA/QAs";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import Navbar from "../Landing/Navbar";
 import Image from "./Image";
 import { useParams } from "react-router-dom";
 import { getUserbyId } from "../../actions/action-talents/user.js";
 import Footer from "../Landing/Footer";
-import Form from "../SignIn/FormSI";
-import Register from "../Register/Register";
 import Publicaciones from "./Publicaciones/Publicaciones.jsx";
-import useModal from "../../hooks/useModal.js";
+import NavbarComp from "../Navbar/NavbarComp.jsx";
 export default function Profile() {
-  const {
-    ventanaRegister,
-    ventanaLogIn,
-    onModalClick,
-    onModaleClick,
-    onModalChange,
-  } = useModal();
-
   const { id } = useParams();
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
@@ -31,24 +20,10 @@ export default function Profile() {
   useEffect(() => {
     dispatch(getUserbyId(id));
     document.body.style.overflow = modal ? "hidden" : "unset";
-  }, [modal, id, dispatch, ventanaLogIn]);
+  }, [modal, id, dispatch]);
   return (
     <section className=" h-full bg-semilight flex flex-col justify-between w-full ">
-      <Navbar onModalClick={onModalClick} onModaleClick={onModaleClick} />
-      {ventanaLogIn && (
-        <Form
-          ariaHideApp={false}
-          onModalClick={onModalClick}
-          onModalChange={onModalChange}
-        />
-      )}
-      {ventanaRegister && (
-        <Register
-          ariaHideApp={false}
-          onModaleClick={onModaleClick}
-          onModalChange={onModalChange}
-        />
-      )}
+		<NavbarComp/>
       {user.length === 0 ? (
         <>
           <h1 className=" text-3xl font-normal ml-[30%]  tracking-normal  transition-all duration-300 ease-in-out text-light hover:tracking-wider">

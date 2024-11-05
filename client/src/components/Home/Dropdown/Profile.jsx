@@ -18,8 +18,11 @@ const Profile = ({ id }) => {
       <SubItem link={"/cart"}>Mi Carrito 🛍 </SubItem>
       <SubItem link={"/faq"}>Preguntas Frecuentes</SubItem>
       <SubItem link={"/messenger"}>Chat 🙊 </SubItem>
-      <li onClick={logOut} className=" pl-2 font-semibold transform hover:scale-105 duration-75 hover:bg-[#2F5D62] hover:text-white">
-        Cerrar Sesion 🔐 
+      <li
+        onClick={logOut}
+        className=" pl-2 font-semibold transform hover:scale-105 duration-75 hover:bg-[#2F5D62] hover:text-white"
+      >
+        Cerrar Sesion 🔐
       </li>
     </ul>
   );

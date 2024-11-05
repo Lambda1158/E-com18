@@ -25,6 +25,7 @@ module.exports = {
         lm: "1020px",
         gm: "975px",
         xl: "1280px",
+		xxl:"1368px"
       },
     },
     color: {
@@ -37,5 +38,7 @@ module.exports = {
       sep: "#4C0070",
     },
   },
-  plugins: [],
+  plugins: [
+	require('tailwind-scrollbar-hide')
+  ],
 };

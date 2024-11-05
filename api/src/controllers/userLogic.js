@@ -206,8 +206,7 @@ async function getLogIn(req, res, next) {
 
 const editUser = async (req, res, next) => {
   let file = req.file;
-  let { country, username, resume } = req.body;
-
+  let { country, username, resume, newusername } = req.body;
   try {
     var user = await Users.findOne({ where: { username } });
     if (file) {
@@ -216,6 +215,7 @@ const editUser = async (req, res, next) => {
     }
     if (country) user.country = country;
     if (resume) user.resume = resume;
+    if (newusername) user.username = newusername;
     await user.save();
     res.send(user.toJSON());
   } catch (e) {

@@ -6,8 +6,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../actions/action-talents/talents";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";
+import NavbarComp from "../Navbar/NavbarComp";
 
 function TalentForm() {
   let dispatch = useDispatch();
@@ -106,7 +106,7 @@ function TalentForm() {
 
   return (
     <div className="box-border w-full h-screen">
-      <Navbar />
+      <NavbarComp/>
       <h1 className="flex justify-center bg-semilight text-dark text-4xl font-semibold py-8">
         ¡Crea un nuevo curso en base a tu talento!
       </h1>

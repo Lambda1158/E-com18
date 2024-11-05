@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { publicProfile } from "../../actions/action-talents/user";
-import Navbar from "../Landing/Navbar";
 import Footer from "../Landing/Footer";
 import defaultImage from "../../assets/profile_default.png";
+import NavbarComp from "../Navbar/NavbarComp";
 
 export default function ProfilePublic() {
   const id = useParams();
@@ -57,7 +57,7 @@ export default function ProfilePublic() {
   // asd
   return (
     <div class="">
-      <Navbar />
+      <NavbarComp />
       <div class="flex flex-col min-h-screen p-2 bg-semilight">
         <div class="flex flex-col items-center">
           <img

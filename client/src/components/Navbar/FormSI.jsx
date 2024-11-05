@@ -1,30 +1,21 @@
-import React, { useState, useEffect } from "react";
-import ReactModal from "react-modal";
+import React, { useState } from "react";
+import ReactDom from "react-dom";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logearUsuario } from "../../actions/action-talents/user";
 
-function Form({ onModalClick, onModalChange, isOpen }) {
+function Form({ onModalClick, onModalChange }) {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.state);
-  const { user } = useSelector((state) => state.user);
   const [userLogin, setUserLogin] = useState({
     username: "",
     password: "",
-    mantenerSesion: false,
   });
 
   function handleOnChange(e) {
     setUserLogin({
       ...userLogin,
       [e.target.name]: e.target.value,
-    });
-  }
-
-  function handleSession(e) {
-    setUserLogin({
-      ...userLogin,
-      mantenerSesion: !userLogin.mantenerSesion,
     });
   }
 
@@ -38,24 +29,9 @@ function Form({ onModalClick, onModalChange, isOpen }) {
       handleOnSubmit(e);
     }
   };
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    if (user?.username) {
-      onModalClick();
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [user, onModalClick]);
-  return (
-    <ReactModal
-      isOpen={isOpen}
-      onRequestClose={onModalClick}
-      contentLabel="Example Modal"
-      className=" absolute m-auto max-w-max inset-x-0 top-40 bg-dark border-2 border-white rounded-lg"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-90"
-    >
-      <div className="flex h-96 items-center flex-col bg-dark bg-opacity-40  border-2 text-white w-96 space-y-4">
+  return ReactDom.createPortal(
+    <div className=" absolute top-0 left-0 bg-black w-screen h-screen bg-opacity-90">
+      <div className="  flex h-96 items-center flex-col bg-dark border-2 text-white w-96 space-y-4 fixed top-[25%] left-[37%]">
         <h2 className="text-3xl my-2 font-medium">Iniciar sesion</h2>
         <form
           className="text-center space-y-4"
@@ -83,12 +59,7 @@ function Form({ onModalClick, onModalChange, isOpen }) {
           </div>
           <div className="flex flex-row items-center">
             <label>Recuérdame</label>
-            <input
-              className="ml-2"
-              onChange={handleSession}
-              value=""
-              type="checkbox"
-            />
+            <input className="ml-2" value="" type="checkbox" />
             <Link
               to="/user/emailresetpassword"
               className="ml-14 underline font-bold hover:scale-110 transform duration-200"
@@ -119,7 +90,8 @@ function Form({ onModalClick, onModalChange, isOpen }) {
         </div>
         {state.message && <spam>{state.message}</spam>}
       </div>
-    </ReactModal>
+    </div>,
+    document.getElementById("portal")
   );
 }
 

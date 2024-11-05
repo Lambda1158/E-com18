@@ -21,6 +21,7 @@ export default function User({ modal }) {
     username: user.username,
     resume: user.resume,
     country: user.country,
+    newusername: user.username,
   });
   const edit = (obj) => {
     if (obj.close) {
@@ -93,7 +94,7 @@ export default function User({ modal }) {
           isEditing={isEditing}
           handleChange={handleChange}
           edit={edit}
-          text={"username"}
+          text={"newusername"}
           editedName={editedName}
         />
       </div>
