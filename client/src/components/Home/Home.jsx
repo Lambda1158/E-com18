@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Footer from "../Landing/Footer";
-import TalentCard from "./TalentCard";
+import Footer from "../Footer/Footer";
 import { getTalents } from "../../actions/action-talents/talents";
 import { SortByPrice } from "../Sort/SortByPrice";
 import Spinner from "../Spinner/Spinner";

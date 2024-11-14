@@ -8,44 +8,46 @@ import {
   filterCategory,
   filterRating,
   getS,
+  getTalentUser
 } from "../talentreducer";
+import { setError, clearError, cargando } from "../statereducer";
 import { PROXY } from "../index";
 
 export const getTalents = () => async (dispatch) => {
-  try {
-    const talents = await axios.get(`${PROXY}/post`);
-
-    dispatch(getT(talents.data)); // Dispatch the action with the talents array
-  } catch (error) {
-    console.log(error);
-  }
+  cargando();
+  axios
+    .get(`${PROXY}/post`)
+    .then((response) => dispatch(getT(response.data)))
+    .then(dispatch(clearError()))
+    .catch((error) => dispatch(setError("no se pudo ejecutar el get Talents")));
 };
 
 export const getTalentById = (id) => async (dispatch) => {
-  try {
-    let respuesta = await axios.get(`${PROXY}/post/` + id);
-    dispatch(getTbyId(respuesta.data));
-  } catch (error) {
-    console.log(error);
-  }
+  cargando();
+  axios
+    .get(`${PROXY}/post/` + id)
+    .then((response)=>dispatch(getTbyId(response.data)))
+    .then(dispatch(clearError()))
+    .catch((error) => dispatch(setError("no se pudo obtener talento by id")));
 };
 export const searchTalent = (search) => async (dispatch) => {
-  console.log("entre");
+  cargando();
   axios
     .get(`${PROXY}/post/title/` + search)
     .then((talents) => {
       dispatch(searchT(talents.data));
     })
-    .catch((error) => {
-      console.log("no se encontró el curso" + error);
-    });
+    .then(dispatch(clearError()))
+    .catch((error) => dispatch(setError("no se pudo buscar talento")));
 };
 
 export const getCategories = () => async (dispatch) => {
+  cargando();
   axios
     .get(`${PROXY}/categories`)
     .then((response) => dispatch(getC(response.data)))
-    .catch((error) => console.log(error));
+    .then(dispatch(clearError()))
+    .catch((error) => dispatch(setError("no se pudo traer categorias")));
 };
 
 export const sortByPrice = (order) => async (dispatch) =>
@@ -58,17 +60,34 @@ export const getTalentByRating = (rating) => async (dispatch) =>
   dispatch(filterRating(rating));
 
 export const getSales = (id) => async (dispatch) => {
+  cargando();
   axios
     .get(`${PROXY}/orden/ventas/` + id)
     .then((response) => dispatch(getS(response.data)))
-    .catch((error) => console.log(error));
+    .then(dispatch(clearError()))
+    .catch((error) => dispatch(setError("no se pudo ejecutar get sales")));
 };
 
 export const getComprasTalentos = (id) => async (dispatch) => {
+  cargando();
   axios
     .get(`${PROXY}/user/` + id)
-    .then((response) => dispatch(getM(response.data)))
-    .catch((error) => console.log(error));
+    .then((response) => dispatch(getTalentUser(response.data)))
+    .then(dispatch(clearError()))
+    .catch((error) =>
+      dispatch(setError("No se pudo ejecutar get compras talentos"))
+    );
 };
 
-
+export const createTalent = (payload) => async () => {
+  cargando();
+  axios({
+    method: "post",
+    url: `${PROXY}/post`,
+    data: payload,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then((res) => console.log(res))
+    .then(() => clearError())
+    .catch((err) => setError("no se pudo crear tu post", err));
+};

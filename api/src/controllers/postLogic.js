@@ -26,51 +26,52 @@ const createPost = async (req, res, next) => {
     duration,
     cost,
     username,
-    rating,
     timeZone,
     language,
     category,
   } = req.body;
+
   let file = req.file;
-  let path = "https://hitalent-project.herokuapp.com/" + file.filename;
+  if (!file) {
+    return res
+      .status(400)
+      .json({ message: "Imagen no encontrada en la solicitud" });
+  }
+  let path = "http://localhost:3001/" + file.filename;
 
   try {
-    var categoryDB = await Categories.findOne({
-      where: {
-        title: category,
-      },
-    });
+    // Verificar existencia de usuario
+    const user = await Users.findOne({ where: { username } });
+    if (!user) return res.status(404).json({ message: "Usuario inválido" });
+
+    // Verificar existencia de categoría
+    const categoryDB = await Categories.findOne({ where: { title: category } });
     if (!categoryDB)
-      return res.status(500).json({ message: "categoria invalida" });
-    var post = await Posts.create({
+      return res.status(404).json({ message: "Categoría inválida" });
+
+    // Crear el post
+    const post = await Posts.create({
       title,
       description,
       category,
       timeZone,
       language,
-      rating,
       duration: Number(duration),
       cost: Number(cost),
       image: [path],
     });
-    var user = await Users.findOne({
-      where: {
-        username,
-      },
-    });
-    let status = await user.aprobado;
-    if (!status) return res.json({ message: "usuario no aprobado" });
+
+    // Relacionar post con categoría y usuario
     await post.setCategory(categoryDB);
     await post.setUser(user);
 
-    if (!user) return res.status(500).json({ message: "usuario invalido" });
-    post.setCategory(categoryDB);
-    post.setUser(user);
+    console.log("Post creado exitosamente:", post);
     res.json(post);
-  } catch (e) {
+  } catch (error) {
+    console.error("Error al crear el post:", error);
     res.status(500).json({
-      message: "algo salio mal",
-      error: e.message,
+      message: "Algo salió mal",
+      error: error.message,
     });
   }
 };

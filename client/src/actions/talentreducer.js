@@ -7,13 +7,19 @@ const initialState = {
   moreTalent: [],
   categories: [],
   sales: [],
+  talentosUsuario: [],
 };
 
 const miSlice = createSlice({
   name: "talento",
   initialState,
   reducers: {
-    // Define las acciones y cómo se actualizará el estado
+    getTalentUser: (state, action) => {
+      return {
+        ...state,
+        talentosUsuario: action.payload,
+      };
+    },
     getT: (state, action) => {
       return {
         ...state,
@@ -105,5 +111,6 @@ export const {
   filterCategory,
   filterRating,
   getS,
+  getTalentUser,
 } = miSlice.actions;
 export default miSlice.reducer;

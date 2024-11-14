@@ -23,7 +23,7 @@ export const getUserbyToken = (token) => async (dispatch) => {
   axios
     .post(`${PROXY}/user/confirm/` + token)
     .then((res) => dispatch(getUserT(res.data)))
-    .then(() => dispatch(refresh()))
+    .then(() => dispatch(clearError()))
     .catch((error) => {
       dispatch(setError("fallo get user by token"));
       console.log(error + "fallo get token by id");
@@ -35,7 +35,7 @@ export const getUserbyId = (id) => async (dispatch) => {
   axios
     .get(`${PROXY}/user/` + id)
     .then((res) => dispatch(getUserI(res.data)))
-    .then(() => dispatch(refresh()))
+    .then(() => dispatch(clearError()))
     .catch((error) => {
       console.log(error);
       dispatch(setError("no se pudo ejecutar get user by id"));
@@ -47,7 +47,7 @@ export const getOrderbyId = (id) => async (dispatch) => {
   axios
     .get(`${PROXY}/user/` + id)
     .then((res) => dispatch(getUserO(res.data)))
-    .then(() => dispatch(refresh()))
+    .then(() => dispatch(clearError()))
     .catch((error) =>
       dispatch(setError("no se pudo ejecutar get orden by id"))
     );
@@ -57,7 +57,7 @@ export const getComprasTalentos = () => async (dispatch) => {
   axios
     .get(`${PROXY}/user/` + id)
     .then((res) => dispatch(getM(res.data)))
-    .then(() => dispatch(refresh()))
+    .then(() => dispatch(clearError()))
     .catch((error) =>
       dispatch(setError("no se pudo ejecutar get compras talentos"))
     );
@@ -67,15 +67,18 @@ export const publicProfile = (id) => async (dispatch) => {
   dispatch(cargando());
   axios
     .get(`${PROXY}/user/` + id)
-    .then(() => dispatch(refresh()))
     .then((res) => dispatch(getSeller(res.data)))
+    .then(() => dispatch(clearError()))
     .catch((error) => {
       dispatch(setError("no se pudo ejecutar public profile"));
       console.log(error);
     });
 };
 
-export const desloguear = () => dislog();
+export const desloguear = () => {
+  clearError();
+  return dislog();
+};
 
 export const editarUsuario = (body) => async (dispatch) => {
   dispatch(cargando());
@@ -86,7 +89,6 @@ export const editarUsuario = (body) => async (dispatch) => {
     headers: { "Content-Type": "multipart/form-data" },
   })
     .then((res) => dispatch(editU(res.data)))
-    .then(() => dispatch(refresh()))
     .then(() => dispatch(clearError()))
     .catch((error) => {
       console.log(error);
@@ -95,11 +97,12 @@ export const editarUsuario = (body) => async (dispatch) => {
 };
 
 export const logearUsuario = (body) => async (dispatch) => {
+  dispatch(cargando());
   axios
     .post(`${PROXY}/user/loggin/`, body)
     .then((res) => dispatch(cargarUser(res.data)))
-    .catch(() => dispatch(setError("No se pudo cargar usuario")))
-    .finally(() => dispatch(refresh()));
+    .then(() => dispatch(clearError()))
+    .catch(() => dispatch(setError("No se pudo cargar usuario")));
 };
 
 export const crearUsuario = (body) => async (dispatch) => {
@@ -107,6 +110,6 @@ export const crearUsuario = (body) => async (dispatch) => {
   axios
     .post(`${PROXY}/user/`, body)
     .then((res) => dispatch(cargarUser(res.data)))
-    .catch(() => dispatch(setError("fallo crear usuario")))
-    .finally(() => dispatch(refresh()));
+    .then(() => dispatch(clearError()))
+    .catch(() => dispatch(setError("fallo crear usuario")));
 };

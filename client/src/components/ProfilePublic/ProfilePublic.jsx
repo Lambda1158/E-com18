@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { publicProfile } from "../../actions/action-talents/user";
-import Footer from "../Landing/Footer";
+import Footer from "../Footer/Footer";
 import defaultImage from "../../assets/profile_default.png";
 import NavbarComp from "../Navbar/NavbarComp";
 

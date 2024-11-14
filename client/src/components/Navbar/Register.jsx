@@ -4,7 +4,7 @@ import { useState } from "react";
 import ReactDom from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function Register({ onModaleClick, onModalChange}) {
+export default function Register({ onModaleClick, onModalChange }) {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.state);
   const [input, setInput] = useState({
@@ -69,7 +69,10 @@ export default function Register({ onModaleClick, onModalChange}) {
           <h2 className=" text-xl font-normal mb-2 p-2 text-center">
             Registrate! 🤩
           </h2>
-          <form className=" text-center text-sm " onSubmit={(e) => handleOnSubmit(e)}>
+          <form
+            className=" text-center text-sm "
+            onSubmit={(e) => handleOnSubmit(e)}
+          >
             <div className=" flex  flex-col gap-2 items-center">
               <input
                 className="h-2 p-4 border-2 w-[240px] bg-semidark hover:bg-semidark bg-opacity-0 border-white outline-none placeholder-white rounded-full"

@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Landing/Footer";
+import Footer from "../Footer/Footer";
 import NavbarComp from "../Navbar/NavbarComp";
 
 export default function Faq() {
   return (
     <div width="100%" minHeight="100%">
       <NavbarComp />
-      <h1 className="flex bg-semilight justify-center font-semibold pt-3 text-2xl text-dark p-6">
+      <h1 className="flex bg-semilight justify-center font-semibold pt-3 text-4xl text-dark p-6">
         FAQ - Preguntas frecuentes
       </h1>
       <div className="flex flex-col items-center bg-semilight text-black">
@@ -164,7 +164,9 @@ export default function Faq() {
           </div>
           <div className="flex justify-center m-6">
             <Link to="/home">
-              <button className="btn-custom btn-colors">Volver</button>
+              <button class="flex justify-center p-2 mb-4 bg-dark rounded-lg text-lg text-white w-96 hover:scale-110 duration-300 ease-in-out">
+                Volver
+              </button>
             </Link>
           </div>
         </div>

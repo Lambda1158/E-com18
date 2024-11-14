@@ -1,14 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { desloguear } from "../../../actions/action-talents/user";
 import { useNavigate } from "react-router-dom";
+import { limpearCarrito } from "../../../actions/action-talents/carrito";
 import SubItem from "./SubItem";
+import { useDispatch } from "react-redux";
 const Profile = ({ id }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logOut = (e) => {
     e.preventDefault();
     dispatch(desloguear());
+    dispatch(limpearCarrito());
     navigate("/");
   };
   return (

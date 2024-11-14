@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import Image from "./Image";
 import { useParams } from "react-router-dom";
 import { getUserbyId } from "../../actions/action-talents/user.js";
-import Footer from "../Landing/Footer";
+import Footer from "../Footer/Footer";
 import Publicaciones from "./Publicaciones/Publicaciones.jsx";
 import NavbarComp from "../Navbar/NavbarComp.jsx";
 export default function Profile() {

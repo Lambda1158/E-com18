@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getTalentById } from "../../actions/action-talents/talents";
-import Footer from "../Landing/Footer";
+import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
 import QyA from "./Q&A";
 import QyAanswer from "./Q&Aanswer";

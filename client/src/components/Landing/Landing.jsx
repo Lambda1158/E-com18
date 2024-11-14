@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Beneficios from "./Beneficios";
 import LandingSearchbar from "./LandingSearchbar";
-import Footer from "./Footer";
+import Footer from "../Footer/Footer";
 import Reseñas from "./Reseñas";
 import NavbarComp from "../Navbar/NavbarComp";
 
