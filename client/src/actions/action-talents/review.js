@@ -1,5 +1,6 @@
-import { getR, getQa, getQp } from "../revqareducer";
+import { getR, getQa, getQp, getOr } from "../revqareducer";
 import axios from "axios";
+import { cargando, setError, clearError } from "../statereducer";
 import { PROXY } from "../index";
 export const getReviewbyId = (id) => async (dispatch) => {
   axios
@@ -58,4 +59,15 @@ export const postNewReview = (body) => async (dispatch) => {
     .catch((error) => {
       throw new Error(error);
     });
+};
+
+export const getOrderbyId = (id) => async (dispatch) => {
+  dispatch(cargando());
+  axios
+    .get(`${PROXY}/orden/` + id)
+    .then((res) => dispatch(getOr(res.data)))
+    .then(() => dispatch(clearError()))
+    .catch((error) =>
+      dispatch(()=>setError("no se pudo ejecutar get orden by id"))
+    );
 };

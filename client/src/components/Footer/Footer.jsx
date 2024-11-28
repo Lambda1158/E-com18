@@ -1,36 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FaFacebookSquare,
-  FaInstagram,
-  FaLinkedin,
-  FaGithub,
-  FaYoutube,
-} from "react-icons/fa";
-
-const data = [
-  {
-    icon: <FaFacebookSquare />,
-    link: "https://www.facebook.com/",
-    label: "Facebook",
-  },
-  {
-    icon: <FaInstagram />,
-    link: "https://www.instagram.com/",
-    label: "Instragram",
-  },
-  {
-    icon: <FaLinkedin />,
-    link: "https://www.linkedin.com/in/brunoherrera1158/",
-    label: "Linkedin",
-  },
-  {
-    icon: <FaGithub />,
-    link: "https://github.com/Lambda1158",
-    label: "Github",
-  },
-  { icon: <FaYoutube />, link: "https://www.youtube.com/", label: "Youtube" },
-];
+import LinksRedes from "./Links";
 const enlaces = [
   { label: "Home", link: "home" },
   { label: "Preguntas Frecuentes", link: "faq" },
@@ -38,30 +8,6 @@ const enlaces = [
   { label: "Terminos y condiciones", link: "" },
   { label: "Politica de privacidad", link: "" },
 ];
-const Nosotros = ({ array }) => {
-  return (
-    <ul>
-      {array.map((element, index) => {
-        return (
-          <li
-            className="hover:underline hover:scale-105 duration-300"
-            key={index}
-          >
-            <a
-              target="blank"
-              className="flex items-center space-x-2"
-              href={element.link}
-            >
-              {element.icon}
-              <span>{element.label}</span>
-            </a>
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
-
 const Lista = ({ array }) => {
   const navigate = useNavigate();
   const linkOnclick = (link) => {
@@ -88,7 +34,7 @@ const Lista = ({ array }) => {
 };
 
 export default function Footer() {
-	const date = new Date ().getFullYear()
+  const date = new Date().getFullYear();
   return (
     <footer className="bg-semidark ">
       <div className="grid grid-cols-3  text-black w-3/5 mx-auto">
@@ -111,7 +57,7 @@ export default function Footer() {
         </div>
         <div className="mt-4 ">
           <h4 className="font-semibold text-xl mb-4">Conecta con Nosotros</h4>
-          <Nosotros array={data} />
+          <LinksRedes />
         </div>
       </div>
       <article className=" border-t-[1px] border-black text-center p-1 font-normal text-sm">

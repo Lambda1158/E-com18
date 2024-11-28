@@ -199,6 +199,7 @@ export default function FormInputs({ categories, modal }) {
                 className="hidden"
                 onChange={handleOnChange}
                 type="file"
+                accept=".jpg,.jpeg,.png"
                 name="image"
                 required
                 onClick={() => setFile()}

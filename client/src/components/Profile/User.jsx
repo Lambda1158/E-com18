@@ -6,6 +6,7 @@ import { editarUsuario } from "../../actions/action-talents/user";
 import defaultImage from "../../assets/profile_default.png";
 import Edit from "./Edit";
 import { setError } from "../../actions/statereducer";
+import LinksRedes from "../Footer/Links";
 
 export default function User({ modal }) {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function User({ modal }) {
     country: user.country,
     newusername: user.username,
   });
+
   const edit = (obj) => {
     if (obj.close) {
       setIsEditing((prev) => ({
@@ -53,6 +55,7 @@ export default function User({ modal }) {
   };
   const volver = () => {
     navigate("/home");
+    window.scrollTo(0, 0);
   };
   const guardarCambios = () => {
     for (let key in editedName) {
@@ -68,13 +71,13 @@ export default function User({ modal }) {
 
   return (
     <div className="flex flex-col py-6 px-8 bg-dark  text-white rounded-lg space-y-4  max-w-[440px] shadow-outline ">
-      <div className="ml-8">
+      <div className="mx-auto">
         <img
-          className="rounded-full border-4 border-semilight w-[220px]"
+          className="rounded-full border-4 border-semilight w-[250px] h-[270px]"
           src={user.image ? user.image : defaultImage}
           alt={user.username}
         />
-        <div className="flex opacity-30 relative bottom-9 left-44 justify-center items-center w-10 h-10 bg-gray rounded-full shadow-xl hover:opacity-100 duration-70">
+        <div className="flex opacity-30 relative bottom-9 left-[190px] justify-center items-center w-10 h-10 bg-gray rounded-full shadow-xl hover:opacity-100 duration-70">
           <button onClick={(e) => handleOnClick(e)}>
             <img
               width="40px"
@@ -94,7 +97,7 @@ export default function User({ modal }) {
           isEditing={isEditing}
           handleChange={handleChange}
           edit={edit}
-          text={"newusername"}
+          text={"username"}
           editedName={editedName}
         />
       </div>
@@ -122,21 +125,8 @@ export default function User({ modal }) {
         />
       </div>
       <div>
-        <h5 className="font-medium text-xl">Redes sociales:</h5>
-        <button className="mt-2 mr-2">
-          <img
-            className="w-7 h-7 mr-2"
-            alt="Facebook logo"
-            src="http://codes.unidepix.com/img/facebook.svg"
-          />
-        </button>
-        <button className="mt-2">
-          <img
-            className="w-7 h-7 mr-2"
-            alt="Google logo"
-            src="http://codes.unidepix.com/img/google.svg"
-          />
-        </button>
+        <h5 className="font-medium text-xl mb-2">Redes sociales:</h5>
+        <LinksRedes />
       </div>
 
       <button

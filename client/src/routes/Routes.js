@@ -14,30 +14,17 @@ import CheckoutMP from "../components/Checkout/CheckoutMP";
 import ProfilePublic from "../components/ProfilePublic/ProfilePublic";
 import Messenger from "../components/Chat/Messenger";
 import AboutUs from "../components/AboutUs/AboutUs";
-
 export const Aux = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Landing />} />
-      {/* <Route path="/ResetPassword/:token" element={<ResetPassword />} /> */}
-      {/* <Route exact path="/NewPassword" element={<NewPassword />} /> */}
       <Route path="/createTalent" element={<TalentForm />} />
       <Route path="/profile/:id" element={<Profile />} />
       <Route path="/profilePublic/:idVendedor" element={<ProfilePublic />} />
       <Route path="/user/confirm/:token" element={<Validate />} />
       <Route path="/user/emailresetpassword" element={<EmailResetPassword />} />
       <Route path="/user/resetpassword/:token" element={<ResetPassword />} />
-      <Route
-        path="/home"
-        element={
-          <Home
-          // <Route
-          // element = {(props) =>
-          // isLoggedIn ? <Home /> : <Navigate to='/' />
-          // }
-          />
-        }
-      />
+      <Route path="/home" element={<Home />} />
       <Route path="/talent/:id" element={<SeeMore />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/cart" element={<ShoppingPage />} />

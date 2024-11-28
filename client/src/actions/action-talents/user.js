@@ -42,17 +42,7 @@ export const getUserbyId = (id) => async (dispatch) => {
     });
 };
 
-export const getOrderbyId = (id) => async (dispatch) => {
-  dispatch(cargando());
-  axios
-    .get(`${PROXY}/user/` + id)
-    .then((res) => dispatch(getUserO(res.data)))
-    .then(() => dispatch(clearError()))
-    .catch((error) =>
-      dispatch(setError("no se pudo ejecutar get orden by id"))
-    );
-};
-export const getComprasTalentos = () => async (dispatch) => {
+export const getComprasTalentos = (id) => async (dispatch) => {
   dispatch(cargando());
   axios
     .get(`${PROXY}/user/` + id)

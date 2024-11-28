@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {useSelector } from "react-redux";
 import Footer from "../Footer/Footer";
 import { useNavigate } from "react-router-dom";
 import NavbarComp from "../Navbar/NavbarComp";
@@ -7,7 +7,6 @@ import ShopItem from "./ShopItem";
 import Resume from "./Resume";
 
 export default function SeeMore() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const carrito = useSelector((state) => state.cart);
   const onClick = () => {

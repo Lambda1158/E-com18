@@ -70,8 +70,8 @@ function AdminData({ pestaña, data, setData }) {
                       <td>{el.fullName}</td>
                       <td>{el.username}</td>
                       <td>{el.email}</td>
-                      {el.email_verified ? <Td>Si</Td> : <Td>No</Td>}
-                      {el.aprobado ? <Td>Aprobado</Td> : <Td>Pendiente</Td>}
+                      {el.email_verified ? <td>Si</td> : <td>No</td>}
+                      {el.aprobado ? <td>Aprobado</td> : <td>Pendiente</td>}
                       <td>
                         <BotonOptions
                           mail={el.email}
@@ -107,7 +107,7 @@ function AdminData({ pestaña, data, setData }) {
                     <td>{el[`user.username`]}</td>
                     <td>{el.cost}</td>
                     <td>{el.rating}</td>
-                    {el.aprobado ? <Td>Aprobado</Td> : <Td>Pendiente</Td>}
+                    {el.aprobado ? <td>Aprobado</td> : <td>Pendiente</td>}
                     <td>
                       <BotonOptions
                         mail={el[`user.email`]}
@@ -141,7 +141,7 @@ function AdminData({ pestaña, data, setData }) {
                     <td>{el[`user.username`]}</td>
                     <td>{el.qualification}</td>
                     <td>{el.description}</td>
-                    {el.aprobado ? <Td>Aprobado</Td> : <Td>Pendiente</Td>}
+                    {el.aprobado ? <td>Aprobado</td> : <td>Pendiente</td>}
                     <td>
                       <BotonOptions
                         mail={el[`user.email`]}

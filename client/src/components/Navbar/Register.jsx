@@ -30,27 +30,25 @@ export default function Register({ onModaleClick, onModalChange }) {
       /^(?=.{4,16}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
     let fecha = input.birthdate.split("-");
     e.preventDefault();
-    if ((input.password, input.password2))
-      alert("Las contraseñas no coinciden");
+    if (input.password !== input.password2)
+      return alert("Las contraseñas no coinciden");
     if (!regexMail.test(input.email)) alert("Ingrese un mail valido");
     else if (!regexUsername.test(input.username))
-      alert(
+      return alert(
         "Usuario: No puede tener _ ni al principio ni al final, no puede tener __ ni _. dentro y debe tener entre 4-16 caracteres"
       );
     else if (!regexPw.test(input.password))
-      alert(
+      return alert(
         "Ingrese una contraseña valida. Debe contener 1 Mayuscula, 1 numero y 8-16 caracteres"
       );
     else if (fecha[0] < 1920 || fecha[0] > 2018)
-      alert("Ingrese un año valido, entre 1920 y 2018");
+      return alert("Ingrese un año valido, entre 1920 y 2018");
     else {
       dispatch(crearUsuario(input));
       let userLogin = {
         username: `${input.username}`,
         password: `${input.password}`,
       };
-      dispatch(logearUsuario(userLogin));
-
       setInput({
         name: "",
         lastName: "",
@@ -60,6 +58,8 @@ export default function Register({ onModaleClick, onModalChange }) {
         password2: "",
         birthdate: "",
       });
+      onModalChange();
+      return alert("Usuario creado con exito");
     }
   }
   return ReactDom.createPortal(
@@ -169,7 +169,7 @@ export default function Register({ onModaleClick, onModalChange }) {
               ¡Iniciar sesión!
             </span>
           </div>
-          {error.message && <span>{error.message}</span>}
+          {error.message && <p className="text-center">{error.message}</p>}
         </div>
       </div>
     </div>,

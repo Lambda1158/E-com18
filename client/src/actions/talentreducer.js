@@ -2,12 +2,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  talentosUsuario: [],
   talents: [],
   filteredTalents: [],
   moreTalent: [],
   categories: [],
   sales: [],
-  talentosUsuario: [],
 };
 
 const miSlice = createSlice({

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  .scrollbar-custom::-webkit-scrollbar {
+    height: 8px; /* Tamaño de la barra horizontal */
+    width: 8px; /* Tamaño de la barra vertical */
+  }
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: #2d2d2d; /* Fondo del track */
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #c0c6cc; /* Color del thumb */
+    border-radius: 4px; /* Bordes redondeados */
+  }
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #e9ecf0; /* Color al pasar el cursor */
+  }
+}

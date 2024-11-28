@@ -3,11 +3,13 @@ import Spinner from "../Spinner/Spinner";
 import { useDispatch } from "react-redux";
 import { clearError } from "../../actions/statereducer";
 import { useNavigate } from "react-router-dom";
+import ReactDOM from "react-dom";
 export default function Modalinfo({ error, cargando, toggleModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const buscarButton = () => {
     navigate("/home");
+    window.scrollTo(0, 0);
   };
   const volverButton = () => {
     dispatch(clearError());
@@ -16,7 +18,7 @@ export default function Modalinfo({ error, cargando, toggleModal }) {
   if (cargando) {
     return <Spinner />;
   }
-  return (
+  return ReactDOM.createPortal(
     <div className="fixed top-0 left-0 bg-black w-screen h-screen bg-opacity-90 flex justify-center items-center ">
       {error.error ? (
         <div className="w-2/5 h-6/12 bg-slate-300 p-2 hover:scale-105 duration-300">
@@ -52,6 +54,7 @@ export default function Modalinfo({ error, cargando, toggleModal }) {
           </button>
         </div>
       )}
-    </div>
+    </div>,
+    document.getElementById("portal")
   );
 }

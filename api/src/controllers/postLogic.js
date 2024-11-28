@@ -1,8 +1,7 @@
 const { Posts, Users, Categories, Review } = require("../db");
-const { Op } = require("sequelize");
 
 const getPosts = async (req, res, next) => {
-  var post = await Posts.findAll({
+  const post = await Posts.findAll({
     include: [
       {
         model: Users,
@@ -16,11 +15,46 @@ const getPosts = async (req, res, next) => {
       },
     ],
   });
-  res.json(post);
+  if (!post)
+    return res.status(404).json({ message: "No se encontro ningun post" });
+  return res.status(200).json(post);
+};
+
+const getUserPost = async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) return res.status(404).json({ message: "id no encontrado" });
+  try {
+    const posts = await Posts.findAll({
+      where: {
+        user_id: id,
+      },
+      include: [
+        {
+          model: Users,
+        },
+        {
+          model: Review,
+        },
+        {
+          model: Categories,
+          attributes: ["title"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    return res.json(posts);
+  } catch (error) {
+    console.error("Error al traer post de un user:", error);
+    return res.status(500).json({
+      message: "Algo salió mal",
+      error: error.message,
+    });
+  }
 };
 
 const createPost = async (req, res, next) => {
-  let {
+  const {
     title,
     description,
     duration,
@@ -30,15 +64,13 @@ const createPost = async (req, res, next) => {
     language,
     category,
   } = req.body;
-
-  let file = req.file;
+  const file = req.file;
   if (!file) {
     return res
       .status(400)
       .json({ message: "Imagen no encontrada en la solicitud" });
   }
-  let path = "http://localhost:3001/" + file.filename;
-
+  const path = "http://localhost:3001/" + file.filename;
   try {
     // Verificar existencia de usuario
     const user = await Users.findOne({ where: { username } });
@@ -64,12 +96,10 @@ const createPost = async (req, res, next) => {
     // Relacionar post con categoría y usuario
     await post.setCategory(categoryDB);
     await post.setUser(user);
-
-    console.log("Post creado exitosamente:", post);
-    res.json(post);
+    return res.json(post);
   } catch (error) {
     console.error("Error al crear el post:", error);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Algo salió mal",
       error: error.message,
     });
@@ -77,51 +107,77 @@ const createPost = async (req, res, next) => {
 };
 
 const updatePost = async (req, res, next) => {
-  let { title, description, duration, cost, id, rating, timeZone, language } =
+  const { title, description, duration, cost, id, timeZone, language, user } =
     req.body;
-
+  if (!id) {
+    return res.status(400).json({ message: "El ID del post es obligatorio" });
+  }
   try {
-    var post = await Posts.findByPk(id);
+    const post = await Posts.findByPk(id);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ message: `No se encontró ningún post con el ID ${id}` });
+    }
+    const updatedFields = {
+      ...(title && { title }),
+      ...(description && { description }),
+      ...(duration && { duration }),
+      ...(cost && { cost }),
+      ...(timeZone && { timeZone }),
+      ...(language && { language }),
+    };
+    await post.update(updatedFields);
+    const userPosts = await Posts.findAll({
+      where: { user_id: user },
+      include: [
+        { model: Users },
+        { model: Review },
+        { model: Categories, attributes: ["title"] },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
 
-    if (title) post.title = title;
-    if (description) post.description = description;
-    if (duration) post.duration = duration;
-    if (cost) post.cost = cost;
-    if (rating) post.rating = rating;
-    if (timeZone) post.timeZone = timeZone;
-    if (language) post.language = language;
-    await post.save();
-    res.json(post);
-  } catch (e) {
-    res.status(500).json({
-      message: "algo salio mal",
-      error: e.message,
+    return res.status(200).json(userPosts);
+  } catch (error) {
+    console.error("Error al actualizar el post:", error);
+    return res.status(500).json({
+      message: "Ocurrió un error al actualizar el post",
+      error: error.message,
     });
   }
 };
 
 const deletePost = async (req, res, next) => {
-  let { id } = req.body;
+  const { id } = req.params;
+  console.log(id);
+  if (!id) {
+    return res.status(400).json({ message: "Id no encontrado" });
+  }
   try {
-    let existsInDB = await Posts.findByPk(id); // primero busca si existe el user en la DB. Si existe lo guarda en esta variable
-    if (existsInDB) {
-      await Posts.destroy({ where: { id } });
-      return res.json(existsInDB); // devuelve el post eliminado como el metodo pop()
-    } else {
-      throw new Error(
-        "ERROR 500: El usuario no fue encontrado en la base de datos (UUID no existe)."
-      );
+    const deletedCount = await Posts.destroy({
+      where: {
+        id: id, // Condición para encontrar el registro
+      },
+    });
+
+    if (deletedCount === 0) {
+      return res.status(404).json({ message: "Post no encontrado" });
     }
-  } catch (err) {
-    next(err);
+    return res.status(200).json({ message: "Post eliminado exitosamente" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error al eliminar el post",
+      error: error.message,
+    });
   }
 };
 
 const addImage = async (req, res, next) => {
-  let { id } = req.body;
-  let file = req.file;
-  let path = "https://hitalent-project.herokuapp.com/" + file.filename;
-  var post = await Posts.findByPk(id);
+  const { id } = req.body;
+  const file = req.file;
+  const path = "https://localhost:3001/" + file.filename;
+  const post = await Posts.findByPk(id);
   if (!post)
     res.status(500).json({
       message: "post no encontrado",
@@ -129,9 +185,9 @@ const addImage = async (req, res, next) => {
   try {
     post.image = [...post.image, path];
     post.save();
-    res.json(post);
+    return res.json(post);
   } catch (e) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "algo salio mal",
       error: e.message,
     });
@@ -139,14 +195,15 @@ const addImage = async (req, res, next) => {
 };
 
 const deleteImage = async (req, res, next) => {
-  var { image, id } = req.body;
-  var post = await Posts.findByPk(id);
+  const { image, id } = req.body;
+  const post = await Posts.findByPk(id);
+  if (!post) return res.status(500).json({ message: "No se contro post" });
   try {
     post.image = post.image.filter((e) => e != image);
     post.save();
-    res.json(post);
+    return res.json(post);
   } catch (e) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "algo salio mal",
       error: e.message,
     });
@@ -154,63 +211,59 @@ const deleteImage = async (req, res, next) => {
 };
 
 async function getPostId(req, res, next) {
-  let { id } = req.params;
-
-  if (id && id.length === 36) {
-    try {
-      let gotId = await Posts.findOne({
-        where: {
-          id: id,
+  const { id } = req.params;
+  if (!id)
+    return res
+      .status(500)
+      .json({ message: "Id invalido no se encontro ningun post" });
+  try {
+    const gotId = await Posts.findOne({
+      where: {
+        id: id,
+      },
+      attributes: [
+        "title",
+        "description",
+        "image",
+        "duration",
+        "oferta",
+        "cost",
+        "rating",
+        "timeZone",
+        "language",
+        "id",
+        "user_id",
+      ],
+      include: [
+        {
+          model: Users,
+          attributes: ["id", "username", "country", "image"],
+          order: [["createdAt", "DESC"]],
         },
-        attributes: [
-          "title",
-          "description",
-          "image",
-          "duration",
-          "oferta",
-          "cost",
-          "rating",
-          "timeZone",
-          "language",
-          "id",
-          "user_id",
-        ],
-        include: [
-          {
-            model: Users,
-            attributes: ["id", "username", "country", "image"],
-            order: [["createdAt", "DESC"]],
-          },
-          {
-            model: Categories,
-            attributes: ["id", "title"],
-            order: [["createdAt", "DESC"]],
-          },
-          {
-            model: Review,
-            attributes: ["qualification", "description"],
-            order: [["createdAt", "DESC"]],
-          },
-        ],
-      });
-      if (gotId) res.json(gotId);
-      else throw new Error("No se encontro el curso");
-    } catch (error) {
-      next(error);
-    }
-  }
-  if (id && id.length !== 36) {
-    try {
-      throw new TypeError("id invalido");
-    } catch (error) {
-      next(error);
-    }
+        {
+          model: Categories,
+          attributes: ["id", "title"],
+          order: [["createdAt", "DESC"]],
+        },
+        {
+          model: Review,
+          attributes: ["qualification", "description"],
+          order: [["createdAt", "DESC"]],
+        },
+      ],
+    });
+    return res.json(gotId);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error en encontrar el post by ID" });
   }
 }
 const getTalentsByTitle = async (req, res, next) => {
+  const title = req.params.title;
+  if (!title) return res.status(500).json({ message: "No se encontro titulo" });
   try {
-    let title = req.params.title;
-    var post = await Posts.findAll({
+    const post = await Posts.findAll({
       include: [
         {
           model: Users,
@@ -222,20 +275,23 @@ const getTalentsByTitle = async (req, res, next) => {
         },
       ],
     });
-    let array = post.filter((e) =>
+    const array = post.filter((e) =>
       e.title.toLowerCase().includes(title.toLowerCase())
     );
     // if(array.length < 1) return res.status(400).json({message:"no se encontro talento con ese titulo"})
     res.json(array);
   } catch (error) {
-    next(error);
+    return res
+      .status(500)
+      .json({ message: "No se pudo encontrar talento por titulo" });
   }
 };
 
 const getTalentosporRating = async (req, res, next) => {
-  let modo = req.params.modo;
+  const modo = req.params.modo;
+  let post;
   if (modo === "asc") {
-    var post = await Posts.findAll({
+    post = await Posts.findAll({
       include: [
         {
           model: Users,
@@ -254,7 +310,7 @@ const getTalentosporRating = async (req, res, next) => {
     });
     res.json(post);
   }
-  var post = await Posts.findAll({
+  post = await Posts.findAll({
     include: [
       {
         model: Users,
@@ -284,4 +340,5 @@ module.exports = {
   getTalentsByTitle,
   getPostId,
   getTalentosporRating,
+  getUserPost,
 };

@@ -1,5 +1,4 @@
 const { Router } = require("express");
-// Importar todos los routers;
 const routerUser = require("./routers/user");
 const routerPost = require("./routers/post");
 const routerCategories = require("./routers/categories");

@@ -6,6 +6,7 @@ const initialState = {
   questionsPost: [],
   ownerQuestion: "",
   qa: [],
+  orders: [],
 };
 
 const reviewSlice = createSlice({
@@ -37,8 +38,14 @@ const reviewSlice = createSlice({
         questionsPost: action.payload,
       };
     },
+    getOr: (state, action) => {
+      return {
+        ...state,
+        orders: action.payload,
+      };
+    },
   },
 });
 
-export const { getR, getQ, getQa, getQp } = reviewSlice.actions;
+export const { getR, getQ, getQa, getQp, getOr } = reviewSlice.actions;
 export default reviewSlice.reducer;

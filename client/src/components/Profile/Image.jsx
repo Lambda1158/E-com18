@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editarUsuario } from "../../actions/action-talents/user";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { FaCloudUploadAlt, FaSave } from "react-icons/fa";
+import ReactDOM from "react-dom";
 
-export default function Image({ modal, isModal }) {
+export default function Image({ modal, isModal, user }) {
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const [previewSource, setPreviewSource] = useState();
-
-  const { user } = useSelector((state) => state.user);
   function handleSubmit(e) {
     if (file) {
       let fb = new FormData();
-      fb.append("username", user.username);
+      fb.append("username", user);
       fb.append("image", file);
       dispatch(editarUsuario(fb));
       setPreviewSource(null);
@@ -49,7 +48,7 @@ export default function Image({ modal, isModal }) {
     setPreviewSource(null);
   }
 
-  return (
+  return ReactDOM.createPortal(
     <div>
       <ReactModal
         isOpen={modal}
@@ -92,6 +91,7 @@ export default function Image({ modal, isModal }) {
                 className="hidden"
                 onChange={(e) => handleFile(e)}
                 type="file"
+                accept=".jpg,.jpeg,.png"
                 name="image"
                 required
               />
@@ -99,6 +99,7 @@ export default function Image({ modal, isModal }) {
           </div>
         )}
       </ReactModal>
-    </div>
+    </div>,
+    document.getElementById("portal")
   );
 }
