@@ -1,10 +1,9 @@
+const { where } = require("sequelize");
 const { Users, Question, Posts } = require("../db");
-
 async function question(req, res, next) {
-  console.log("probando ruta", req.body);
-  let { title, question, user_id, post_id } = req.body;
+  const { title, question, user_id, post_id } = req.body;
   try {
-    let newQuestion = await Question.create({
+    const newQuestion = await Question.create({
       title,
       question,
       user_id,
@@ -12,117 +11,100 @@ async function question(req, res, next) {
     });
     newQuestion.setUser(user_id);
     newQuestion.setPost(post_id);
-    res.send(newQuestion);
+    return res.send(newQuestion);
   } catch (err) {
-    next(err);
+    return res
+      .status(401)
+      .json({ message: "Error en la creacion del post", err });
   }
 }
 async function answer(req, res, next) {
-  let { answer, idQuestion } = req.body;
-  console.log("probando puuuuuuuut", req.body);
+  const { answer, idQuestion } = req.body;
+  console.log(req.body);
+  if (!idQuestion)
+    return res.status(401).json({ message: "No se recibio el id" });
   try {
-    let newAnswer = await Question.findByPk(idQuestion);
+    const newAnswer = await Question.findByPk(idQuestion);
     newAnswer.answer = answer;
     newAnswer.save();
-    res.json(newAnswer);
+    return res.json(newAnswer);
   } catch (err) {
-    next(err);
+    return res.status(401).json({ message: "Error en la respuesta", err });
   }
 }
 
 async function deleteQuestion(req, res) {
-  let { idQuestion } = req.params;
+  const { idQuestion } = req.params;
+  if (!idQuestion)
+    return res.status(401).json({ message: "No se encontro idquestion" });
   try {
     Question.destroy({
       where: {
         id: idQuestion,
       },
     });
-    res.status(200).send("Question eliminada");
+    return res.status(200).send("Question eliminada");
   } catch (err) {
-    next(err);
+    return res
+      .status(500)
+      .json({ message: "Algo salio mal delet question", err });
   }
 }
 
 async function getAllQuestions(req, res, next) {
-  let { idUser } = req.params;
+  const { idUser } = req.params;
+  if (!idUser)
+    return res.status(401).json({ message: "El id usuario no se encontro" });
   try {
-    let allQuestions = await Users.findOne({
-      where: {
-        id: idUser,
-      },
-      attributes: { exclude: ["user_id", "post_id", "updatedAt"] },
-      order: [["createdAt", "DESC"]],
+    const allQuestions = await Question.findAll({
       include: [
         {
           model: Posts,
-          attributes: ["id", "title"],
-          order: [["createdAt", "DESC"]],
+          where: { user_id: idUser },
+          attributes: ["id", "title", "description", "rating", "cost"],
           include: [
             {
-              model: Question,
-              attributes: [
-                "title",
-                "question",
-                "answer",
-                "id",
-                "createdAt",
-                "updatedAt",
-              ],
-              order: [["createdAt", "DESC"]],
-              include: [
-                {
-                  model: Users,
-                  attributes: ["username"],
-                },
-              ],
+              model: Users,
+              attributes: ["username", "email", "image"],
             },
           ],
         },
+        {
+          model: Users,
+          attributes: ["username", "email", "image"],
+        },
       ],
     });
-    res.json(allQuestions);
+    return res.json(allQuestions);
   } catch (err) {
-    next(err);
+    console.log(err);
+    return res
+      .status(500)
+      .json({ message: "Error en traer question by id", err });
   }
 }
 
 async function getPostQuestions(req, res, next) {
-  // el id es el del POST,
-  let { idPost } = req.params;
-  if (idPost && idPost.length === 36) {
-    // 36 es la length del UUID
-    try {
-      let foundPost = await Posts.findOne({
-        where: {
-          id: idPost,
+  const { idPost } = req.params;
+  if (!idPost)
+    return res.status(401).json({ message: "No se encontro el ID del post " });
+  try {
+    const foundPost = await Posts.findOne({
+      where: {
+        id: idPost,
+      },
+      attributes: ["id"],
+      include: [
+        {
+          model: Question,
+          attributes: ["title", "question", "answer", "userId", "createdAt"],
+          order: [["createdAt", "DESC"]],
         },
-        attributes: ["id"],
-        include: [
-          {
-            model: Question,
-            attributes: ["title", "question", "answer", "userId", "createdAt"],
-            order: [["createdAt", "DESC"]],
-          },
-        ],
-      });
-      if (foundPost) res.json(foundPost);
-      else
-        throw new Error(
-          "ERROR 500: La publicación no fue encontrada en la base de datos (UUID no existe)."
-        );
-    } catch (err) {
-      next(err);
-    }
-  }
-  if (idPost && idPost.length !== 36) {
-    try {
-      throw new TypeError(
-        "ERROR 404: ID inválido (ID no es un tipo UUID válido)."
-      ); // automaticamente rechaza un error, sin buscar por la DB
-    } catch (err) {
-      next(err);
-    }
+      ],
+    });
+    return res.json(foundPost);
+  } catch (err) {
+    return res.status(500).json({ message: "Error en get post question", err });
   }
 }
 

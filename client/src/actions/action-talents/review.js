@@ -3,16 +3,22 @@ import axios from "axios";
 import { cargando, setError, clearError } from "../statereducer";
 import { PROXY } from "../index";
 export const getReviewbyId = (id) => async (dispatch) => {
+  dispatch(cargando);
   axios
     .get(`${PROXY}/review/all/` + id)
     .then((response) => dispatch(getR(response.data)))
-    .catch((error) => console.log(error));
+    .then(() => dispatch(clearError()))
+    .catch((error) =>
+      dispatch(setError(error.message))
+    );
 };
 export const getQAbyId = (idUser) => async (dispatch) => {
+  dispatch(cargando());
   axios
     .get(`${PROXY}/question/all/` + idUser)
     .then((response) => dispatch(getQa(response.data)))
-    .catch((error) => console.log(error));
+    .then(() => dispatch(clearError()))
+    .catch((error) => dispatch(setError("No se pudo ejecutar getqabyid")));
 };
 export const postQuestion = (body) => async (dispatch) => {
   axios
@@ -29,10 +35,15 @@ export const getUserofReviewbyId = (id) => async (dispatch) => {
 };
 
 export const createAnswer = (answer) => async (dispatch) => {
-  axios
-    .put(`${PROXY}/question/answer`, answer)
+  cargando();
+  axios({
+    method: "put",
+    url: `${PROXY}/question/answer`,
+    data: answer,
+  })
     .then((response) => dispatch(getQa(response.data)))
-    .catch((error) => console.log(error));
+    .then(() => dispatch(clearError()))
+    .catch((error) => dispatch(setError(error.message)));
 };
 
 export const getPostQuestion = (idPost) => async (dispatch) => {
@@ -68,6 +79,6 @@ export const getOrderbyId = (id) => async (dispatch) => {
     .then((res) => dispatch(getOr(res.data)))
     .then(() => dispatch(clearError()))
     .catch((error) =>
-      dispatch(()=>setError("no se pudo ejecutar get orden by id"))
+      dispatch(() => setError("no se pudo ejecutar get orden by id"))
     );
 };

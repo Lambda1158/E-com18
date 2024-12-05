@@ -22,7 +22,7 @@ const Profile = ({ id }) => {
       <SubItem link={"/messenger"}>Chat 🙊 </SubItem>
       <li
         onClick={logOut}
-        className=" pl-2 font-semibold transform hover:scale-105 duration-75 hover:bg-[#2F5D62] hover:text-white"
+        className=" pl-2 font-semibold transform hover:scale-105 duration-75 hover:bg-semidark hover:text-black "
       >
         Cerrar Sesion 🔐
       </li>

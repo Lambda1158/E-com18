@@ -16,4 +16,7 @@
   .scrollbar-custom::-webkit-scrollbar-thumb:hover {
     background: #e9ecf0; /* Color al pasar el cursor */
   }
+  .scrollbar-gutter-stable {
+    scrollbar-gutter: stable both-edges;
+  }
 }

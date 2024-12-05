@@ -13,7 +13,7 @@ import useProfile from "./hook/useProfile.js";
 import useModalProfile from "./hook/useModalProfile.js";
 export default function Profile() {
   const { id } = useParams();
-  const { user, sales, orders, talentosUsuario } = useProfile(id);
+  const { user, sales, orders, talentosUsuario, review, qa } = useProfile(id);
   const { modal, toogleModal } = useModalProfile();
   return (
     <section className=" bg-semilight flex flex-col justify-between w-full ">
@@ -36,12 +36,12 @@ export default function Profile() {
             isModal={toogleModal}
             ariaHideApp={false}
           />
-          <div className="my-6 mx-4 space-y-10 overflow-x-scroll">
-              <Movements sales={sales} />
-              <Orders orders={orders} />
-              <Publicaciones talentosUsuario={talentosUsuario} />
-              <Reviews />
-              <Qas />
+          <div className="my-6 mx-4 space-y-10 overflow-x-auto">
+            <Movements sales={sales} />
+            <Orders orders={orders} />
+            <Publicaciones talentosUsuario={talentosUsuario} />
+            <Reviews review={review} />
+            <Qas qa={qa} />
           </div>
         </div>
       )}

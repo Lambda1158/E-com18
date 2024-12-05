@@ -41,11 +41,11 @@ export default function Dropdown() {
   return (
     <>
       <div ref={buttonRef}>
-        <UserLog toggle={OnClick} user={user} />
+        <UserLog toggle={OnClick} user={user} state={modal} />
       </div>
       {modal && (
         <div
-          className=" p-2 border-2 border-black absolute top-16 bg-semidark right-4 mt-2 w-48 z-10 shadow-lg shadow-current"
+          className=" p-2 border-[1px] border-black absolute top-16 bg-dark text-white right-14 mt-3 w-[230px] z-10"
           ref={modalRef}
         >
           <Profile id={user.id} />

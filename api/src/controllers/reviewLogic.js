@@ -1,31 +1,29 @@
+const { where } = require("sequelize");
 const { Review, Users, Posts, Orders } = require("../db");
 
 async function createReview(req, res, next) {
-  let { qualification, description, user_id, post_id } = req.body;
+  const { qualification, description, user_id, post_id } = req.body;
   console.log(req.body);
 
-  let order = await Orders.findAll({
+  const order = await Orders.findAll({
     where: {
       userId: user_id,
       postId: post_id,
     },
   });
-  if (order.length < 1)
+  if (!order.length)
     return res.status(500).json({
       message:
         "no puedes hacer una review de una publicacion q no has comprado",
     });
 
   try {
-    let newReview = await Review.create({
+    const newReview = await Review.create({
       description,
       qualification: parseInt(qualification),
     });
 
-    let user = await Users.findByPk(user_id);
-    if (!user.aprobado) return res.json({ message: "usuario no aprobado" });
-
-    let post = await Posts.findByPk(post_id);
+    const post = await Posts.findByPk(post_id);
     await newReview.setUser(user);
     await newReview.setPost(post);
 
@@ -37,28 +35,19 @@ async function createReview(req, res, next) {
     post.rating = Number(Math.round((post.rating + Number(qualification)) / 2));
     await post.save();
     res.json(newReview);
-
-    // let totalQual= await Review.findAll();
-    // let posibleQuali= totalQual.length;
-    // let count= 0;
-    // totalQual.forEach(e => {
-    //     count += Number(e.qualification)
-    // });
-    // let result= count / posibleQuali
-    // result= result.toString()
-    // if(result.length > 4) result= result.slice(0,3)
-    // result= Number(result)
-    // await Posts.update({
-    //   rating: result
-    // })
-    // res.json(newReview);
   } catch (err) {
-    next(err);
+    return res
+      .status(500)
+      .json({ message: "No se puedo crear la Review", error: err });
   }
 }
 
 async function deleteReview(req, res) {
-  let { idReview } = req.params;
+  const { idReview } = req.params;
+  if (!idReview)
+    return res
+      .status(401)
+      .json({ message: "No se encontro id para la review" });
   try {
     Review.destroy({
       where: {
@@ -67,63 +56,70 @@ async function deleteReview(req, res) {
     });
     res.status(200).send("Review eliminado");
   } catch (err) {
-    next(err);
+    return res
+      .status(500)
+      .json({ message: "no se pudo borrar la Review", err });
   }
 }
 
 async function updateReview(req, res, next) {
-  let { idReview } = req.params;
-  let { qualification, description } = req.body;
+  const { idReview } = req.params;
+  const { qualification, description } = req.body;
+  if (!idReview || !qualification || !description)
+    return res.status(401).json({ message: "Parametros no recibidos" });
   try {
-    let review = await Review.findByPk(idReview);
-    if (qualification) review.qualification = qualification;
-    if (description) review.description = description;
+    const review = await Review.findByPk(idReview);
+    review.qualification = qualification;
+    review.description = description;
     review.save();
-    res.json(review);
+    return res.json(review);
   } catch (err) {
-    next(err);
+    return res
+      .status(500)
+      .json({ message: "No se pudo editar la Review", err });
   }
 }
 
 async function getAllReviewsUser(req, res, next) {
-  let { idUser } = req.params;
+  const { id } = req.params;
+  if (!id)
+    return res
+      .status(401)
+      .json({ message: "No se recibio la id user en Reviews" });
   try {
-    let allReviews = await Users.findOne({
-      where: {
-        id: idUser,
-      },
-      attributes: { exclude: ["user_id", "post_id", "updatedAt"] },
+    const allReviews = await Review.findAll({
       include: [
         {
           model: Posts,
-          attributes: ["id", "title"],
-          order: [["createdAt", "DESC"]],
-          include: [
-            {
-              model: Review,
-              attributes: ["qualification", "description"],
-              order: [["createdAt", "DESC"]],
-              include: [
-                {
-                  model: Users,
-                  attributes: ["username"],
-                },
-              ],
-            },
+          where: { user_id: id },
+          attributes: [
+            "id",
+            "title",
+            "description",
+            "rating",
+            "duration",
+            "cost",
+            "createdAt",
           ],
+          order: [["createdAt", "DESC"]],
+        },
+        {
+          model: Users,
+          attributes: ["username", "email", "image"],
+          order: [["createdAt", "DESC"]],
         },
       ],
     });
-    res.json(allReviews);
+    return res.json(allReviews);
   } catch (err) {
-    next(err);
+    return res.status(500).json({ message: err.message });
   }
 }
 
 async function getPostReview(req, res, next) {
   // el id es el del POST,
   let { idPost } = req.params;
-  if (idPost && idPost.length === 36) {
+  if (idPost) {
     // 36 es la length del UUID
     try {
       let foundPost = await Posts.findOne({

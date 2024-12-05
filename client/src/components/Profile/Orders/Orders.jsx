@@ -7,7 +7,7 @@ export default function Orders({ orders }) {
       <h2 className="text-3xl font-normal mb-4 cursor-default ">
         Historial de ventas
       </h2>
-      <section className="flex gap-4 overflow-x-scroll scrollbar-custom py-2">
+      <section className="flex gap-4 overflow-x-auto scrollbar-custom  py-2">
         {orders.map((element) => (
           <OrderCard key={element.id} element={element} />
         ))}
