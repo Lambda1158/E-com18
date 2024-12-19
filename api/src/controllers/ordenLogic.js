@@ -1,5 +1,5 @@
 const { where } = require("sequelize");
-const { Orders, Users, Posts, Payments } = require("../db");
+const { Orders, Users, Posts, Payments, Review } = require("../db");
 
 const getAllOrden = async (req, res, next) => {
   const allOrden = await Orders.findAll({
@@ -19,12 +19,19 @@ const getOrdenbyId = async (req, res, next) => {
     include: [
       {
         model: Users,
-        attributes: ["username", "email", "image", "country"],
+        attributes: ["id", "username", "email", "image", "country"],
       },
       {
         model: Posts,
         where: { user_id: id },
-        attributes: ["title", "image", "description", "cost", "duration","rating"],
+        attributes: [
+          "title",
+          "image",
+          "description",
+          "cost",
+          "duration",
+          "rating",
+        ],
       },
       { model: Payments },
     ],
@@ -92,30 +99,52 @@ const cancelOrden = async (req, res, next) => {
 async function getVentas(req, res, next) {
   const user = req.params.id;
   if (!user)
-    return res.status(401).json({ message: "No se encontro id de usuario" });
-  const ventas = await Orders.findAll({
-    where: { userId: user },
-    include: [
-      {
-        model: Users,
-        attributes: ["username", "name", "email", "country", "image"],
-      },
-      {
-        model: Posts,
-        attributes: [
-          "title",
-          "description",
-          "duration",
-          "cost",
-          "rating",
-          "image",
-        ],
-      },
-    ],
-  });
-  if (!ventas.length)
-    return res.json({ message: "el usuario seleccionado no tiene ventas" });
-  return res.json(ventas);
+    return res.status(401).json({ message: "No se encontró ID de usuario" });
+
+  try {
+    const ventas = await Orders.findAll({
+      where: { userId: user },
+      include: [
+        {
+          model: Users,
+          attributes: ["username", "name", "email", "country", "image"],
+        },
+        {
+          model: Posts,
+          attributes: [
+            "title",
+            "description",
+            "duration",
+            "cost",
+            "rating",
+            "image",
+          ],
+          include: [
+            {
+              model: Review,
+              where: { userId: user },
+              required: false,
+              attributes: [
+                "id",
+                "qualification",
+                "description",
+                "createdAt",
+                "aprobado",
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!ventas.length)
+      return res.json({ message: "El usuario seleccionado no tiene ventas" });
+
+    return res.json(ventas);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error al obtener las ventas" });
+  }
 }
 
 module.exports = {

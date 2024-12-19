@@ -1,39 +1,63 @@
 import React, { useState } from "react";
 import TalentCard from "./TalentCard";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const SimpleSlider = ({ items }) => {
-  var settings = {
+  const settings = {
+    arrows: true,
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    appendDots: (dots) => (
+      <div>
+        <ul className="relative ml-[1450px] bottom-[370px]">{dots}</ul>
+      </div>
+    ),
+    customPaging: (i) => (
+      <button className="w-6 h-6 bg-gray-800 rounded-full hover:bg-gray-800 transition"></button>
+    ),
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1368,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          infinite: false,
+          appendDots: (dots) => (
+            <div>
+              <ul className="relative ml-[950px] bottom-[370px]">{dots}</ul>
+            </div>
+          ),
+          customPaging: (i) => (
+            <button className="w-6 h-6 bg-gray-800 rounded-full hover:bg-gray-800 transition"></button>
+          ),
+          dots: true,
+        },
+      },
+    ],
   };
 
   return (
-    <div className="">
-      <Slider {...settings}>
-        {items?.map((talent) => {
-          return (
-            <TalentCard
-              key={talent.id}
-              category={talent?.category?.title}
-              id={talent.id}
-              username={talent?.user?.username}
-              title={talent.title}
-              description={talent.description}
-              image={talent.image}
-              cost={talent.cost}
-              rating={talent.rating}
-              reviews={talent.reviews}
-            />
-          );
-        })}
-      </Slider>
-    </div>
+    <Slider {...settings}>
+      {items?.map((talent) => (
+        <TalentCard
+          key={talent.id}
+          category={talent?.category?.title}
+          id={talent.id}
+          username={talent?.user?.username}
+          title={talent.title}
+          description={talent.description}
+          image={talent.image}
+          cost={talent.cost}
+          duration={talent.duration}
+          rating={talent.rating}
+          reviews={talent.reviews}
+        />
+      ))}
+    </Slider>
   );
 };
 

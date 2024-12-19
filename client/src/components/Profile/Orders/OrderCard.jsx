@@ -1,5 +1,6 @@
 import React from "react";
 export default function OrderCard({ element }) {
+  console.log(element);
   return (
     <div className="bg-dark text-white border rounded-lg shadow-lg p-4 min-w-[360px] cursor-default select-none">
       <h3 className="text-xl font-bold mb-2">{element.title}</h3>
@@ -22,14 +23,22 @@ export default function OrderCard({ element }) {
         </div>
       </div>
       <div className="mb-2">
-        <h4 className="font-semibold text-lg">Detalles del post: <span className=" text-xl font-normal">{element.post.title}</span></h4>
-        <p className="text-sm italic text-gray-400">{element.post.description}</p>
-        <p className="text-sm text-gray-400">Costo original: ${element.post.cost}</p>
+        <h4 className="font-semibold text-lg">
+          Detalles del post:{" "}
+          <span className=" text-xl font-normal">{element.post.title}</span>
+        </h4>
+        <p className="text-sm italic text-gray-400">
+          {element.post.description}
+        </p>
+        <p className="text-sm text-gray-400">
+          Costo original: ${element.post.cost}
+        </p>
         <p className="text-lg text-gray-400">Rating: ⭐{element.post.rating}</p>
       </div>
       <div className="flex justify-between items-center">
         <p className="font-bold text-lg">
-          Estado: <span className="text-yellow-400 capitalize">{element.status}</span>
+          Estado:{" "}
+          <span className="text-yellow-400 capitalize">{element.status}</span>
         </p>
         <p className="font-bold text-lg">
           Total:{" "}
@@ -42,5 +51,6 @@ export default function OrderCard({ element }) {
         </p>
       </div>
     </div>
+   
   );
 }

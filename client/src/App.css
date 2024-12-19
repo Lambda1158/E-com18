@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.slick-prev::before,
+.slick-next::before {
+  color: gray; /* Cambia el color */
+  font-size: 24px; /* Ajusta el tamaño */
+}
+
+.slick-prev {
+  left: -54px; /* Ajusta la posición */
+}
+
+.slick-next {
+  right: -54px; /* Ajusta la posición */
+}

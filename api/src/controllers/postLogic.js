@@ -1,4 +1,4 @@
-const { Posts, Users, Categories, Review } = require("../db");
+const { Posts, Users, Categories, Review, Question } = require("../db");
 
 const getPosts = async (req, res, next) => {
   const post = await Posts.findAll({
@@ -123,7 +123,7 @@ const updatePost = async (req, res, next) => {
       ...(title && { title }),
       ...(description && { description }),
       ...(duration && { duration }),
-      ...(cost && { cost }),
+      ...(cost && { cost: Number(cost) }),
       ...(timeZone && { timeZone }),
       ...(language && { language }),
     };
@@ -214,7 +214,7 @@ async function getPostId(req, res, next) {
   const { id } = req.params;
   if (!id)
     return res
-      .status(500)
+      .status(401)
       .json({ message: "Id invalido no se encontro ningun post" });
   try {
     const gotId = await Posts.findOne({
@@ -237,7 +237,7 @@ async function getPostId(req, res, next) {
       include: [
         {
           model: Users,
-          attributes: ["id", "username", "country", "image"],
+          attributes: ["id", "username", "country", "image", "email"],
           order: [["createdAt", "DESC"]],
         },
         {
@@ -247,16 +247,28 @@ async function getPostId(req, res, next) {
         },
         {
           model: Review,
-          attributes: ["qualification", "description"],
+          attributes: ["qualification", "description", "id", "aprobado"],
           order: [["createdAt", "DESC"]],
+        },
+        {
+          model: Question,
+          include: [
+            { model: Users, attributes: ["username", "email", "image"] },
+            {
+              model: Posts,
+              attributes: ["id"],
+              include: [
+                { model: Users, attributes: ["username", "email", "image"] },
+              ],
+            },
+          ],
         },
       ],
     });
     return res.json(gotId);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error en encontrar el post by ID" });
+    console.log(error);
+    return res.status(500).json({ message: error.message });
   }
 }
 const getTalentsByTitle = async (req, res, next) => {

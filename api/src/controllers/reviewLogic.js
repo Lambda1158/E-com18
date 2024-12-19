@@ -1,14 +1,11 @@
-const { where } = require("sequelize");
 const { Review, Users, Posts, Orders } = require("../db");
 
 async function createReview(req, res, next) {
-  const { qualification, description, user_id, post_id } = req.body;
-  console.log(req.body);
-
+  const { rating, comment, user, post } = req.body;
   const order = await Orders.findAll({
     where: {
-      userId: user_id,
-      postId: post_id,
+      userId: user,
+      postId: post,
     },
   });
   if (!order.length)
@@ -16,26 +13,51 @@ async function createReview(req, res, next) {
       message:
         "no puedes hacer una review de una publicacion q no has comprado",
     });
-
   try {
     const newReview = await Review.create({
-      description,
-      qualification: parseInt(qualification),
+      description: comment,
+      qualification: parseInt(rating),
     });
+    const userBd = await Users.findByPk(user);
+    const postBd = await Posts.findByPk(post);
+    await newReview.setUser(userBd);
+    await newReview.setPost(postBd);
 
-    const post = await Posts.findByPk(post_id);
-    await newReview.setUser(user);
-    await newReview.setPost(post);
-
-    if (post.rating === 0) {
-      post.rating = Number(review.qualification);
-      await post.save();
-      return res.json(newReview);
+    const allorder = await Orders.findAll({
+      where: { userId: user },
+      include: [
+        { model: Users, attributes: ["username", "id", "email", "image"] },
+        {
+          model: Posts,
+          attributes: ["id", "title", "image", "duration", "cost", "rating"],
+          include: [
+            {
+              model: Review,
+              where: { userId: user },
+              required: false,
+              attributes: [
+                "id",
+                "qualification",
+                "description",
+                "createdAt",
+                "aprobado",
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    console.log(allorder);
+    if (postBd.rating === 0) {
+      postBd.rating = Number(newReview.qualification);
+      await postBd.save();
+      return res.json(allorder);
     }
-    post.rating = Number(Math.round((post.rating + Number(qualification)) / 2));
-    await post.save();
-    res.json(newReview);
+    postBd.rating = Number(Math.round((postBd.rating + Number(rating)) / 2));
+    await postBd.save();
+    return res.json(allorder);
   } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .json({ message: "No se puedo crear la Review", error: err });

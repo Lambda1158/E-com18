@@ -1,50 +1,58 @@
 import React from "react";
-
+import CompraReview from "./CompraReview";
 const CompraCard = ({ purchase }) => {
-  const { id, title, price, status, createdAt, user, post } = purchase;
-
+  const { price, status, createdAt, post } = purchase;
   return (
-    <div className="bg-dark text-white border rounded-lg shadow-lg p-4 w-full sm:w-96">
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-gray-400 text-sm mb-4">
-        Compra realizada el:{" "}
-        <span className="text-white">
-          {new Date(createdAt).toLocaleDateString()}
-        </span>
-      </p>
-      <div className="flex items-center mb-4">
+    <div className="bg-dark text-white border rounded-lg shadow-lg p-4 xxl:w-[330px] ">
+      <div>
+        <h3 className="text-xl font-semibold text-center mb-2">{post.title}</h3>
         <img
-          className="w-12 h-12 rounded-full border mr-4"
-          src={user.image}
-          alt={`Foto de perfil de ${user.name}`}
+          alt="imagen-talento"
+          className="h-32 mx-auto rounded-lg object-cover xxl:w-full"
+          src={post.image}
         />
-        <div>
-          <h4 className="font-semibold">{user.name}</h4>
-          <p className="text-gray-400 text-sm">{user.email}</p>
-          <p className="text-gray-400 text-sm">{user.country}</p>
-        </div>
       </div>
-      <div className="mb-4">
-        <h4 className="font-semibold text-lg">Detalles del post:</h4>
-        <p className="text-gray-400">{post.title}</p>
-        <p className="text-sm text-gray-400">{post.description}</p>
-        <p className="text-sm text-gray-400">Costo original: ${post.cost}</p>
-        <p className="text-sm text-gray-400">Rating: ⭐{post.rating}</p>
-      </div>
-      <div className="flex justify-between items-center">
-        <p className="font-bold text-lg">
-          Estado: <span className="text-yellow-400 capitalize">{status}</span>
+      <div className=" py-2 px-2 text-sm text-gray-400">
+        <h4 className="font-semibold text-lg text-white">
+          Detalles de la Compra:
+        </h4>
+        <p>
+          Compra realizada el:{" "}
+          <span className="text-white">
+            {new Date(createdAt).toLocaleDateString()}
+          </span>
         </p>
-        <p className="font-bold text-lg">
-          Total:
-          <span className="text-green-400">
+        <p>
+          Costo Actual:{" "}
+          <span className="text-white">
+            ${" "}
             {Intl.NumberFormat("es-ES", {
               style: "currency",
-              currency: "USD",
+              currency: "ARS",
+            }).format(post.cost)}
+          </span>
+        </p>
+        <p>
+          Comprada por:{" "}
+          <span className="text-green-400">
+            $
+            {Intl.NumberFormat("es-ES", {
+              style: "currency",
+              currency: "ARS",
             }).format(price)}
           </span>
         </p>
+        <p>
+          Estado: <span className="text-yellow-400 capitalize">{status}</span>
+        </p>
       </div>
+      {!post.reviews?.length ? (
+        <CompraReview post={purchase.postId} user={purchase.userId} />
+      ) : (
+        <h1 className="px-2 font-semibold text-lg text-white">
+          Ya dejaste una Review!
+        </h1>
+      )}
     </div>
   );
 };

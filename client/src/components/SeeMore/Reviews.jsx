@@ -1,113 +1,31 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getPostReview,
-  postNewReview,
-} from "../../actions/action-talents/review";
-import axios from "axios";
 import StarsRating from "../Home/Star";
-
-export default function Reviews() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const review = useSelector((state) => state.reviewSliceReducer.review);
-  const orders = useSelector((state) => state.userSliceReducer.profile);
-  const user = useSelector((state) => state.userSliceReducer.user);
-  const [refresh, setRefresh] = useState(false);
-  const [buyPost, setBuyPost] = useState();
-  const [newReview, setNewReview] = useState({
-    qualification: "",
-    description: "",
-    user_id: user.id,
-    post_id: id,
-  });
-
-  useEffect(() => {
-    dispatch(getPostReview(id));
-    setRefresh(false);
-  }, [refresh, dispatch, id]);
-
-  useEffect(() => {
-    let buy = orders.orders?.find((o) => o.postId === id);
-    setBuyPost(buy);
-  }, [id, orders.orders]);
-
-  async function onClick(e) {
-    e.preventDefault();
-    postNewReview(newReview); //revisar post de review , armar un componente para poder crear reviews sobre productos comprados
-    setRefresh(true);
-    setNewReview({
-      qualification: "",
-      description: "",
-      user_id: user.id,
-      post_id: id,
-    });
-  }
-
-  function handleChange(e) {
-    e.preventDefault();
-    setNewReview({
-      ...newReview,
-      [e.target.name]: e.target.value,
-    });
-    console.log(newReview);
-  }
-
+import { CgCornerDownRight } from "react-icons/cg";
+export default function Reviews({ items }) {
   return (
-    <div className="m-3">
-      <h3 className="text-xl font-semibold">Reviews del talento</h3>
-      {review?.reviews?.length > 0 ? (
-        <div className="w-min-full" display="flex" mt="2" alignItems="center">
-          <div as="span" ml="2" color="gray.600" fontSize="sm">
-            {review?.reviews ? (
-              review?.reviews?.map((e, index) => (
-                <div key={index} className="bg-light mb-2 rounded-md">
-                  <StarsRating rating={e.qualification} />
-                  {e?.description}
+    <section className="p-4 ">
+      <h1 className="text-2xl mb-2 font-normal ">Opiniones del producto</h1>
+      {!items?.length ? (
+        <div className="flex ml-2 items-center text-lg">
+          <CgCornerDownRight />
+          <span className="ml-2 italic text-gray-400">
+            Aún no hay reseñas. ¡Sé el primero en dejar una reseña!
+          </span>
+        </div>
+      ) : (
+        <>
+          <div>
+            {items.map((element) => {
+              return (
+                <div className="flex px-4 items-center" key={element.id}>
+                  <p className="text-lg capitalize italic mr-2 ">{element.description}</p>
+                  <StarsRating rating={element.qualification} />
                 </div>
-              ))
-            ) : (
-              <span>No han dejado ningún comentario</span>
-            )}
+              );
+            })}
           </div>
-        </div>
-      ) : (
-        <span>Esta publicación no tiene reviews por el momento</span>
+        </>
       )}
-      <hr />
-
-      {buyPost ? (
-        <div className="m-3">
-          <h3 className="text-xl font-semibold">
-            Deja tu reseña sobre este curso para ayudar a las demas personas
-          </h3>
-          <form>
-            <input
-              value={newReview.description}
-              name="description"
-              onChange={(e) => handleChange(e)}
-              placeholder="Ingrese su reseña"
-              size="md"
-              required
-            />
-            <input
-              type="number"
-              value={newReview.qualification}
-              name="qualification"
-              placeholder="Calificación (Min. 1 - Max. 5)"
-              min="1"
-              max="5"
-              onChange={(e) => handleChange(e)}
-              required
-            />
-            <button onClick={(e) => onClick(e)}>Enviar</button>
-          </form>
-        </div>
-      ) : (
-        <br />
-      )}
-    </div>
+    </section>
   );
 }

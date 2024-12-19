@@ -98,6 +98,12 @@ const miSlice = createSlice({
         sales: action.payload,
       };
     },
+    clearT: (state) => {
+      return {
+        ...state,
+        moreTalent: [],
+      };
+    },
   },
 });
 
@@ -112,5 +118,6 @@ export const {
   filterRating,
   getS,
   getTalentUser,
+  clearT,
 } = miSlice.actions;
 export default miSlice.reducer;

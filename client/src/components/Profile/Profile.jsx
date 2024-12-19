@@ -36,7 +36,7 @@ export default function Profile() {
             isModal={toogleModal}
             ariaHideApp={false}
           />
-          <div className="my-6 mx-4 space-y-10 overflow-x-auto">
+          <div className="my-6 mx-4 space-y-10 overflow-x-auto w-full">
             <Movements sales={sales} />
             <Orders orders={orders} />
             <Publicaciones talentosUsuario={talentosUsuario} />

@@ -61,6 +61,7 @@ export default function CardPublicacion({ element }) {
               <input
                 name="cost"
                 type="number"
+                step="0.01"
                 className="border text-black rounded px-3 py-2 text-sm focus:outline-primary"
               />
             </div>

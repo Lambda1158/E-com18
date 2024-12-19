@@ -1,102 +1,93 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { useParams } from "react-router";
-import { getTalentById } from "../../actions/action-talents/talents";
 import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
-import QyA from "./Q&A";
-import QyAanswer from "./Q&Aanswer";
 import Reviews from "./Reviews";
 import Spinner from "../Spinner/Spinner";
-import { agregarCarrito } from "../../actions/action-talents/carrito";
 import NavbarComp from "../Navbar/NavbarComp";
-
+import StarsRating from "../Home/Star";
+import useSeeMore from "./hook/useSeemore";
+import QandA from "./QandA";
+import QandAcard from "./QandACard";
 export default function SeeMore() {
-  const dispatch = useDispatch();
   const { id } = useParams();
-  const seemore = useSelector((state) => state.mislice.moreTalent);
-  const { user } = useSelector((state) => state.user);
-  useEffect(() => {
-    dispatch(getTalentById(id));
-  }, [dispatch, id]);
-
-  const addCarrito = () => {
-    dispatch(agregarCarrito(seemore));
-  };
-
+  const { seemore, addCarrito, user, review, question } = useSeeMore(id);
   return (
-    <div className="flex min-h-screen flex-col justify-between">
+    <div className="flex min-h-screen flex-col justify-between bg-[#ebebeb]">
       <NavbarComp />
-      {seemore ? (
-        <div className=" border-[#2F5D62] text-[#2F5D62]  border-2 max-w-[1300px]">
-          <div className="flex m-2  text-[#2F5D62] p-4 border-[#2F5D62] border-b-2">
-            <img
-              className=" w-[620px] flex-grow p-2"
-              src={seemore.image}
-              alt="talent_image"
-            />
-
-            <div className=" flex-grow p-2 ml-2 max-w-7xl">
-              <h1 className="text-4xl font-bold p-2 transform hover:translate-x-6 duration-300 hover:scale-105">
+      {!seemore.length ? (
+        <div className="grid grid-cols-[70%_30%] w-9/12 mx-auto p-4 m-4 border-[1px] bg-white">
+          <section>
+            <div className="h-[280px] w-11/12  overflow-hidden mx-auto">
+              <img
+                className="w-full h-full object-cover hover:scale-105 duration-300"
+                src={seemore.image}
+                alt="talent_image"
+              />
+            </div>
+            <Reviews items={review} />
+            <QandA
+              isOwner={seemore.user_id === user}
+              user_id={user}
+              post={{ id: seemore.id, title: seemore.title }}
+            >
+              <QandAcard items={question} />
+            </QandA>
+          </section>
+          <section className="border-[1px] border-gray-400 shadow-xl cursor-default h-fit">
+            <div className="  p-2 py-4 ml-2 ">
+              <h1 className="text-4xl font-semibold transform hover:translate-x-6 duration-300 hover:scale-105">
                 {seemore.title}
               </h1>
               <Link to={"/profilePublic/" + seemore?.user_id}>
-                <h1 className=" ml-2 text-dark text-3xl transform hover:translate-x-6 duration-300 hover:scale-105 hover:underline">
+                <h1 className=" text-dark text-3xl italic text-gray-500 transform hover:translate-x-6 duration-300 hover:scale-105 hover:underline">
                   by {seemore?.user?.username}
                 </h1>
               </Link>
-              <p className=" text-2xl mt-2 font-normal border-t-2 border-[#2F5D62] py-2">
+              <StarsRating rating={seemore.rating} />
+              <p className="text-green-800 font-semibold text-2xl">
+                ${" "}
+                {Intl.NumberFormat("es-ES", {
+                  style: "currency",
+                  currency: "ARS",
+                }).format(seemore.cost)}
+              </p>
+              <p className="italic text-lg mt-2 font-normal border-t-2 border-[#2F5D62] py-2">
                 {seemore.description}
               </p>
-              <div className="flex flex-wrap flex-row justify-between">
-                <div>
-                  <p className=" text-1xl p-2 font-bold">Idioma:</p>
-                  {seemore?.language}
-                </div>
-                <div>
-                  <p as="span" color="gray.600 fontSize=-sm">
-                    Huso horario:
+              <p className=" text-xl font-normal">
+                Idioma: <span className="capitalize ">{seemore?.language}</span>
+              </p>
+              <p className="text-xl font-normal">
+                Uso horario: <span>{seemore?.timeZone}</span>
+              </p>
+              <div className="flex flex-col mt-2 gap-1">
+                {seemore.user_id === user ? (
+                  <p className=" text-red-600 font-semibold text-lg my-2">
+                    Esta publicacion te pertenece!
                   </p>
-                  {seemore?.timeZone}
-                </div>
-                <div>
-                  <p as="span" color="gray.600" fontSize="sm">
-                    Presio: $
-                  </p>
-                  {seemore.cost}
-                </div>
-              </div>
-              {seemore.user_id !== user.id && user.id ? (
-                <div className="flex flex-row  justify-between text-center mt-2">
-                  <button className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300">
-                    Comprar
-                  </button>
-                  <button
-                    className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300"
-                    onClick={addCarrito}
-                  >
-                    Agregar al carrito
-                  </button>
-                  <Link to="/home">
+                ) : (
+                  <>
                     <button className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300">
-                      Volver
+                      Comprar
                     </button>
-                  </Link>
-                </div>
-              ) : !user.id ? (
-                <p status="warning">
-                  Ingresa a tu cuenta para adquirir este curso o hacer una
-                  pregunta
-                </p>
-              ) : (
-                <div>Esta publicacion te pertenece</div>
-              )}
-            </div>
+                    <button
+                      className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300"
+                      onClick={addCarrito}
+                    >
+                      Agregar al carrito
+                    </button>
+                  </>
+                )}
 
-            {/* <Reviews /> */}
-            {/* {seemore.user_id !== user.id && <QyA />} */}
-          </div>
-          <QyAanswer />
+                <Link to="/home">
+                  <button className="hover:bg-semidark w-full bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300">
+                    Volver
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </section>
         </div>
       ) : (
         <Spinner />

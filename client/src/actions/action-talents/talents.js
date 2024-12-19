@@ -28,7 +28,7 @@ export const getTalentById = (id) => async (dispatch) => {
     .get(`${PROXY}/post/` + id)
     .then((response) => dispatch(getTbyId(response.data)))
     .then(() => dispatch(clearError()))
-    .catch((error) => dispatch(setError("no se pudo obtener talento by id")));
+    .catch((error) => dispatch(setError(error.message)));
 };
 export const searchTalent = (search) => async (dispatch) => {
   cargando();
@@ -65,7 +65,7 @@ export const getSales = (id) => async (dispatch) => {
     .get(`${PROXY}/orden/ventas/` + id)
     .then((response) => dispatch(getS(response.data)))
     .then(() => dispatch(clearError()))
-    .catch((error) => dispatch(setError("no se pudo ejecutar get sales")));
+    .catch((error) => dispatch(setError(error.message)));
 };
 
 export const getTalentsfromUser = (id) => async (dispatch) => {

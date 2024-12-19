@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
         // },
         qualification: {
             type: DataTypes.ENUM('1', '2', '3', '4', '5'),
-            allowNull: true
+            allowNull: false
             // type: DataTypes.INTEGER,
             // allowNull: false,
             // validate: {
@@ -35,7 +35,7 @@ module.exports = (sequelize) => {
         },    
         description: {
             type: DataTypes.TEXT,
-            allowNull: true,
+            allowNull: false,
         },
         aprobado:{
             type:DataTypes.BOOLEAN,

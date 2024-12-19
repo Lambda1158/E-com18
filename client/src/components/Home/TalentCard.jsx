@@ -1,47 +1,45 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import StarsRating from "./Star";
-
+import { useNavigate } from "react-router-dom";
 export default function TalentCard({
   title,
   username,
-  description,
   image,
   cost,
   id,
   category,
   rating,
-  reviews,
+  duration,
 }) {
+  const navigate = useNavigate();
+  const clickTalent = () => {
+    navigate("/talent/" + id);
+  };
   return (
-    <div className=" border-[1px] border-gray-500 mt-2 ">
-      <img className=" h-[200px] w-[400px]"
-        src={image}
-        alt="talent_image"
-      />
-      <div>
-        <h1 className=" font-semibold text-1xl mb-1">By: {username}</h1>
-        <h2 className="text-sm font-semibold py-1">Categoria: {category}</h2>
-        <h1 className=" font-semibold text-1xl py-1 underline">{title}</h1>
-        <span className=" block h-[90px] w-fit overflow-y-auto font-normal ">
-          {description}
-        </span>
-        <h2 className=" font-bold mt-1">${cost}</h2>
-        <StarsRating rating={rating} />
-		<h2 className=" font-semibold mb-2">Comentarios:</h2>
-        {reviews?.map((e, index) => {
-          return (
-            <p className="text-sm font-medium px-1 w-fit" key={index}>
-              {e.description}
-            </p>
-          );
-        })}
-        <div className="mt-1 w-fit">
-          <Link to={"/talent/" + id}>
-            <button className="ml-2 font-semibold  transform ease-out duration-300 transition-transform hover:underline hover:scale-105">
-              Ver mas
-            </button>
-          </Link>
+    <div className="px-2 shadow-2xl py-4">
+      <div
+        onClick={clickTalent}
+        className=" rounded-lg shadow-lg border-[1px] border-gray-200 overflow-hidden bg-white text-gray-800 mt-4 max-w-[330px] hover:scale-105 duration-300 cursor-pointer"
+      >
+        <img
+          className="h-[150px] w-full object-cover"
+          src={image}
+          alt="talent_image"
+        />
+        <div className="p-4">
+          <h1 className="text-xl font-normal text-gray-900">{title}</h1>
+          <h2 className="italic underline text-sm font-light text-gray-600">
+            By: {username}
+          </h2>
+          <p className="text-sm font-normal text-gray-900 truncate ">
+            Categoría: {category}
+          </p>
+          <h2>Duracion: {duration}hs</h2>
+          <p className="text-green-800 font-bold">
+            {Intl.NumberFormat("es-ES", {
+              style: "currency",
+              currency: "ARS",
+            }).format(cost)}
+          </p>
         </div>
       </div>
     </div>

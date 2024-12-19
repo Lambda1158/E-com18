@@ -1,35 +1,50 @@
-const { where } = require("sequelize");
 const { Users, Question, Posts } = require("../db");
+
 async function question(req, res, next) {
   const { title, question, user_id, post_id } = req.body;
   try {
     const newQuestion = await Question.create({
       title,
       question,
-      user_id,
-      post_id,
     });
     newQuestion.setUser(user_id);
     newQuestion.setPost(post_id);
     return res.send(newQuestion);
   } catch (err) {
-    return res
-      .status(401)
-      .json({ message: "Error en la creacion del post", err });
+    console.log(err);
+    return res.status(500).json({ message: err.message, err });
   }
 }
 async function answer(req, res, next) {
-  const { answer, idQuestion } = req.body;
-  console.log(req.body);
+  const { answer, idQuestion, postId } = req.body;
   if (!idQuestion)
     return res.status(401).json({ message: "No se recibio el id" });
   try {
     const newAnswer = await Question.findByPk(idQuestion);
     newAnswer.answer = answer;
     newAnswer.save();
-    return res.json(newAnswer);
+    const allQuestions = await Question.findAll({
+      where: { postId },
+      include: [
+        {
+          model: Posts,
+          attributes: ["id", "title", "description", "image"],
+          include: [
+            {
+              model: Users,
+              attributes: ["username", "email", "image"],
+            },
+          ],
+        },
+        {
+          model: Users,
+          attributes: ["id", "username", "email", "image"], 
+        },
+      ],
+    });
+    return res.json(allQuestions);
   } catch (err) {
-    return res.status(401).json({ message: "Error en la respuesta", err });
+    return res.status(500).json({ message: "Error en la respuesta", err });
   }
 }
 
@@ -89,16 +104,18 @@ async function getPostQuestions(req, res, next) {
   if (!idPost)
     return res.status(401).json({ message: "No se encontro el ID del post " });
   try {
-    const foundPost = await Posts.findOne({
+    const foundPost = await Question.findAll({
       where: {
-        id: idPost,
+        postId: idPost,
       },
-      attributes: ["id"],
       include: [
         {
-          model: Question,
-          attributes: ["title", "question", "answer", "userId", "createdAt"],
-          order: [["createdAt", "DESC"]],
+          model: Posts,
+          attributes: ["title", "description", "id", "image"],
+        },
+        {
+          model: Users,
+          attributes: ["username", "email", "image"],
         },
       ],
     });

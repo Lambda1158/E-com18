@@ -3,8 +3,8 @@ import defaultImage from "../../../assets/profile_default.png";
 const UserLog = ({ user, toggle, state }) => {
   return (
     <div
-      className={`flex gap-4 items-center border-[1px] border-black mr-4 p-2 px-4  justify-center transform hover:scale-105 duration-200 cursor-pointer ${
-        state && "bg-dark text-white scale-105 shadow-2xl"
+      className={`flex gap-4 items-center  mr-4 p-2 px-4  justify-center transform hover:scale-105 duration-200 cursor-pointer ${
+        state && "bg-dark text-white scale-105 shadow-2xl border-[1px] border-black"
       }`}
       onClick={toggle}
     >

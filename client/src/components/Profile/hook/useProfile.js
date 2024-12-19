@@ -40,6 +40,6 @@ export default function useProfile(id) {
     getReview();
     getPreguntas();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch,id]);
   return { user, talentosUsuario, sales, orders, review, qa };
 }
