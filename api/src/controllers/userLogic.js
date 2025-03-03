@@ -227,14 +227,14 @@ const editUser = async (req, res, next) => {
 };
 
 async function emailResetPassword(req, res, next) {
-  let { email } = req.body;
+  const { email } = req.body;
   if (!email) return res.status(500).send({ message: "email nulo" });
   try {
-    let userToReset = await Users.findOne({ where: { email } });
+    const userToReset = await Users.findOne({ where: { email } });
     if (!userToReset)
       return res.status(500).send({ message: "usuario no encontrado" });
-    let codeUser = getToken({ userToReset });
-    let template = getTemplatePassword(codeUser);
+    const codeUser = getToken({ userToReset });
+    const template = getTemplatePassword(codeUser);
     await sendEmailPassword(
       userToReset.email,
       "Recuperación de contraseña",
@@ -242,31 +242,30 @@ async function emailResetPassword(req, res, next) {
     );
     res.json({
       success: true,
-      msg: "Enviado",
+      message: "Enviado",
     });
   } catch (error) {
     next(error);
   }
 }
 const editPassword = async (req, res) => {
-  let { password, token } = req.body;
-  let { data } = getTokenData(token);
-  let email = data.userToReset.email;
+  const { password, token } = req.body;
+  const { data } = getTokenData(token);
+  const email = data.userToReset.email;
   try {
-    let user = await Users.findOne({ where: { email } });
+    const user = await Users.findOne({ where: { email } });
     if (!user)
       return res
         .status(404)
         .json({ message: "error no se encontro el usuario" });
-    let passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
     user.password = passwordHash;
     await user.save();
-    res.send(user.toJSON());
+    return res.send(user.toJSON());
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      message: "error",
-      type: error.message,
+    return res.status(400).json({
+      message: error.message,
     });
   }
 };

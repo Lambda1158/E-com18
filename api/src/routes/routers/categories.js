@@ -4,10 +4,10 @@ const {getCategories,updateCategories,createCategories, deleteCategories, getCat
 
 
 router.get("/",getCategories)
+router.get('/:id', getCategoriesById)
 router.post("/",createCategories)
 router.put("/",updateCategories)
 router.delete("/",deleteCategories)
-router.get('/:id', getCategoriesById)
 
 
 

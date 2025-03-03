@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TalentCard from "./TalentCard";
 import Slider from "react-slick";
 

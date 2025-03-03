@@ -1,5 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 export default function Resume({ carrito }) {
+  const navigate = useNavigate();
+  function onClick() {
+    navigate(-1);
+  }
   return (
     <section className="shadow-2xl h-fit">
       <div>
@@ -37,7 +42,15 @@ export default function Resume({ carrito }) {
               )}
             </p>
           </div>
-		  <button className="mt-8 bg-dark text-white w-full text-left rounded-sm text-xl hover:scale-110 duration-300 p-4">Comprar ahora</button>
+          <button className="mt-8 bg-dark text-white w-full text-left rounded-sm text-xl hover:scale-110 duration-300 p-4">
+            Comprar ahora
+          </button>
+          <button
+            onClick={onClick}
+            className="mt-4 bg-dark text-white w-full text-left rounded-sm text-xl hover:scale-110 duration-300 p-4"
+          >
+            Volver
+          </button>
         </div>
       </div>
     </section>

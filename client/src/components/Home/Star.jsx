@@ -1,9 +1,9 @@
 import React from "react";
 
-const StarsRating = ({ rating }) => {
-  const totalStars = 5; // Total de estrellas posibles
+const StarsRating = ({ rating, props }) => {
+  const totalStars = 5;
   return (
-    <div className="stars-rating">
+    <div className={props}>
       {Array.from({ length: totalStars }, (_, index) => (
         <span
           key={index}

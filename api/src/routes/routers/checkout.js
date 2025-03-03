@@ -1,48 +1,37 @@
 const { Router } = require("express");
 const router = Router();
-const mercadopago = require("mercadopago");
-// const nodemailer = require("nodemailer");
-// const { templateSuccess, templateFailure, templatePending } = require('../utils/Templates/emailTemplates');
-const PROXY  = "https://hitalent-project.herokuapp.com"
+const { MercadoPagoConfig, Payment, Preference } = require("mercadopago");
+const client = new MercadoPagoConfig({ accessToken: "" });
+const payment = new Payment(client);
 
-mercadopago.configure({
-  access_token:
-    "TEST-4520848914576808-120421-bd25a5c12547bd84156767703e240f4f-1032686377",
-});
-
-router.post("/mercadopago", async (req, res) => {
-  const { payloadMp } = req.body;
-  console.log('back payloadmp', payloadMp)
-  
-  let itemsCart = payloadMp?.items?.map((e) => 
-    ({title: e.title,
-    unit_price: e.unit_price,
-    quantity: e.quantity
-    })
-  )
-
-  let preference = {
-    // items: [
-    //   {
-    //     title: title,
-    //     unit_price: total,
-    //     quantity: 1,
-    //   },
-    // ],
-    items: itemsCart,
-
-    back_urls: {
-      success: `${PROXY}/checkoutApro`,
-      failure: `${PROXY}/home`,
-      pending: `${PROXY}/home`,
-    },
-  };
-
-  let answer = await mercadopago.preferences.create(preference);
-
-  const response = answer.body.id;
-  const init_points = answer.body.init_point;
-  res.json({ response: response, init_points: init_points });
-});
-
+const pagoMl = async (req, res, next) => {
+  try {
+    const body = {
+      items: [
+        {
+          title: req.body.tile,
+          quantity: Number(req.body.quantity),
+          unit_price: Number(req.body.price),
+          currency_id: "ARS",
+        },
+      ],
+      back_urls: {
+        success: "http://localhost:3000/home",
+        failure: "http://localhost:3000/",
+        pending: "http://localhost:3000/home",
+      },
+    };
+    const preference = new Preference(client);
+    const result = await preference.create({ body });
+    return res.json({ id: result.id });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+router.post("/", pagoMl);
 module.exports = router;
+
+// clase constantes
+// mp101 mercado pago no se valido
+// return res.status(500).json{TYPE.mercadopago}

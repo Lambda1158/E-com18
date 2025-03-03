@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import LinksRedes from "./Links";
+import logo from "../../assets/logo.png";
 const enlaces = [
   { label: "Home", link: "home" },
   { label: "Preguntas Frecuentes", link: "faq" },
@@ -39,12 +40,7 @@ export default function Footer() {
     <footer className="bg-semidark ">
       <div className="grid grid-cols-3  text-black w-3/5 mx-auto">
         <div className="mt-4 xxl:w-[300px] w-[200px]">
-          <img
-            src="https://codes.unidepix.com/img/hi.png"
-            alt="logo-hitalent"
-            width="140px"
-            className="mb-2"
-          />
+          <img src={logo} alt="logo-hitalent" width="140px" className="mb-2" />
           <p className=" text-sm font-normal ">
             En nuestra plataforma puedes conectar con personas que esten
             interesadas en compartir su talento contigo, podras aprender lo que

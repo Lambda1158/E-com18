@@ -33,12 +33,12 @@ export const getTalentById = (id) => async (dispatch) => {
 export const searchTalent = (search) => async (dispatch) => {
   cargando();
   axios
-    .get(`${PROXY}/post/title/` + search)
+    .get(`${PROXY}/post/title?title=` + search)
     .then((talents) => {
       dispatch(searchT(talents.data));
     })
     .then(() => dispatch(clearError()))
-    .catch((error) => dispatch(setError("no se pudo buscar talento")));
+    .catch((error) => dispatch(setError(error.message)));
 };
 
 export const getCategories = () => async (dispatch) => {

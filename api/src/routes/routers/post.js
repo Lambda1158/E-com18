@@ -16,13 +16,15 @@ const { uploader } = require("../../middleware/uploader");
 
 router.get("/rating/:modo", getTalentosporRating);
 router.get("/user/:id", getUserPost);
+router.get("/title", getTalentsByTitle);
 router.get("/", getPosts);
+router.get("/:id", getPostId);
+
 router.post("/", uploader.single("image"), createPost);
 router.put("/", updatePost);
-router.delete("/:id", deletePost);
 router.put("/image", uploader.single("image"), addImage);
+
+router.delete("/:id", deletePost);
 router.delete("/image/:id", deleteImage);
-router.get("/:id", getPostId);
-router.get("/title/:title", getTalentsByTitle);
 
 module.exports = router;

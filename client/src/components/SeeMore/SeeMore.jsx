@@ -1,7 +1,6 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Footer from "../Footer/Footer";
-import { Link } from "react-router-dom";
 import Reviews from "./Reviews";
 import Spinner from "../Spinner/Spinner";
 import NavbarComp from "../Navbar/NavbarComp";
@@ -10,8 +9,16 @@ import useSeeMore from "./hook/useSeemore";
 import QandA from "./QandA";
 import QandAcard from "./QandACard";
 export default function SeeMore() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { seemore, addCarrito, user, review, question } = useSeeMore(id);
+  function onClick() {
+    navigate(-1);
+  }
+  function onComprar() {
+    addCarrito();
+    navigate("/cart");
+  }
   return (
     <div className="flex min-h-screen flex-col justify-between bg-[#ebebeb]">
       <NavbarComp />
@@ -39,11 +46,9 @@ export default function SeeMore() {
               <h1 className="text-4xl font-semibold transform hover:translate-x-6 duration-300 hover:scale-105">
                 {seemore.title}
               </h1>
-              <Link to={"/profilePublic/" + seemore?.user_id}>
-                <h1 className=" text-dark text-3xl italic text-gray-500 transform hover:translate-x-6 duration-300 hover:scale-105 hover:underline">
-                  by {seemore?.user?.username}
-                </h1>
-              </Link>
+              <h1 className=" text-dark text-3xl italic text-gray-500 transform hover:translate-x-6 duration-300 hover:scale-105 hover:underline">
+                by {seemore?.user?.username}
+              </h1>
               <StarsRating rating={seemore.rating} />
               <p className="text-green-800 font-semibold text-2xl">
                 ${" "}
@@ -68,7 +73,10 @@ export default function SeeMore() {
                   </p>
                 ) : (
                   <>
-                    <button className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300">
+                    <button
+                      onClick={onComprar}
+                      className="hover:bg-semidark bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300"
+                    >
                       Comprar
                     </button>
                     <button
@@ -80,11 +88,12 @@ export default function SeeMore() {
                   </>
                 )}
 
-                <Link to="/home">
-                  <button className="hover:bg-semidark w-full bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300">
-                    Volver
-                  </button>
-                </Link>
+                <button
+                  onClick={onClick}
+                  className="hover:bg-semidark w-full bg-dark text-[#A7C4BC]  font-semibold hover:text-white py-2 px-4 border border-dark hover:border-semilight rounded p-2 hover:scale-105 transform duration-300"
+                >
+                  Volver
+                </button>
               </div>
             </div>
           </section>

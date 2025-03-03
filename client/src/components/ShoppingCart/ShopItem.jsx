@@ -40,9 +40,9 @@ export default function ShopItem({ item }) {
     <div className="grid grid-cols-[70%_30%] m-4">
       <section
         onClick={onClick}
-        className="hover:scale-105 duration-300 transform ease-in-out cursor-pointer p-4 grid grid-cols-[60%_40%]   border-2"
+        className=" cursor-pointer p-4 grid grid-cols-[60%_40%] border-2"
       >
-        <img className="" src={image} alt="Imagen de producto" />
+        <img className="max-h-[160px] w-full xxl:max-h-[240px] object-cover " src={image} alt="Imagen de producto" />
         <div className="ml-4 text-lg font-medium space-y-2">
           <h1 className="text-xl underline">{title}</h1>
           <p>By: {user.username}</p>

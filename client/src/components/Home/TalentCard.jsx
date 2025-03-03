@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import StarsRating from "./Star";
 export default function TalentCard({
   title,
   username,
@@ -7,8 +8,8 @@ export default function TalentCard({
   cost,
   id,
   category,
-  rating,
   duration,
+  rating,
 }) {
   const navigate = useNavigate();
   const clickTalent = () => {
@@ -34,12 +35,15 @@ export default function TalentCard({
             Categoría: {category}
           </p>
           <h2>Duracion: {duration}hs</h2>
-          <p className="text-green-800 font-bold">
-            {Intl.NumberFormat("es-ES", {
-              style: "currency",
-              currency: "ARS",
-            }).format(cost)}
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-green-800 font-bold">
+              {Intl.NumberFormat("es-ES", {
+                style: "currency",
+                currency: "ARS",
+              }).format(cost)}
+            </p>
+            <StarsRating props={"mb-2"} rating={rating} />
+          </div>
         </div>
       </div>
     </div>

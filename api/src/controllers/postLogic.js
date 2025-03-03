@@ -1,23 +1,26 @@
 const { Posts, Users, Categories, Review, Question } = require("../db");
-
+const { Op } = require("sequelize");
 const getPosts = async (req, res, next) => {
-  const post = await Posts.findAll({
-    include: [
-      {
-        model: Users,
-        order: [["createdAt", "DESC"]],
-      },
-      { model: Review, order: [["createdAt", "DESC"]] },
-      {
-        model: Categories,
-        attributes: ["title"],
-        order: [["createdAt", "DESC"]],
-      },
-    ],
-  });
-  if (!post)
+  try {
+    const post = await Posts.findAll({
+      include: [
+        {
+          model: Users,
+          order: [["createdAt", "DESC"]],
+        },
+        { model: Review, order: [["createdAt", "DESC"]] },
+        {
+          model: Categories,
+          attributes: ["title"],
+          order: [["createdAt", "ASC"]],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+    return res.status(200).json(post);
+  } catch {
     return res.status(404).json({ message: "No se encontro ningun post" });
-  return res.status(200).json(post);
+  }
 };
 
 const getUserPost = async (req, res, next) => {
@@ -272,30 +275,36 @@ async function getPostId(req, res, next) {
   }
 }
 const getTalentsByTitle = async (req, res, next) => {
-  const title = req.params.title;
-  if (!title) return res.status(500).json({ message: "No se encontro titulo" });
+  let title = req.query.title;
+  if (!title.length) {
+    try {
+      const post = await Posts.findAll({
+        include: [
+          { model: Users, attributes: ["username"] },
+          { model: Categories, attributes: ["title"] },
+        ],
+        order: [["createdAt", "DESC"]],
+      });
+      return res.json(post);
+    } catch {
+      return res.status(500).json({ message: "Algo salio mal en titulo post" });
+    }
+  }
   try {
-    const post = await Posts.findAll({
-      include: [
-        {
-          model: Users,
-          attributes: ["username"],
-        },
-        {
-          model: Categories,
-          attributes: ["title"],
-        },
-      ],
+    const words = title.trim().split(/\s+/); 
+    const conditions = words.map((word) => ({
+      title: { [Op.iLike]: `%${word}%` },
+    }));
+    const posts = await Posts.findAll({
+      where: {
+        [Op.and]: conditions,
+      },
+      include: [{ model: Users, attributes: ["username", "email", "image"] }],
     });
-    const array = post.filter((e) =>
-      e.title.toLowerCase().includes(title.toLowerCase())
-    );
-    // if(array.length < 1) return res.status(400).json({message:"no se encontro talento con ese titulo"})
-    res.json(array);
+    return res.json(posts);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "No se pudo encontrar talento por titulo" });
+    console.error(error);
+    res.status(500).send("Error en la consulta");
   }
 };
 
@@ -314,11 +323,7 @@ const getTalentosporRating = async (req, res, next) => {
           attributes: ["title"],
         },
       ],
-    });
-    post.sort(function (a, b) {
-      if (a.rating > b.rating) return 1;
-      if (b.rating > a.rating) return -1;
-      return 0;
+      order: [["rating", "ASC"]],
     });
     res.json(post);
   }
@@ -333,11 +338,7 @@ const getTalentosporRating = async (req, res, next) => {
         attributes: ["title"],
       },
     ],
-  });
-  post.sort(function (a, b) {
-    if (a.rating > b.rating) return -1;
-    if (b.rating > a.rating) return 1;
-    return 0;
+    order: [["rating", "DESC"]],
   });
   res.json(post);
 };
