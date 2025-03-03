@@ -2,15 +2,14 @@ import {
   cargarUser,
   getUserT,
   getUserI,
-  getUserO,
   getM,
   getSeller,
   dislog,
   editU,
-} from "../userreducer";
-import axios from "axios";
-import { setError, cargando, refresh, clearError } from "../statereducer";
-import { PROXY } from "../index";
+} from '../userreducer';
+import axios from 'axios';
+import { setError, cargando, refresh, clearError } from '../statereducer';
+import { PROXY } from '../index';
 
 export const cargarUsuario = (payload) => (dispatch) => {
   dispatch(cargando());
@@ -22,11 +21,13 @@ export const getUserbyToken = (token) => async (dispatch) => {
   dispatch(cargando());
   axios
     .post(`${PROXY}/user/confirm/` + token)
-    .then((res) => dispatch(getUserT(res.data)))
-    .then(() => dispatch(clearError()))
+    .then((res) => {
+      dispatch(getUserT(res.data));
+      dispatch(clearError());
+    })
     .catch((error) => {
-      dispatch(setError("fallo get user by token"));
-      console.log(error + "fallo get token by id");
+      dispatch(setError('fallo get user by token'));
+      console.log(error + 'fallo get token by id');
     });
 };
 
@@ -34,11 +35,13 @@ export const getUserbyId = (id) => async (dispatch) => {
   dispatch(cargando());
   axios
     .get(`${PROXY}/user/` + id)
-    .then((res) => dispatch(getUserI(res.data)))
-    .then(() => dispatch(clearError()))
+    .then((res) => {
+      dispatch(getUserI(res.data));
+      dispatch(clearError());
+    })
     .catch((error) => {
       console.log(error);
-      dispatch(setError("no se pudo ejecutar get user by id"));
+      dispatch(setError('no se pudo ejecutar get user by id'));
     });
 };
 
@@ -46,10 +49,12 @@ export const getComprasTalentos = (id) => async (dispatch) => {
   dispatch(cargando());
   axios
     .get(`${PROXY}/user/` + id)
-    .then((res) => dispatch(getM(res.data)))
-    .then(() => dispatch(clearError()))
+    .then((res) => {
+      dispatch(getM(res.data));
+      dispatch(clearError());
+    })
     .catch((error) =>
-      dispatch(setError("no se pudo ejecutar get compras talentos"))
+      dispatch(setError('no se pudo ejecutar get compras talentos'))
     );
 };
 
@@ -57,10 +62,12 @@ export const publicProfile = (id) => async (dispatch) => {
   dispatch(cargando());
   axios
     .get(`${PROXY}/user/` + id)
-    .then((res) => dispatch(getSeller(res.data)))
-    .then(() => dispatch(clearError()))
+    .then((res) => {
+      dispatch(getSeller(res.data));
+      dispatch(clearError());
+    })
     .catch((error) => {
-      dispatch(setError("no se pudo ejecutar public profile"));
+      dispatch(setError('no se pudo ejecutar public profile'));
       console.log(error);
     });
 };
@@ -73,16 +80,18 @@ export const desloguear = () => {
 export const editarUsuario = (body) => async (dispatch) => {
   dispatch(cargando());
   axios({
-    method: "put",
+    method: 'put',
     url: `${PROXY}/user`,
     data: body,
-    headers: { "Content-Type": "multipart/form-data" },
+    headers: { 'Content-Type': 'multipart/form-data' },
   })
-    .then((res) => dispatch(editU(res.data)))
-    .then(() => dispatch(clearError()))
+    .then((res) => {
+      dispatch(editU(res.data));
+      dispatch(clearError());
+    })
     .catch((error) => {
       console.log(error);
-      dispatch(setError("no se pudo editar usuario"));
+      dispatch(setError('no se pudo editar usuario'));
     });
 };
 
@@ -90,16 +99,20 @@ export const logearUsuario = (body) => async (dispatch) => {
   dispatch(cargando());
   axios
     .post(`${PROXY}/user/loggin/`, body)
-    .then((res) => dispatch(cargarUser(res.data)))
-    .then(() => dispatch(clearError()))
-    .catch(() => dispatch(setError("No se pudo cargar usuario")));
+    .then((res) => {
+      dispatch(cargarUser(res.data));
+      dispatch(clearError());
+    })
+    .catch(() => dispatch(setError('No se pudo cargar usuario')));
 };
 
 export const crearUsuario = (body) => async (dispatch) => {
   dispatch(cargando());
   axios
     .post(`${PROXY}/user/`, body)
-    .then((res) => dispatch(cargarUser(res.data)))
-    .then(() => dispatch(clearError()))
-    .catch(() => dispatch(setError("fallo crear usuario")));
+    .then((res) => {
+      dispatch(cargarUser(res.data));
+      dispatch(clearError());
+    })
+    .catch(() => dispatch(setError('fallo crear usuario')));
 };

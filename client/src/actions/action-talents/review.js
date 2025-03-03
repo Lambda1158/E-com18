@@ -1,23 +1,27 @@
-import { getR, getQa, getQp, getOr } from "../revqareducer";
-import { getS } from "../talentreducer";
-import axios from "axios";
-import { cargando, setError, clearError } from "../statereducer";
-import { PROXY } from "../index";
+import { getR, getQa, getQp, getOr } from '../revqareducer';
+import { getS } from '../talentreducer';
+import axios from 'axios';
+import { cargando, setError, clearError } from '../statereducer';
+import { PROXY } from '../index';
 export const getReviewbyId = (id) => async (dispatch) => {
   dispatch(cargando);
   axios
     .get(`${PROXY}/review/all/` + id)
-    .then((response) => dispatch(getR(response.data)))
-    .then(() => dispatch(clearError()))
+    .then((response) => {
+      dispatch(getR(response.data));
+      dispatch(clearError());
+    })
     .catch((error) => dispatch(setError(error.message)));
 };
 export const getQAbyId = (idUser) => async (dispatch) => {
   dispatch(cargando());
   axios
     .get(`${PROXY}/question/all/` + idUser)
-    .then((response) => dispatch(getQa(response.data)))
-    .then(() => dispatch(clearError()))
-    .catch((error) => dispatch(setError("No se pudo ejecutar getqabyid")));
+    .then((response) => {
+      dispatch(getQa(response.data));
+      dispatch(clearError());
+    })
+    .catch((error) => dispatch(setError('No se pudo ejecutar getqabyid')));
 };
 
 export const getUserofReviewbyId = (id) => async (dispatch) => {
@@ -47,8 +51,10 @@ export const getPostReview = (idPost) => async (dispatch) => {
 export const postNewReview = (body) => async (dispatch) => {
   axios
     .post(`${PROXY}/review`, body)
-    .then((response) => dispatch(getS(response.data)))
-    .then(() => dispatch(clearError()))
+    .then((response) => {
+      dispatch(getS(response.data));
+      dispatch(clearError());
+    })
     .catch((error) => dispatch(setError(error.message)));
 };
 
@@ -56,17 +62,19 @@ export const getOrderbyId = (id) => async (dispatch) => {
   dispatch(cargando());
   axios
     .get(`${PROXY}/orden/` + id)
-    .then((res) => dispatch(getOr(res.data)))
-    .then(() => dispatch(clearError()))
+    .then((res) => {
+      dispatch(getOr(res.data));
+      dispatch(clearError());
+    })
     .catch((error) =>
-      dispatch(() => setError("no se pudo ejecutar get orden by id"))
+      dispatch(() => setError('no se pudo ejecutar get orden by id'))
     );
 };
 
 export const postQuestion = (body) => async (dispatch) => {
   dispatch(cargando);
   axios({
-    method: "post",
+    method: 'post',
     url: `${PROXY}/question`,
     data: body,
   })
@@ -77,11 +85,13 @@ export const postQuestion = (body) => async (dispatch) => {
 export const createAnswer = (answer) => async (dispatch) => {
   cargando();
   axios({
-    method: "put",
+    method: 'put',
     url: `${PROXY}/question/answer`,
     data: answer,
   })
-    .then((response) => dispatch(getQa(response.data)))
-    .then(() => dispatch(clearError()))
+    .then((response) => {
+      dispatch(getQa(response.data));
+      dispatch(clearError());
+    })
     .catch((error) => dispatch(setError(error.message)));
 };

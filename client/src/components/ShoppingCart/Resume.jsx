@@ -1,6 +1,17 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { comprarCarrito } from '../../actions/action-talents/carrito';
 export default function Resume({ carrito }) {
+  const dispatch = useDispatch();
+  const carritoState = useSelector((state) => state.cart);
+  const handleCheckout = () => {
+    if (carritoState.length > 0) {
+      dispatch(comprarCarrito(carritoState));
+    } else {
+      return alert('El carrito está vacío');
+    }
+  };
   const navigate = useNavigate();
   function onClick() {
     navigate(-1);
@@ -15,9 +26,9 @@ export default function Resume({ carrito }) {
           <div className="flex justify-between">
             <p className="">Productos ({carrito.length})</p>
             <p>
-              {Intl.NumberFormat("es-ES", {
-                style: "currency",
-                currency: "ARG",
+              {Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: 'ARG',
               }).format(
                 carrito.reduce((acc, current) => {
                   return acc + current.cost * current.quantity;
@@ -32,9 +43,9 @@ export default function Resume({ carrito }) {
           <div className="flex justify-between font-bold text-lg">
             <p>Total</p>
             <p>
-              {Intl.NumberFormat("es-ES", {
-                style: "currency",
-                currency: "ARG",
+              {Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: 'ARG',
               }).format(
                 carrito.reduce((acc, current) => {
                   return acc + current.cost * current.quantity;
@@ -42,7 +53,10 @@ export default function Resume({ carrito }) {
               )}
             </p>
           </div>
-          <button className="mt-8 bg-dark text-white w-full text-left rounded-sm text-xl hover:scale-110 duration-300 p-4">
+          <button
+            onClick={handleCheckout}
+            className="mt-8 bg-dark text-white w-full text-left rounded-sm text-xl hover:scale-110 duration-300 p-4"
+          >
             Comprar ahora
           </button>
           <button

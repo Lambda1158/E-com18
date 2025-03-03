@@ -1,37 +1,50 @@
-const { Router } = require("express");
+const { Router } = require('express');
 const router = Router();
-const { MercadoPagoConfig, Payment, Preference } = require("mercadopago");
-const client = new MercadoPagoConfig({ accessToken: "" });
-const payment = new Payment(client);
+const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
+const { MPTOKEN } = process.env;
+const mercadopago = new MercadoPagoConfig({ accessToken: MPTOKEN });
+const transformItems = (items) => {
+  return items.map((item) => ({
+    title: item.title,
+    quantity: item.quantity || 1,
+    unit_price: item.cost || 0,
+    currency_id: 'ARS',
+  }));
+};
 
-const pagoMl = async (req, res, next) => {
+const pagoMl = async (req, res) => {
   try {
     const body = {
-      items: [
-        {
-          title: req.body.tile,
-          quantity: Number(req.body.quantity),
-          unit_price: Number(req.body.price),
-          currency_id: "ARS",
-        },
-      ],
+      items: transformItems(req.body),
       back_urls: {
-        success: "http://localhost:3000/home",
-        failure: "http://localhost:3000/",
-        pending: "http://localhost:3000/home",
+        success: 'http://localhost:3000/home',
+        failure: 'http://localhost:3000/',
+        pending: 'http://localhost:3000/home',
       },
     };
-    const preference = new Preference(client);
-    const result = await preference.create({ body });
-    return res.json({ id: result.id });
+    const result = await new Preference(mercadopago).create({
+      body,
+    });
+    res.json({ redirectUrl: result.init_point });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
-router.post("/", pagoMl);
-module.exports = router;
 
-// clase constantes
-// mp101 mercado pago no se valido
-// return res.status(500).json{TYPE.mercadopago}
+const validarPago = async (req, res) => {
+  try {
+    const payment = await new Payment(mercadopago).get({
+      id: req.body.data.id,
+    });
+    if (payment.status === 'approved') {
+      return res.json({ message: 'Todo bien' });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(401).json({ message: error.message });
+  }
+};
+router.post('/', pagoMl);
+router.post('/pagos', validarPago);
+module.exports = router;
